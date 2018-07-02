@@ -7,12 +7,64 @@ namespace Tyou
 {
     public static class EncryptTool
     {
-        public static void Encrypt()
+
+        public static void EncryptFile(string path)
         {
+            EncryptFile(path, path);
+        }
+
+        public static void EncryptFile(string path, string tarPath)
+        {
+            byte[] buffer = Encrypt(File.ReadAllBytes(path));
+            File.WriteAllBytes(tarPath, buffer);
+        }
+
+        public static byte[] Encrypt(byte[] buffer)
+        {
+            int length_buffer = buffer.Length;
+            string key = GetKey();
+            for (int index = 0; index < length_buffer; ++index)
+            {
+                int index_2 = index % key.Length;
+                buffer[index] = (byte)((uint)buffer[index] ^ (uint)key[index_2]);
+            }
+            byte[] buffer_encrypt;
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                using (BinaryWriter m)
+                using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
+                {
+                    binaryWriter.Write(buffer);
+                    binaryWriter.Close();
+                }
+                buffer_encrypt = memoryStream.GetBuffer();
             }
+            return buffer_encrypt;
+        }
+
+
+        public static byte[] Decrypt(byte[] buffer)
+        {
+            byte[] buffer_decryet;
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
+            {
+                using (BinaryReader binaryReader = new BinaryReader(memoryStream))
+                {
+                    buffer_decryet = binaryReader.ReadBytes((int)memoryStream.Length);
+                    string key = GetKey();
+                    binaryReader.BaseStream.Seek(0L, SeekOrigin.Begin);
+                    for (int index = 0; index < buffer_decryet.Length; ++index)
+                    {
+                        int index_2 = index % key.Length;
+                        buffer_decryet[index] = (byte)((uint)buffer[index] ^ (uint)key[index_2]);
+                    }
+                }
+            }
+            return buffer_decryet;
+        }
+
+        private static string GetKey()
+        {
+            return "G*&(*Y*)YYH(YH&(";
         }
     }
 }
