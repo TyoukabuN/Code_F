@@ -5,9 +5,10 @@ using UnityEngine;
 
 namespace Tyou
 {
+    //加密工具
     public static class EncryptTool
     {
-
+        //加密文件
         public static void EncryptFile(string path)
         {
             EncryptFile(path, path);
@@ -19,6 +20,7 @@ namespace Tyou
             File.WriteAllBytes(tarPath, buffer);
         }
 
+        //加密
         public static byte[] Encrypt(byte[] buffer)
         {
             int length_buffer = buffer.Length;
@@ -41,7 +43,7 @@ namespace Tyou
             return buffer_encrypt;
         }
 
-
+        //解密
         public static byte[] Decrypt(byte[] buffer)
         {
             byte[] buffer_decryet;
@@ -61,7 +63,7 @@ namespace Tyou
             }
             return buffer_decryet;
         }
-
+        //密钥
         private static string GetKey()
         {
             return "G*&(*Y*)YYH(YH&(";
