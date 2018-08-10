@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 972427984
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: slotmachine
+      Dependencies: {}
+    Info_1:
+      Name: ui/fonts/fzdhtjw.bundle
+      Dependencies: {}
+    Info_2:
+      Name: testpanel
+      Dependencies: {}
+    Info_3:
+      Name: testpanelppp
+      Dependencies: {}

@@ -3,7 +3,7 @@
 --版本      : 1.0
 --作者      : 
 --创始日期  : 2018年8月9日11:57:54
---功能描述  : ResourceManger
+--功能描述  : ResourceManager
 */
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System;
 using Object = UnityEngine.Object;
 
 
-public class ResourceManger : MonoSingleton<ResourceManger>
+public class ResourceManager : MonoSingleton<ResourceManager>
 {
     private Dictionary<string, Object> assetMap = new Dictionary<string, Object>();
 
@@ -27,11 +27,16 @@ public class ResourceManger : MonoSingleton<ResourceManger>
         if (!Instance.assetMap.TryGetValue(path,out asset))
         {
 #if UNITY_EDITOR
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath(path, type);
+            Debug.Log(GetPath(path));
+            asset = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
 #else
             asset = BundleManager.GetAsset(path, type);
 #endif
             Instance.assetMap[path] = asset;
+        }
+        if (asset==null)
+        {
+            Debug.LogError("Find not Asset");
         }
         try
         {
@@ -54,6 +59,11 @@ public class ResourceManger : MonoSingleton<ResourceManger>
             onComplete = (AsyncOperation req) => onLoadComplete.Invoke((req as AssetBundleRequest).asset);
         }
         BundleManager.GetAssetAsync(path, type,onComplete);
+    }
+
+    private static string GetPath(string folderName)
+    {
+        return "Assets/"+ folderName;
     }
 
 }

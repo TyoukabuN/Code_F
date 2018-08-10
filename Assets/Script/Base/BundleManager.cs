@@ -23,7 +23,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         AssetBundle ab = null;
         if (!Instance.bundleMap.TryGetValue(path, out ab))
         {
-            ab = Instance.LoadAssetBundleByPath(Instance.GetPath(path.ToString()));
+            ab = Instance.LoadAssetBundleByPath(GetPath(path.ToString()));
             if (ab == null)
             {
                 Debug.LogError("find not bundle: " + path);
@@ -49,7 +49,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         AssetBundle ab = null;
         if (!Instance.bundleMap.TryGetValue(path, out ab))
         {
-            ab = Instance.LoadAssetBundleByPath(Instance.GetPath(path.ToString()));
+            ab = Instance.LoadAssetBundleByPath(GetPath(path.ToString()));
             if (ab == null)
             {
                 Debug.LogError("find not bundle: " + path);
@@ -101,7 +101,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         return ab;
     }
 
-    private string GetPath(string folderName)
+    private static string GetPath(string folderName)
     {
         return Application.dataPath + "/AssetsBundle/" + folderName;
     }

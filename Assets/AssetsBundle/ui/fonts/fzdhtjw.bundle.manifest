@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 4288731830
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dcf79cb8c12b7c0e768b2ee73e8d3387
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b461ed877bd666e82c334b0768962aed
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+Assets:
+- Assets/Font/FZDHTJW.TTF
+Dependencies: []
