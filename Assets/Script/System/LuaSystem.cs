@@ -25,6 +25,11 @@ public class LuaSystem : MonoSingleton<LuaSystem>
         }
     }
 
+    public static object[] DoString(string chunk, string chunkName = "chunk", LuaTable env = null)
+    {
+        return Instance.luaEnv.DoString(chunk, chunkName, env);
+    }
+
     public static void InheritGlobal(LuaTable table)
     {
         if (Instance.luaEnv != null)

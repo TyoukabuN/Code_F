@@ -7,5 +7,5 @@
 require "requireInit"
 
 function Init()
-    OvercomeModule.ColorLog("LuaClient Start!!")
+    Common.ColorLog("LuaClient Start!!")
 end

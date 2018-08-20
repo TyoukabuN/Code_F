@@ -1,3 +1,3 @@
-require "Common/util"
-require "test"
 require "class"
+require "Common/util"
+require "Common"

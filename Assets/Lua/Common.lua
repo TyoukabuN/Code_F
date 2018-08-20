@@ -4,16 +4,15 @@
 --创始日期  : 2018年8月9日11:21:30
 --功能描述  : 测试
 --------------------------------------------------------
-OvercomeModule = {}
+Common = class("Common")
 
-OvercomeModule.debugSwitch = true
+Common.debugSwitch = true
+Common.format_rankText_other = "<color=#68d7f3>%s</color>"
 
-OvercomeModule.format_rankText_other = "<color=#68d7f3>%s</color>"
-
-OvercomeModule.ColorLog = function(content,color)
+Common.ColorLog = function(content,color)
     local format_log = "<color=yellow>%s</color>"
     local format_log_color = "<color=%s>%s</color>"
-    if(OvercomeModule.debugSwitch)then
+    if(Common.debugSwitch)then
         if(color)then
             print(string.format(format_log_color,color,content))
         else

@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-//luaLoad Test
-using XLua;
 using System.IO;
 using System;
+using UnityEngine;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+using XLua;
 
 public class Main : MonoBehaviour
 {
@@ -29,19 +31,18 @@ public class Main : MonoBehaviour
         var style = new GUIStyle
         {
             normal = { textColor = new Color(0, 0, 0, 1) },
-            fontSize = 22
+            fontSize = 60
         };
-        float width = 200;
-        float height = 30;
+        float width = 100;
+        float height = 100;
         float posX = 0;
-        float posY = Screen.height - height;
+        float posY = 0;//Screen.height - height;
         Rect rect = new Rect(posX, posY, width, height);
         if (GUI.Button(rect, "Load"))
         {
             //同步加载
             //string path = @"UI/Panel/SlotMachine.prefab";
             //var goj = ResourceManager.Load(path, typeof(GameObject));
-
             //string path = "slotmachine";
             //var asset = BundleManager.GetAsset(path, typeof(GameObject));
             //var goj = GameObject.Instantiate(asset as GameObject);
@@ -49,9 +50,28 @@ public class Main : MonoBehaviour
             //异步
             string path = "UI/Panel/slotmachine";
             ResourceManager.LoadAsyc(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
-
-
+        }
+        if (GUI.Button(new Rect(rect.x+rect.width, posY, width, height),"HotFixTest"))
+        {
+            string filePath = "HoTFixTest";
+            LuaSystem.DoString(LuaLoader(filePath));
         }
 
+    }
+
+    public static string LuaLoader(string filepath)
+    {
+        string path = string.Empty;
+#if UNITY_EDITOR
+        path = Application.dataPath + "/Lua/" + filepath + ".lua";
+#endif
+        return File.ReadAllText(path);
+    }
+
+    public static void ClearConsole()
+    {
+        var logEntries = System.Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
+        var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+        clearMethod.Invoke(null, null);
     }
 }
