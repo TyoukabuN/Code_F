@@ -56,7 +56,11 @@ public class Main : MonoBehaviour
             string filePath = "HoTFixTest";
             LuaSystem.DoString(LuaLoader(filePath));
         }
-
+        if (GUI.Button(new Rect(rect.x + rect.width*2, posY, width, height), "Excel"))
+        {
+            string filePath = @"F:/WorkSpace/Project/tools/excel/xls/M-秘境夺宝.xlsx";
+            ExcelTool.ExcelToLuaTable(filePath);
+        }
     }
 
     public static string LuaLoader(string filepath)
