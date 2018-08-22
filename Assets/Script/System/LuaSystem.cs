@@ -55,6 +55,11 @@ public class LuaSystem : MonoSingleton<LuaSystem>
         return Instance.luaEnv;
     }
 
+    public static LuaTable NewTable()
+    {
+        return GetLuaEnv().NewTable();
+    }
+
     private void OnDestroy()
     {
         if (Instance.luaEnv != null)
