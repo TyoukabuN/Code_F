@@ -59,7 +59,7 @@ public class Main : MonoBehaviour
         if (GUI.Button(new Rect(rect.x + rect.width*2, posY, width, height), "Excel"))
         {
             string filePath = @"F:/WorkSpace/Project/tools/excel/xls/M-秘境夺宝.xlsx";
-            ExcelTool.ExcelToLuaTable(filePath);
+            ExcelTool.ExcelToLuaTable(filePath, "C:/Users/Administrator/Desktop");
         }
     }
 

@@ -27,26 +27,36 @@ public static class ExcelTool
 
     private static readonly Dictionary<string, Func<string, string>> Type2Func = new Dictionary<string, Func<string, string>>()
     {
-        {"int32",ToField},
-        {"int64",ToField},
-        {"int",ToField},
-        {"float",ToField},
+        {"int32",ToNum},
+        {"int64",ToNum},
+        {"int",ToNum},
+        {"float",ToNum},
         {"str",ToString},
         {"string",ToString},
-        {"list_int",ToIntList},
+        {"list_int",ToList},
+        {"list_str",ToList},
     };
+
+    private static string ToNum(string value)
+    {
+        if (value.Equals(string.Empty))
+        {
+            value = "0";
+        }
+        return value;
+    }
     private static string ToField(string value)
     {
         return value;
     }
 
-    private static string ToIntList(string value)
+    private static string ToList(string value)
     {
         string[] values = value.Split(SPLIT);
         string str = "{";
         for (int i = 0; i < values.Length; i++)
         {
-            if (i>0)
+            if (i > 0)
             {
                 str = str + ",";
             }
@@ -57,30 +67,11 @@ public static class ExcelTool
     }
     private static string ToString(string value)
     {
+        value = value.Replace(@"\", @"\\");
         return string.Format("\"{0}\"", value);
     }
 
-    private static void ToInt32(LuaTable table, string key, string value)
-    {
-        table.Set<string, Int32>(key, Int32.Parse(value));
-    }
-    private static void ToInt64(LuaTable table, string key, string value)
-    {
-        table.Set<string, Int64>(key, Int64.Parse(value));
-    }
-
-    private static void ToFloat(LuaTable table, string key, string value)
-    {
-        table.Set<string, float>(key, float.Parse(value));
-    }
-
-    private static void ToIntList(LuaTable table, string key, string value)
-    {
-        //table.Set<string, string>(key, value);
-    }
-
-
-    public static bool ExcelToLuaTable(string filePath)
+    public static bool ExcelToLuaTable(string filePath, string savePath)
     {
         EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, 0);
         FileInfo fileInfo = new FileInfo(filePath);
@@ -104,7 +95,6 @@ public static class ExcelTool
             return false;
         }
         IWorkbook workbook = null;
-        Debug.Log(fileInfo.FullName);
         string ext = Path.GetExtension(fileInfo.FullName).ToLower();
 
         if (ext == EXT_EXCEL_2003)
@@ -135,7 +125,24 @@ public static class ExcelTool
             }
 
             //tableName
-            string key_name = sheet.GetRow(KEY_ROW).GetCell(0).StringCellValue;
+            string key_name = string.Empty;
+            try
+            {
+                IRow row = sheet.GetRow(KEY_ROW);
+                ICell cell = row.GetCell(0);
+                if (cell.CellType == CellType.ERROR || cell.CellType == CellType.BLANK || cell.CellType == CellType.Unknown)
+                {
+                    continue;
+                }
+                cell.SetCellType(CellType.STRING);
+                key_name = cell.StringCellValue;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.ToString() + filePath);
+                EditorUtility.ClearProgressBar();
+                continue;
+            }
             strTable = string.Format("LuaConfig_{0} = {{\n", key_name);
 
             //type
@@ -176,13 +183,13 @@ public static class ExcelTool
             for (int i = 4; i < sheet.LastRowNum; i++)
             {
                 IRow row_data = sheet.GetRow(i);
+                if (row_data == null)
+                {
+                    continue;
+                }
                 string strOneRow = string.Empty;
                 for (int j = row_data.FirstCellNum; j < row_data.LastCellNum; j++)
                 {
-                    if (j != row_data.FirstCellNum)
-                    {
-                        strOneRow = strOneRow + ",";
-                    }
                     string value = string.Empty;
                     string key;
                     if (!dicKeys.TryGetValue(j, out key))
@@ -197,16 +204,36 @@ public static class ExcelTool
                     Func<string, string> func;
                     if (!Type2Func.TryGetValue(type, out func))
                     {
-                        func = (string arg) => { return string.Format("\"{0}\"", arg); };
+                        func = Type2Func["str"];
                     }
                     ICell cell = row_data.GetCell(j);
-                    //只处理数字和字符串
-                    if (cell.CellType != CellType.NUMERIC && cell.CellType != CellType.STRING)
+                    if (cell == null)
                     {
                         continue;
-                    };
-                    cell.SetCellType(CellType.STRING);
-                    value = func.Invoke(cell.StringCellValue);
+                    }
+                    //只处理数字和字符串
+                    if (cell.CellType == CellType.NUMERIC)
+                    {
+                        value = func.Invoke(cell.NumericCellValue.ToString());
+                    }
+                    else if (cell.CellType == CellType.STRING)
+                    {
+                        value = func.Invoke(cell.StringCellValue);
+                    }
+                    else if (cell.CellType == CellType.BLANK)
+                    {
+                        value = func.Invoke(string.Empty);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                    //
+                    if (j != row_data.FirstCellNum)
+                    {
+                        strOneRow = strOneRow + ",";
+                    }
+
                     if (key == "id")
                     {
                         strOneRow = string.Format("\t[{0}] = {{", value);
@@ -222,7 +249,7 @@ public static class ExcelTool
             }
             strTable = strTable + "}";
             //write
-            FileInfo luaConfig = new FileInfo(@"C:/Users/Administrator/Desktop/LuaConfig_" + key_name + ".lua");
+            FileInfo luaConfig = new FileInfo(savePath + "/LuaConfig_" + key_name + ".lua");
             //Debug.Log(luaConfig.FullName);
             if (luaConfig.Exists == false)
             {
@@ -235,7 +262,9 @@ public static class ExcelTool
             }
             catch (Exception e)
             {
-                Debug.LogError("文件肯能被占用,无法写入！");
+                Debug.LogError("文件可能被占用,无法写入！");
+                EditorUtility.ClearProgressBar();
+                return false;
             }
             EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / row_types.LastCellNum);
         }
