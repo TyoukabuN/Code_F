@@ -20,6 +20,7 @@ public static class ExcelTool
     private static readonly string FIND_NOT_SHEET = "文件中没有工作表：{0}";
 
     private static readonly char SPLIT = '/';
+    private static readonly char SPLIT_2 = ',';
     private static readonly int KEY_ROW = 2;
     private static readonly int TYPE_ROW = 1;
     private static readonly int START_ROW = 4;
@@ -34,7 +35,7 @@ public static class ExcelTool
         {"str",ToString},
         {"string",ToString},
         {"list_int",ToList},
-        {"list_str",ToList},
+        {"list_str",ToStrList},
     };
 
     private static string ToNum(string value)
@@ -53,9 +54,17 @@ public static class ExcelTool
     private static string ToList(string value)
     {
         string[] values = value.Split(SPLIT);
+        if (values.Length==1)
+        {
+            values = value.Split(SPLIT_2);
+        }
         string str = "{";
         for (int i = 0; i < values.Length; i++)
         {
+            if (string.IsNullOrEmpty(values[i]))
+            {
+                continue;
+            }
             if (i > 0)
             {
                 str = str + ",";
@@ -63,6 +72,32 @@ public static class ExcelTool
             str = str + values[i];
         }
         str = str + "}";
+        str.Replace(",}", "}");
+        return str;
+    }
+
+    private static string ToStrList(string value)
+    {
+        string[] values = value.Split(SPLIT);
+        if (values.Length == 1)
+        {
+            values = value.Split(SPLIT_2);
+        }
+        string str = "{";
+        for (int i = 0; i < values.Length; i++)
+        {
+            if (string.IsNullOrEmpty(values[i]))
+            {
+                continue;
+            }
+            if (i > 0)
+            {
+                str = str + ",";
+            }
+            str = str + ToString(values[i]);
+        }
+        str = str + "}";
+        str.Replace(",}", "}");
         return str;
     }
     private static string ToString(string value)
@@ -109,6 +144,7 @@ public static class ExcelTool
         {
             Debug.LogError(string.Format(ERROR_EXT, ext));
             EditorUtility.ClearProgressBar();
+            file.Dispose();
             return false;
         }
         if (workbook.NumberOfSheets <= 0)
@@ -117,6 +153,7 @@ public static class ExcelTool
         }
         for (int index = 0; index < workbook.NumberOfSheets; index++)
         {
+            EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index+1/workbook.NumberOfSheets);
             string strTable = string.Empty;
             ISheet sheet = workbook.GetSheetAt(index);
             if (sheet.FirstRowNum > KEY_ROW)
@@ -139,7 +176,6 @@ public static class ExcelTool
             }
             catch (Exception e)
             {
-                Debug.LogError(e.ToString() + filePath);
                 EditorUtility.ClearProgressBar();
                 continue;
             }
@@ -201,6 +237,18 @@ public static class ExcelTool
                     {
                         continue;
                     }
+
+                    string[] types = type.Split('|');
+                    type = types[0];
+                    string conditions = string.Empty;
+                    if (types.Length>1)
+                    {
+                        conditions = types[1];
+                    }
+                    if (key_name.Equals("art") && key.Equals("nav"))
+                    {
+                        string s = string.Empty;
+                    }
                     Func<string, string> func;
                     if (!Type2Func.TryGetValue(type, out func))
                     {
@@ -227,6 +275,15 @@ public static class ExcelTool
                     else
                     {
                         continue;
+                    }
+                    value = value.Replace("\r\n", "");
+                    //处理条件
+                    if (!string.IsNullOrEmpty(conditions))
+                    {
+                        if (conditions.Equals("half")) {
+                            value = value.Replace("\r\n", "");
+                            value = value.Replace("\n", "");
+                        }
                     }
                     //
                     if (j != row_data.FirstCellNum)
@@ -262,13 +319,16 @@ public static class ExcelTool
             }
             catch (Exception e)
             {
-                Debug.LogError("文件可能被占用,无法写入！");
+                Debug.LogError(string.Format("文件可能被占用,无法写入！<color=yellow>{0}</color>,{1}", key_name,filePath));
                 EditorUtility.ClearProgressBar();
+                file.Dispose();
                 return false;
             }
+            //Debug.Log(string.Format("finish: <color=yellow>{0}</color>,{1},{2}", key_name, sheet.SheetName, filePath));
             EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / row_types.LastCellNum);
         }
         EditorUtility.ClearProgressBar();
+        file.Dispose();
         return true;
     }
 
