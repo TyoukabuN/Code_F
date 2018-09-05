@@ -4,8 +4,8 @@
 --创始日期  : 2018年8月9日11:21:30
 --功能描述  : 
 --------------------------------------------------------
-require "requireInit"
 
+require "requireInit"
 function Init()
-    Common.ColorLog("LuaClient Start!!")
+
 end

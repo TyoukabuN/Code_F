@@ -1,6 +1,6 @@
 EventSystem = class("EventSystem")
 
-EventSystem.EventType = {
+EventType = {
     Test = 0,
 }
 

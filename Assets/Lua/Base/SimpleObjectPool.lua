@@ -23,7 +23,7 @@ function this:ctor(onConstruct, onEnable, onDisable, onDestroy)
     self.onDestroy = onDestroy
 end
 
---设着步长
+--设置步长
 function this:SetCreateStep(step)
     self._createStep = step
 end
@@ -39,7 +39,7 @@ function this:Get()
         obj = table.remove(self._deadQueue, #self._deadQueue)
     end
     if (obj == nil) then
-        obj = self.onConstruct()--self:Get()
+        obj = self:Add()--self.onConstruct()--self:Get()
     end
     table.insert(self._liveQueue, obj)
     if (self.onEnable) then

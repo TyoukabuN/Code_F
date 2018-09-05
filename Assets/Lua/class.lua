@@ -6,20 +6,26 @@
 --------------------------------------------------------
 globalClass = {}
 
-class = function(className,super)
+class = function(className,base)
     local cls
-    if(super)then
-        cls = setmetatable({},{__index = super})
-        cls.super = super
-    else
-        cls = {ctor = function() end}
+    base = base or classBase
+    if(base)then
+        cls = setmetatable({},{__index = base})
+        cls.base = base
     end
     cls.New = function(...)
         local instance = setmetatable({},{__index = cls})
-        instance.base = cls
         instance:ctor(...)
         return instance
     end
     globalClass[className] = cls
     return cls
 end
+
+classBase = {}
+function classBase:ctor () end
+function classBase:onEnabled() end
+function classBase:onDisabled()end
+function classBase:onUpdate()  end
+function classBase:onDestroy() end
+
