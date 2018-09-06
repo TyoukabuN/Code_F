@@ -2,16 +2,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using XLua;
 
-public class LuaConfig : MonoBehaviour {
+public static class LuaConfig {
+
+    [CSharpCallLua]
+    public static List<Type> CSharpCallLualist = new List<Type>
+    {
+        typeof(UnityEngine.Vector2),
+        typeof(UnityEngine.Vector3),
+        typeof(UnityEngine.Events.UnityAction),
+        typeof(UnityEngine.Events.UnityAction<bool>),
+        typeof(UnityEngine.Events.UnityAction<string>),
+        typeof(UnityEngine.Events.UnityAction<UnityEngine.Vector2>),
+        typeof(UnityEngine.Events.UnityAction<UnityEngine.EventSystems.PointerEventData>),
+        typeof(UnityEngine.Events.UnityAction<UnityEngine.EventSystems.BaseEventData>),
+    };
 
     [LuaCallCSharp]
-    public static new List<Type> luaCallCSharpList = new List<Type>
+    public static List<Type> LuaCallCSharpList = new List<Type>
     {
         typeof(Behaviour),
         typeof(MonoBehaviour),
@@ -74,5 +86,58 @@ public class LuaConfig : MonoBehaviour {
         typeof(AudioListener),
         typeof(SystemInfo),
         typeof(Resolution),
+        typeof(Debug),
+
+
+        typeof(UnityEngine.UI.Image),
+        typeof(UnityEngine.ImageConversion),
+        typeof(UnityEngine.UI.Text),
+        typeof(UnityEngine.UI.Button),
+        typeof(UnityEngine.UI.Button.ButtonClickedEvent),
+        typeof(UnityEngine.UI.Toggle),
+        typeof(UnityEngine.UI.ToggleGroup),
+        typeof(UnityEngine.UI.InputField),
+        typeof(UnityEngine.UI.Dropdown),
+        typeof(UnityEngine.UI.InputField.OnChangeEvent),
+        typeof(UnityEngine.UI.InputField.SubmitEvent),
+        typeof(UnityEngine.UI.InputField.LineType),
+        typeof(UnityEngine.UI.InputField.CharacterValidation),
+        typeof(UnityEngine.UI.InputField.InputType),
+        typeof(UnityEngine.UI.InputField.ContentType),
+        typeof(UnityEngine.UI.ScrollRect),
+        typeof(UnityEngine.UI.GridLayoutGroup),
+        typeof(UnityEngine.UI.ScrollRect),
+        typeof(UnityEngine.UI.GridLayoutGroup.Constraint),
+        typeof(UnityEngine.UI.GridLayoutGroup.Axis),
+        typeof(UnityEngine.UI.GridLayoutGroup.Corner),
+        typeof(UnityEngine.UI.HorizontalLayoutGroup),
+        typeof(UnityEngine.UI.VerticalLayoutGroup),
+        typeof(UnityEngine.UI.ContentSizeFitter),
+        typeof(UnityEngine.UI.AspectRatioFitter),
+        typeof(UnityEngine.UI.Image.Origin360),
+        typeof(UnityEngine.UI.Image.Origin180),
+        typeof(UnityEngine.UI.Image.Origin90),
+        typeof(UnityEngine.UI.Image.OriginVertical),
+        typeof(UnityEngine.UI.Image.OriginHorizontal),
+        typeof(UnityEngine.UI.Image.FillMethod),
+        typeof(UnityEngine.UI.Image.Type),
+        typeof(UnityEngine.UI.MaskableGraphic),
+        typeof(UnityEngine.UI.MaskableGraphic.CullStateChangedEvent),
+        typeof(UnityEngine.UI.Graphic),
+        typeof(UnityEngine.UI.Selectable),
+        typeof(UnityEngine.UI.Selectable.Transition),
+        typeof(UnityEngine.Events.UnityEventBase),
+        typeof(UnityEngine.Events.UnityEvent),
+        typeof(UnityEngine.Events.UnityEvent<string>),
+        typeof(UnityEngine.EventSystems.UIBehaviour),
+
+        typeof(Vector2),
+        typeof(Vector3),
+        typeof(EventTrigger),
+        typeof(EventTrigger.Entry),
+        typeof(EventTriggerType),
+        //
+        typeof(ResourceManager),
+        typeof(UISlots),
     };
 }

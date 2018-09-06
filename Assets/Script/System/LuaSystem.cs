@@ -62,9 +62,9 @@ public class LuaSystem : MonoSingleton<LuaSystem>
 
     private void OnDestroy()
     {
-        if (Instance.luaEnv != null)
-        {
-            Instance.luaEnv.Dispose();
-        }
+        //if (Instance.luaEnv != null)
+        //{
+        //    Instance.luaEnv.Dispose();
+        //}
     }
 }

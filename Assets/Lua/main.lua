@@ -6,6 +6,21 @@
 --------------------------------------------------------
 
 require "requireInit"
-function Init()
 
+
+ResourceManager = CS.ResourceManager
+
+--about UnityEngine
+UnityEngine = CS.UnityEngine
+EventTrigger = UnityEngine.EventSystems.EventTrigger
+EventTriggerType = UnityEngine.EventSystems.EventTriggerType
+Entry = EventTrigger.Entry
+GameObject = UnityEngine.GameObject
+Vector2 = UnityEngine.Vector2
+Vector3 = UnityEngine.Vector3
+Debug = UnityEngine.Debug
+
+
+function Init()
+    
 end

@@ -12,7 +12,7 @@ public class EditorTool {
     [MenuItem("Tool/自动生成require文件")]
     public static void RequireAllLuaFile()
     {
-        List<string> ExceptList = new List<string>{
+        List<string> exceptList = new List<string>{
             "requireInit.lua",
             "main.lua",
             "HotFixTest.lua",
@@ -30,18 +30,17 @@ public class EditorTool {
             FileInfo[] files = dir.GetFiles("*.lua", SearchOption.AllDirectories);
             foreach (FileInfo fileInfo in files)
             {
-                if (ExceptList.Contains(fileInfo.Name)) {
+                if (exceptList.Contains(fileInfo.Name)) {
                     continue;
                 }
                 //F:\\Code_F\\trunk\\Assets\\Lua\\class.lua"读进来的路径样式，复制下来\\货变成\
-                //string fileName = fileInfo.FullName.Replace("\\\","/");
                 int length = fileInfo.FullName.Length;
                 int index = fileInfo.FullName.IndexOf(@"Lua\");
                 string path = fileInfo.FullName.Substring(index + 4);
                 path = path.Replace(@"\",@"/");
                 path = path.Replace(".lua", "");
                 string str = string.Format("require \"{0}\"", path);
-                content = content + str + "\n";
+                content = content + str + "\r\n";
             }
         }
 

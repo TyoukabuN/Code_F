@@ -1,3 +1,5 @@
+
+
 TestClass = class("TestClass")
 
 local this = TestClass

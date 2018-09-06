@@ -13,6 +13,7 @@ class = function(className,base)
         cls = setmetatable({},{__index = base})
         cls.base = base
     end
+    cls.__cname = className
     cls.New = function(...)
         local instance = setmetatable({},{__index = cls})
         instance:ctor(...)
