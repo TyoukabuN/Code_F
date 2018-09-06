@@ -38,13 +38,13 @@ end
 -- EndDrag = 14,
 -- Submit = 15,
 -- Cancel = 16
-
+--添加触发监听器
 function this:AddTriggerListener(type, callback)
     if(self._eventTrigger==nil)then
         self._eventTrigger = self._gameObject:AddComponent(typeof(EventTrigger))
     end
 
-    local entry
+    local entry = nil
     
     local triggers = self._eventTrigger.triggers
     for i = 0,triggers.Count - 1 do

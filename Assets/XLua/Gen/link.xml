@@ -164,6 +164,29 @@
 		
 	</assembly>
 
+	<assembly fullname="DOTween">
+	    <type fullname="DG.Tweening.Tween" preserve="all"/>
+		<type fullname="DG.Tweening.Tweener" preserve="all"/>
+		<type fullname="DG.Tweening.DOTween" preserve="all"/>
+		<type fullname="DG.Tweening.TweenExtensions" preserve="all"/>
+		<type fullname="DG.Tweening.ShortcutExtensions" preserve="all"/>
+		<type fullname="DG.Tweening.TweenSettingsExtensions" preserve="all"/>
+		<type fullname="DG.Tweening.Ease" preserve="all"/>
+		<type fullname="DG.Tweening.LoopType" preserve="all"/>
+		<type fullname="DG.Tweening.RotateMode" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="DOTween46">
+	    <type fullname="DG.Tweening.ShortcutExtensions46" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="DOTween50">
+	    <type fullname="DG.Tweening.ShortcutExtensions50" preserve="all"/>
+		
+	</assembly>
+
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="ResourceManager" preserve="all"/>
 		<type fullname="UISlots" preserve="all"/>

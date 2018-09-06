@@ -10,7 +10,7 @@ using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 
 using XLua;
 using System.Collections.Generic;
-
+using DG.Tweening;
 
 namespace XLua.CSObjectWrap
 {
@@ -21,13 +21,17 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(UnityEngine.UI.Text);
-			Utils.BeginObjectRegister(type, L, translator, 0, 5, 24, 13);
+			Utils.BeginObjectRegister(type, L, translator, 0, 9, 24, 13);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "FontTextureChanged", _m_FontTextureChanged);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetGenerationSettings", _m_GetGenerationSettings);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CalculateLayoutInputHorizontal", _m_CalculateLayoutInputHorizontal);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "CalculateLayoutInputVertical", _m_CalculateLayoutInputVertical);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "OnRebuildRequested", _m_OnRebuildRequested);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DOColor", _m_DOColor);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DOFade", _m_DOFade);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DOText", _m_DOText);
+			Utils.RegisterFunc(L, Utils.METHOD_IDX, "DOBlendableColor", _m_DOBlendableColor);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "cachedTextGenerator", _g_get_cachedTextGenerator);
@@ -253,6 +257,172 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DOColor(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                UnityEngine.UI.Text gen_to_be_invoked = (UnityEngine.UI.Text)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Color _endValue;translator.Get(L, 2, out _endValue);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOColor( _endValue, _duration );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DOFade(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                UnityEngine.UI.Text gen_to_be_invoked = (UnityEngine.UI.Text)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    float _endValue = (float)LuaAPI.lua_tonumber(L, 2);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOFade( _endValue, _duration );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DOText(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                UnityEngine.UI.Text gen_to_be_invoked = (UnityEngine.UI.Text)translator.FastGetCSObj(L, 1);
+            
+            
+			    int gen_param_count = LuaAPI.lua_gettop(L);
+            
+                if(gen_param_count == 6&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)&& translator.Assignable<DG.Tweening.ScrambleMode>(L, 5)&& (LuaAPI.lua_isnil(L, 6) || LuaAPI.lua_type(L, 6) == LuaTypes.LUA_TSTRING)) 
+                {
+                    string _endValue = LuaAPI.lua_tostring(L, 2);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    bool _richTextEnabled = LuaAPI.lua_toboolean(L, 4);
+                    DG.Tweening.ScrambleMode _scrambleMode;translator.Get(L, 5, out _scrambleMode);
+                    string _scrambleChars = LuaAPI.lua_tostring(L, 6);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOText( _endValue, _duration, _richTextEnabled, _scrambleMode, _scrambleChars );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 5&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)&& translator.Assignable<DG.Tweening.ScrambleMode>(L, 5)) 
+                {
+                    string _endValue = LuaAPI.lua_tostring(L, 2);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    bool _richTextEnabled = LuaAPI.lua_toboolean(L, 4);
+                    DG.Tweening.ScrambleMode _scrambleMode;translator.Get(L, 5, out _scrambleMode);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOText( _endValue, _duration, _richTextEnabled, _scrambleMode );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 4&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)&& LuaTypes.LUA_TBOOLEAN == LuaAPI.lua_type(L, 4)) 
+                {
+                    string _endValue = LuaAPI.lua_tostring(L, 2);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    bool _richTextEnabled = LuaAPI.lua_toboolean(L, 4);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOText( _endValue, _duration, _richTextEnabled );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                if(gen_param_count == 3&& (LuaAPI.lua_isnil(L, 2) || LuaAPI.lua_type(L, 2) == LuaTypes.LUA_TSTRING)&& LuaTypes.LUA_TNUMBER == LuaAPI.lua_type(L, 3)) 
+                {
+                    string _endValue = LuaAPI.lua_tostring(L, 2);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOText( _endValue, _duration );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+            return LuaAPI.luaL_error(L, "invalid arguments to UnityEngine.UI.Text.DOText!");
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_DOBlendableColor(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+                UnityEngine.UI.Text gen_to_be_invoked = (UnityEngine.UI.Text)translator.FastGetCSObj(L, 1);
+            
+            
+                
+                {
+                    UnityEngine.Color _endValue;translator.Get(L, 2, out _endValue);
+                    float _duration = (float)LuaAPI.lua_tonumber(L, 3);
+                    
+                        DG.Tweening.Tweener gen_ret = gen_to_be_invoked.DOBlendableColor( _endValue, _duration );
+                        translator.Push(L, gen_ret);
+                    
+                    
+                    
+                    return 1;
                 }
                 
             } catch(System.Exception gen_e) {
