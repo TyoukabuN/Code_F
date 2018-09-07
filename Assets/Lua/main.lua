@@ -5,9 +5,6 @@
 --功能描述  : 
 --------------------------------------------------------
 
-require "requireInit"
-
-
 ResourceManager = CS.ResourceManager
 
 --about UnityEngine
@@ -20,6 +17,8 @@ Vector2 = UnityEngine.Vector2
 Vector3 = UnityEngine.Vector3
 Debug = UnityEngine.Debug
 DOTween = CS.DG.Tweening.DOTween
+
+require "requireInit"
 
 
 function Init()

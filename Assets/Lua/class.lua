@@ -16,6 +16,7 @@ class = function(className,base)
     cls.__cname = className
     cls.New = function(...)
         local instance = setmetatable({},{__index = cls})
+        instance.class = cls
         instance:ctor(...)
         return instance
     end

@@ -287,3 +287,23 @@ table.imin = function(table, predicate)
 	end
 	return minValue,index
 end
+
+table.action = function(table,predicate)
+	if(predicate==nil)then
+		return false
+	end
+	for k, v in pairs(table) do
+        predicate(v)
+	end
+	return true
+end
+
+table.iaction = function(table,predicate)
+	if(predicate==nil)then
+		return false
+	end
+	for k, v in ipairs(table) do
+        predicate(v)
+	end
+	return true
+end

@@ -7,6 +7,21 @@ function this:ctor(go,...)
 	self._gameObject = go
 end
 
+function this:SetActive(enabled)
+	if(not self._gameObject)then
+		return
+	end
+	if(self._gameObject.activeSelf == enabled)then
+		return
+	end
+	self._gameObject:SetActive(enabled)
+end
+
+function this:Clone()
+	local go = GameObject.Instantiate(self._gameObject)
+	return self.class.New(go)
+end
+
 function this:SetParent(trans)
     if(self._transform)then
 		self._transform:SetParent(trans,false)
@@ -17,15 +32,31 @@ function this:SetParent(trans)
     end
 end
 
+function this:OpenPanel(panelType)
+	UISystem.OpenPanel(panelTpye,self)
+end
+
 --2018年7月26日12:06:11 zjw
 function UIBase:SetAnchoredPosition(x,y)
 	self._transform.anchoredPosition = Vector2(x,y)
 	return self
 end
 
+function UIBase:Destroy()
+	if(self._gameObject)then
+		GameObject.Destroy(self._gameObject)
+	end
+end
+
+function UIBase:Close()
+	if(self._gameObject)then
+		self._gameObject:SetActive(false)
+	end
+end
+
 
 --[[
-	--@horizontalType:水平的位置类型 --1 left 2 center 3 rigth
+	--@horizontalType:水平的位置类型 --1 left d2 center 3 rigth
 	--@verticalType：垂直的位置类型	--1 buttom 2 center 3 top
 ]]
 function UIBase:SetAnchor(horizontalType,verticalType,alsoPivot)

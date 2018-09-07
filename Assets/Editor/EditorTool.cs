@@ -7,7 +7,6 @@ using System.Text;
 using System.IO;
 
 public class EditorTool {
-
     //自动生成require文件
     [MenuItem("Tool/自动生成require文件")]
     public static void RequireAllLuaFile()

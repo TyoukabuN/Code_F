@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using XLua;
 using ICSharpCode;
-using System.Data;
 using System.IO;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
+
+using OfficeOpenXml;
 using UnityEditor;
 using UnityEngine;
 public static class ExcelTool
@@ -106,13 +107,14 @@ public static class ExcelTool
         return string.Format("\"{0}\"", value);
     }
 
-    public static bool ExcelToLuaTable(string filePath, string savePath)
+    public static bool ExcelToLuaTableNPOT(string filePath, string savePath)
     {
         EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, 0);
         FileInfo fileInfo = new FileInfo(filePath);
         if (!fileInfo.Exists)
         {
             Debug.LogError(string.Format(FIND_NOT_PATH, filePath));
+            EditorUtility.ClearProgressBar();
             return false;
         }
         FileStream file = null;
@@ -153,7 +155,7 @@ public static class ExcelTool
         }
         for (int index = 0; index < workbook.NumberOfSheets; index++)
         {
-            EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index+1/workbook.NumberOfSheets);
+            EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / workbook.NumberOfSheets);
             string strTable = string.Empty;
             ISheet sheet = workbook.GetSheetAt(index);
             if (sheet.FirstRowNum > KEY_ROW)
@@ -195,7 +197,12 @@ public static class ExcelTool
                 {
                     continue;
                 }
-                dicTypes[i] = cell.StringCellValue;
+                string value = cell.StringCellValue;
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+                dicTypes[i] = value;
             }
 
             //key
@@ -212,7 +219,18 @@ public static class ExcelTool
                 {
                     continue;
                 }
-                dicKeys[i] = cell.StringCellValue;
+
+                string value = cell.StringCellValue;
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+
+                dicKeys[i] = value;
+            }
+            if (dicKeys.Count<=0)
+            {
+                continue;
             }
 
             //value
@@ -223,9 +241,14 @@ public static class ExcelTool
                 {
                     continue;
                 }
-                string strOneRow = string.Empty;
-                for (int j = row_data.FirstCellNum; j < row_data.LastCellNum; j++)
+                if (row_data.FirstCellNum>2)
                 {
+                    continue;
+                }
+                string strOneRow = string.Empty;
+                for (int j = 2; j < row_data.LastCellNum; j++)
+                {
+                    bool isFirstCell = j == 2;
                     string value = string.Empty;
                     string key;
                     if (!dicKeys.TryGetValue(j, out key))
@@ -241,7 +264,7 @@ public static class ExcelTool
                     string[] types = type.Split('|');
                     type = types[0];
                     string conditions = string.Empty;
-                    if (types.Length>1)
+                    if (types.Length > 1)
                     {
                         conditions = types[1];
                     }
@@ -271,22 +294,246 @@ public static class ExcelTool
                     else if (cell.CellType == CellType.BLANK)
                     {
                         value = func.Invoke(string.Empty);
+                        if (isFirstCell)
+                        {
+                            strOneRow = string.Empty;
+                            break;
+                        }
                     }
                     else
                     {
                         continue;
                     }
+
                     value = value.Replace("\r\n", "");
                     //处理条件
                     if (!string.IsNullOrEmpty(conditions))
                     {
-                        if (conditions.Equals("half")) {
+                        if (conditions.Equals("half"))
+                        {
                             value = value.Replace("\r\n", "");
                             value = value.Replace("\n", "");
                         }
                     }
                     //
                     if (j != row_data.FirstCellNum)
+                    {
+                        strOneRow = strOneRow + ",";
+                    }
+
+                    if (isFirstCell)
+                    {
+                        strOneRow = string.Format("\t[{0}] = {{", value);
+                    }
+                    strOneRow = strOneRow + string.Format("{0}={1}", key, value);
+
+                }
+                if (!strOneRow.Equals(string.Empty))
+                {
+                    strOneRow = strOneRow + "},\n";
+                    strTable = strTable + strOneRow;
+                }
+            }
+            strTable = strTable + "}";
+            //write
+            FileInfo luaConfig = new FileInfo(savePath + "/LuaConfig_" + key_name + ".lua");
+            //Debug.Log(luaConfig.FullName);
+            if (luaConfig.Exists == false)
+            {
+                luaConfig.Create().Dispose();
+            }
+
+            try
+            {
+                File.WriteAllText(luaConfig.FullName, strTable, Encoding.UTF8);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(string.Format("文件可能被占用,无法写入！<color=yellow>{0}</color>,{1}", key_name, filePath));
+                EditorUtility.ClearProgressBar();
+                file.Dispose();
+                return false;
+            }
+            //Debug.Log(string.Format("finish: <color=yellow>{0}</color>,{1},{2}", key_name, sheet.SheetName, filePath));
+            EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / row_types.LastCellNum);
+        }
+        EditorUtility.ClearProgressBar();
+        file.Dispose();
+        return true;
+    }
+
+
+    public static bool ExcelToLuaTableEPPlus(string filePath, string savePath)
+    {
+        FileInfo fileInfo = new FileInfo(filePath);
+        if (!fileInfo.Exists)
+        {
+            Debug.LogError(string.Format(FIND_NOT_PATH, filePath));
+            return false;
+        }
+        FileStream file = null;
+        try
+        {
+            file = File.OpenRead(filePath);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("文件可能被占用,无法写入: " + Path.GetFileName(filePath));
+        }
+        if (file == null)
+        {
+            return false;
+        }
+
+        ExcelPackage excelPackage = new ExcelPackage(fileInfo);
+        ExcelWorkbook workbook = excelPackage.Workbook;
+        Action clearFunc = () => {
+            workbook.Dispose();
+            excelPackage.Dispose();
+            file.Dispose();
+        };
+        if (workbook == null)
+        {
+            clearFunc.Invoke();
+            return false;
+        }
+
+        if (workbook.Worksheets.Count <= 0)
+        {
+            Debug.LogError(string.Format(FIND_NOT_SHEET, filePath));
+            return false;
+        }
+        for (int index = 1; index < workbook.Worksheets.Count; index++)
+        {
+            string strTable = string.Empty;
+            ExcelWorksheet sheet = workbook.Worksheets[index];
+
+            int maxColumnNum = sheet.Dimension.End.Column;//最大列
+            int minColumnNum = sheet.Dimension.Start.Column;//最小列
+            
+            int maxRowNum = sheet.Dimension.End.Row;//最小行
+            int minRowNum = sheet.Dimension.Start.Row;//最大行
+
+            //tableName
+            string key_name = string.Empty;
+            try
+            {
+                
+                ExcelRow row = sheet.Row(KEY_ROW+1);
+                ExcelRangeBase cell = sheet.Cells[KEY_ROW + 1,1];
+                key_name = cell.GetValue<string>();//cell.StringCellValue;
+            }
+            catch (Exception e)
+            {
+                continue;
+            }
+            if (key_name==null)
+            {
+                continue;
+            }
+            strTable = string.Format("LuaConfig_{0} = {{\n", key_name);
+
+            //type
+            Dictionary<int, string> dicTypes = new Dictionary<int, string>();
+
+            for (int i = 3; i < maxColumnNum; i++)
+            {
+                ExcelRangeBase cell = sheet.Cells[TYPE_ROW + 1,i];
+                if (cell == null)
+                {
+                    continue;
+                }
+                string value = cell.GetValue<string>();
+                if (value==null)
+                {
+                    break;
+                }
+                dicTypes[i] = value;
+            }
+
+            //key
+            Dictionary<int, string> dicKeys = new Dictionary<int, string>();
+            for (int i = 3; i < maxColumnNum; i++)
+            {
+                ExcelRangeBase cell = sheet.Cells[KEY_ROW + 1,i];
+                if (cell == null)
+                {
+                    continue;
+                }
+                string value = cell.GetValue<string>();
+                if (value == null)
+                {
+                    break;
+                }
+                dicKeys[i] = value;
+            }
+
+            //value
+            for (int i = 5; i < maxRowNum; i++)
+            {
+                string strOneRow = string.Empty;
+                for (int j = 3; j < maxColumnNum; j++)
+                {
+                    string value = string.Empty;
+                    string key;
+                    if (!dicKeys.TryGetValue(j, out key))
+                    {
+                        continue;
+                    }
+                    string type;
+                    if (!dicTypes.TryGetValue(j, out type))
+                    {
+                        continue;
+                    }
+
+                    string[] types = type.Split('|');
+                    type = types[0];
+                    string conditions = string.Empty;
+                    if (types.Length > 1)
+                    {
+                        conditions = types[1];
+                    }
+
+                    if (key_name.Equals("art") && key.Equals("nav"))
+                    {
+                        string s = string.Empty;
+                    }
+                    Func<string, string> func;
+                    if (!Type2Func.TryGetValue(type, out func))
+                    {
+                        func = Type2Func["str"];
+                    }
+                    ExcelRangeBase cell = sheet.Cells[i,j];
+                    if (cell == null)
+                    {
+                        continue;
+                    }
+                    value = cell.GetValue<string>();
+
+                    if (value == null)
+                    {
+                        if (key == "id")
+                        {
+                            break;
+                        }
+                        value = func.Invoke(string.Empty);
+                    }
+                    else
+                    {
+                        value = func.Invoke(value);
+                    }
+                    value = value.Replace("\r\n", "");
+                    //处理条件
+                    if (!string.IsNullOrEmpty(conditions))
+                    {
+                        if (conditions.Equals("half"))
+                        {
+                            value = value.Replace("\r\n", "");
+                            value = value.Replace("\n", "");
+                        }
+                    }
+                    //
+                    if (j != 3)
                     {
                         strOneRow = strOneRow + ",";
                     }
@@ -310,25 +557,23 @@ public static class ExcelTool
             //Debug.Log(luaConfig.FullName);
             if (luaConfig.Exists == false)
             {
-                luaConfig.Create();
+                luaConfig.Create().Dispose();
             }
-
             try
             {
                 File.WriteAllText(luaConfig.FullName, strTable, Encoding.UTF8);
             }
             catch (Exception e)
             {
-                Debug.LogError(string.Format("文件可能被占用,无法写入！<color=yellow>{0}</color>,{1}", key_name,filePath));
-                EditorUtility.ClearProgressBar();
-                file.Dispose();
+                Debug.LogError(string.Format("文件可能被占用,无法写入！<color=yellow>{0}</color>,{1}", key_name, luaConfig.FullName));
+                Debug.Log(e.ToString());
+                clearFunc.Invoke();
                 return false;
             }
             //Debug.Log(string.Format("finish: <color=yellow>{0}</color>,{1},{2}", key_name, sheet.SheetName, filePath));
-            EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / row_types.LastCellNum);
+            //EditorUtility.DisplayProgressBar("ExcelToLuaTable", filePath, index + 1 / workbook.Worksheets.Count);
         }
-        EditorUtility.ClearProgressBar();
-        file.Dispose();
+        clearFunc.Invoke();
         return true;
     }
 

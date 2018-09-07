@@ -8,22 +8,23 @@ public class ConfigBuilder : EditorWindow
 {
 
     //some default value
-    private static string path = "F:/WorkSpace/Project/tools/excel/xls";
+    private static string configPath = "F:/WorkSpace/Project/tools/excel/xls";
     private static string savePath = "C:/Users/Administrator/Desktop/Config";
 
     [MenuItem("Tool/ConfigBuilder")]
     public static void Open()
     {
-        GetWindow(typeof(ConfigBuilder), false, nameof(ConfigBuilder));
+        GetWindow(typeof(ConfigBuilder), false, "ConfigBuilder");
     }
 
     private ConfigBuilderData configBuilderData = null;
 
-    void OnEnable()
+    private void CheckData()
     {
         if (configBuilderData == null)
         {
             string dataPath = Application.dataPath + "/Editor/EditorData/ConfigBuilderData.asset";
+
             configBuilderData = AssetDatabase.LoadAssetAtPath<ConfigBuilderData>(dataPath);
             if (configBuilderData == null)
             {
@@ -32,70 +33,103 @@ public class ConfigBuilder : EditorWindow
                 {
                     dir.Create();
                 }
+
                 configBuilderData = CreateInstance<ConfigBuilderData>();
                 configBuilderData.SavePath = savePath;
-                configBuilderData.ConfigPath = path;
+                configBuilderData.ConfigPath = configPath;
+
                 var path1 = dataPath.Substring(dataPath.LastIndexOf("Assets"));
                 AssetDatabase.CreateAsset(configBuilderData, path1);
                 AssetDatabase.Refresh();
             }
+
+            configPath = configBuilderData.ConfigPath;
+            savePath = configBuilderData.SavePath;
         }
     }
-    void Start()
-    {
-    }
+
     void OnGUI()
     {
+        CheckData();
+
+        //
         EditorGUILayout.BeginHorizontal("HelpBox");
-        //EditorGUILayout.LabelField("SavePath:",GUILayout.Width(60));
+
+        configPath = EditorGUILayout.TextField(configPath);
+        if (GUILayout.Button("Select", GUILayout.Width(60)))
+        {
+            string path = EditorUtility.SaveFolderPanel("SelectConfigPath", configPath, string.Empty);
+            if (!path.Equals(string.Empty))
+            {
+                configPath = configBuilderData.ConfigPath = path;
+                SaveConfigData();
+            }
+        }
+
+        if (GUILayout.Button("NPOI", GUILayout.Width(60)))
+        {
+            DirectoryInfo dir = new DirectoryInfo(configPath);
+            if (!dir.Exists)
+            {
+                EditorUtility.DisplayDialog("error", "find not directory", "ok");
+                return;
+            }
+
+            FileInfo[] fileInfos = dir.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                if (!ExcelTool.ExcelToLuaTableNPOT(fileInfo.FullName, savePath + "/NPOI"))
+                {
+                    continue;
+                }
+            }
+        }
+
+        if (GUILayout.Button("EPPlus", GUILayout.Width(60)))
+        {
+            DirectoryInfo dir = new DirectoryInfo(configPath);
+            if (!dir.Exists)
+            {
+                EditorUtility.DisplayDialog("error", "find not directory", "ok");
+                return;
+            }
+
+            FileInfo[] fileInfos = dir.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                if (!ExcelTool.ExcelToLuaTableEPPlus(fileInfo.FullName, savePath+ "/EPPlus"))
+                {
+                    continue;
+                }
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal("HelpBox");
+
         savePath = EditorGUILayout.TextField("SavePath:", savePath);
         if (GUILayout.Button("Select", GUILayout.Width(60)))
         {
-            savePath = EditorUtility.SaveFolderPanel("SelectSavePath", savePath, savePath);
-            if (!savePath.Equals(string.Empty))
-            {
-                configBuilderData.SavePath = savePath;
-                EditorUtility.SetDirty(configBuilderData);
-                AssetDatabase.SaveAssets();
-            }
-        }
-        EditorGUILayout.EndHorizontal();
-        //
-        EditorGUILayout.BeginHorizontal("HelpBox");
-        path = EditorGUILayout.TextField(path);
-        if (GUILayout.Button("Select", GUILayout.Width(60)))
-        {
-            path = EditorUtility.SaveFolderPanel("SelectConfigPath", path, path);
+            string path = EditorUtility.SaveFolderPanel("SelectSavePath", savePath, string.Empty);
             if (!path.Equals(string.Empty))
             {
-                configBuilderData.ConfigPath = path;
-                EditorUtility.SetDirty(configBuilderData);
-                AssetDatabase.SaveAssets();
+                savePath = configBuilderData.SavePath = path;
+                SaveConfigData();
             }
         }
-        if (GUILayout.Button("Build", GUILayout.Width(60)))
-        {
-            EditorApplication.update = () => {
-                DirectoryInfo dir = new DirectoryInfo(path);
-                if (!dir.Exists)
-                {
-                    EditorUtility.DisplayDialog("error", "find not directory", "ok");
-                    return;
-                }
-                FileInfo[] fileInfos = dir.GetFiles();
-                foreach (FileInfo fileInfo in fileInfos)
-                {
-                    if (!ExcelTool.ExcelToLuaTable(fileInfo.FullName, savePath))
-                    {
-                        continue;
-                    }
-                }
-                EditorApplication.update = null;
-            };
-        }
+
         EditorGUILayout.EndHorizontal();
     }
-    // Update is called once per frame
+    private void SaveConfigData()
+    {
+        if (configBuilderData)
+        {
+            EditorUtility.SetDirty(configBuilderData);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+    }
     void Update()
     {
         Repaint();

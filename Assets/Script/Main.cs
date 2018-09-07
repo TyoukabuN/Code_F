@@ -30,37 +30,39 @@ public class Main : MonoBehaviour
     {
         var style = new GUIStyle
         {
-            normal = { textColor = new Color(0, 0, 0, 1) },
-            fontSize = 60
+            fixedWidth = 100,
+            fixedHeight = 100,
+            normal = { textColor = Color.yellow },
+            fontSize = 36,
         };
         float width = 100;
         float height = 100;
         float posX = 0;
         float posY = 0;//Screen.height - height;
         Rect rect = new Rect(posX, posY, width, height);
-        if (GUI.Button(rect, "Load"))
-        {
-            //同步加载
-            //string path = @"UI/Panel/SlotMachine.prefab";
-            //var goj = ResourceManager.Load(path, typeof(GameObject));
-            //string path = "slotmachine";
-            //var asset = BundleManager.GetAsset(path, typeof(GameObject));
-            //var goj = GameObject.Instantiate(asset as GameObject);
+        //if (GUI.Button(rect, "Load"))
+        //{
+        //    //同步加载
+        //    //string path = @"UI/Panel/SlotMachine.prefab";
+        //    //var goj = ResourceManager.Load(path, typeof(GameObject));
+        //    //string path = "slotmachine";
+        //    //var asset = BundleManager.GetAsset(path, typeof(GameObject));
+        //    //var goj = GameObject.Instantiate(asset as GameObject);
 
-            //异步
-            string path = "UI/Panel/slotmachine";
-            ResourceManager.LoadAsyc(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
-        }
-        if (GUI.Button(new Rect(rect.x+rect.width, posY, width, height),"HotFixTest"))
+        //    //异步
+        //    string path = "UI/Panel/slotmachine";
+        //    ResourceManager.LoadAsyc(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
+        //}
+        if (GUI.Button(new Rect(rect.x, posY, width, height),"OP", style))//+rect.width
         {
             string filePath = "HoTFixTest";
             LuaSystem.DoString(LuaLoader(filePath));
         }
-        if (GUI.Button(new Rect(rect.x + rect.width*2, posY, width, height), "Excel"))
-        {
-            string filePath = @"F:/WorkSpace/Project/tools/excel/xls/M-秘境夺宝.xlsx";
-            ExcelTool.ExcelToLuaTable(filePath, "C:/Users/Administrator/Desktop");
-        }
+        //if (GUI.Button(new Rect(rect.x + rect.width*2, posY, width, height), "Excel"))
+        //{
+        //    string filePath = @"F:/WorkSpace/Project/tools/excel/xls/M-秘境夺宝.xlsx";
+        //    //ExcelTool.ExcelToLuaTable(filePath, "C:/Users/Administrator/Desktop");
+        //}
     }
 
     public static string LuaLoader(string filepath)

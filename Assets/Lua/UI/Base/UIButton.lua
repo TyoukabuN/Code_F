@@ -38,6 +38,7 @@ end
 -- EndDrag = 14,
 -- Submit = 15,
 -- Cancel = 16
+
 --添加触发监听器
 function this:AddTriggerListener(type, callback)
     if(self._eventTrigger==nil)then
@@ -57,10 +58,9 @@ function this:AddTriggerListener(type, callback)
 
     if(not entry)then
         entry = Entry()
+        self._eventTrigger.triggers:Add(entry)
     end
 
 	entry.eventID = type
     entry.callback:AddListener(callback)	
-    
-	self._eventTrigger.triggers:Add(entry)
 end
