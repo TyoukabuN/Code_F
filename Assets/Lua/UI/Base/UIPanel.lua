@@ -27,3 +27,15 @@ function this:LoadPanel(panelName)
     
     return gobj
 end
+
+function this:Redisplay()
+    self:SetActive(true)
+end
+
+function this:Hide()
+    self:SetActive(false)
+end
+
+function this:Show()
+    self:SetActive(true)
+end

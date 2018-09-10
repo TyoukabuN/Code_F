@@ -32,8 +32,8 @@ function this:SetParent(trans)
     end
 end
 
-function this:OpenPanel(panelType)
-	UISystem.OpenPanel(panelTpye,self)
+function this:OpenPanel(panelType,closeOther)
+	UISystem.OpenPanel(panelTpye,closeOther,self)
 end
 
 --2018年7月26日12:06:11 zjw
@@ -53,7 +53,6 @@ function UIBase:Close()
 		self._gameObject:SetActive(false)
 	end
 end
-
 
 --[[
 	--@horizontalType:水平的位置类型 --1 left d2 center 3 rigth

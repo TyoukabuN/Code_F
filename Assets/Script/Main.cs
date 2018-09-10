@@ -54,7 +54,7 @@ public class Main : MonoBehaviour
         //    string path = "UI/Panel/slotmachine";
         //    ResourceManager.LoadAsyc(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
         //}
-        if (GUI.Button(new Rect(rect.x, posY, width, height),"OP", style))//+rect.width
+        if (GUI.Button(new Rect(rect.x, posY, width, height),"OP"))//+rect.width
         {
             string filePath = "HoTFixTest";
             LuaSystem.DoString(LuaLoader(filePath));

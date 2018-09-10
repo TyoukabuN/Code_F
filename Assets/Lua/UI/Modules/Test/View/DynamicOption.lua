@@ -14,15 +14,16 @@ end
 
 function this:SetContent(content)
     self._text:SetText(content)
+    return self
 end
 
 function this:OnClick()
     if(self.func)then
         self.func()
     end
-    print("DynamicOption")
 end
 
 function this:SetClick(func)
     self.func = func
+    return self
 end

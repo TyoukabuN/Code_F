@@ -1,8 +1,8 @@
 require "UI/Base/UIPanel"
 
-TestPanel = class("TestPanel",UIPanel)
+TestPanel2 = class("TestPanel2",UIPanel)
 
-local this = TestPanel
+local this = TestPanel2
 
 function this:ctor(go,...)
     this.base.ctor(self,go,...)
@@ -31,7 +31,10 @@ function this:Init(...)
 end
 
 function this:AfterInit()
-    self._optionPool:Get():SetContent("测试面板_1")--:SetClick(self.OnClick)
+    self._optionPool:Get():SetContent("测试面板_2")--:SetClick(self.OnClick)
+    self._optionPool:Get():SetContent("打开1"):SetClick(function()
+        UISystem.OpenPanel(PanelName.Test,true,self)
+    end)
     self._optionPool:Get():SetContent("打开2"):SetClick(function()
         UISystem.OpenPanel(PanelName.Test2,true,self)
     end)
@@ -40,5 +43,5 @@ function this:AfterInit()
 end
 
 function this:OnClick()
-    UISystem.ClosePanel(PanelName.Test)
+    UISystem.ClosePanel(PanelName.Test2)
 end

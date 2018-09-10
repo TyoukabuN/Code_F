@@ -50,8 +50,8 @@ end
 
 --添加对象
 function this:Add()
-    local obj
-    for i = 1,self._createStep do
+    local obj = self.onConstruct()
+    for i = 1,self._createStep - 1 do
         obj = self.onConstruct()
         self.onDisable(obj)
         table.insert(self._deadQueue, obj)
