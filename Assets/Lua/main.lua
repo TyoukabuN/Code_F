@@ -9,9 +9,10 @@ ResourceManager = CS.ResourceManager
 
 --about UnityEngine
 UnityEngine = CS.UnityEngine
-EventTrigger = UnityEngine.EventSystems.EventTrigger
 EventTriggerType = UnityEngine.EventSystems.EventTriggerType
+EventTrigger = UnityEngine.EventSystems.EventTrigger
 Entry = EventTrigger.Entry
+EventTriggerSub = CS.EventTriggerSub
 GameObject = UnityEngine.GameObject
 Vector2 = UnityEngine.Vector2
 Vector3 = UnityEngine.Vector3

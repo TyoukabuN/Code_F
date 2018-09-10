@@ -372,6 +372,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UnityEngine.EventSystems.EventTriggerType), UnityEngineEventSystemsEventTriggerTypeWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(EventTriggerSub), EventTriggerSubWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(ResourceManager), ResourceManagerWrap.__Register);
         
         

@@ -149,7 +149,9 @@ public static class LuaConfig {
         typeof(EventTrigger),
         typeof(EventTrigger.Entry),
         typeof(EventTriggerType),
-        //
+
+        //self clase
+        typeof(EventTriggerSub),
         typeof(ResourceManager),
         typeof(UISlots),
     };

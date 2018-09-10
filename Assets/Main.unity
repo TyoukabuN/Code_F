@@ -316,7 +316,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1536581468502102, guid: 0ba1c620ebc834448be851d6dd62e266, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1417292046421654, guid: 0ba1c620ebc834448be851d6dd62e266, type: 2}
       propertyPath: m_IsActive
@@ -326,6 +326,31 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 224002151794162228, guid: 0ba1c620ebc834448be851d6dd62e266,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224156073861341490, guid: 0ba1c620ebc834448be851d6dd62e266,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 356.6875
+      objectReference: {fileID: 0}
+    - target: {fileID: 224156073861341490, guid: 0ba1c620ebc834448be851d6dd62e266,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 713.375
+      objectReference: {fileID: 0}
+    - target: {fileID: 224891907469731554, guid: 0ba1c620ebc834448be851d6dd62e266,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.00008206705
+      objectReference: {fileID: 0}
+    - target: {fileID: 224518331209214112, guid: 0ba1c620ebc834448be851d6dd62e266,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000061035156
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ba1c620ebc834448be851d6dd62e266, type: 2}
@@ -460,21 +485,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2142128718 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1417292046421654, guid: 0ba1c620ebc834448be851d6dd62e266,
-    type: 2}
-  m_PrefabInternal: {fileID: 1301705944}
---- !u!114 &2142128724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2142128718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
-  delegates: []

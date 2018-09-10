@@ -42,7 +42,7 @@ end
 --添加触发监听器
 function this:AddTriggerListener(type, callback)
     if(self._eventTrigger==nil)then
-        self._eventTrigger = self._gameObject:AddComponent(typeof(EventTrigger))
+        self._eventTrigger = self._gameObject:AddComponent(typeof(EventTriggerSub))
     end
 
     local entry = nil

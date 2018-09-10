@@ -188,7 +188,8 @@
 	</assembly>
 
 	<assembly fullname="Assembly-CSharp">
-	    <type fullname="ResourceManager" preserve="all"/>
+	    <type fullname="EventTriggerSub" preserve="all"/>
+		<type fullname="ResourceManager" preserve="all"/>
 		<type fullname="UISlots" preserve="all"/>
 		<type fullname="LuaBehaviour" preserve="all"/>
 		<type fullname="XLuaTest.Pedding" preserve="all"/>

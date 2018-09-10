@@ -25,6 +25,5 @@ function this:Init(...)
 end
 
 function this:OnClick()
-    print("OnClick")
     UISystem.ClosePanel(PanelName.Test)
 end
