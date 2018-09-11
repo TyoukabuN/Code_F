@@ -18,10 +18,12 @@ Vector2 = UnityEngine.Vector2
 Vector3 = UnityEngine.Vector3
 Debug = UnityEngine.Debug
 DOTween = CS.DG.Tweening.DOTween
+RectTransform = UnityEngine.RectTransform
+CanvasRenderer = UnityEngine.CanvasRenderer
+LayerMask = UnityEngine.UnityEngine
 
 require "requireInit"
 
-
 function Init()
-    
+    UISystem.Init()
 end

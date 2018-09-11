@@ -36,11 +36,13 @@
 		<type fullname="UnityEngine.SystemInfo" preserve="all"/>
 		<type fullname="UnityEngine.Resolution" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
+		<type fullname="UnityEngine.RectTransform" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEventBase" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEvent" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEvent`1[System.String]" preserve="all"/>
 		<type fullname="UnityEngine.Vector2" preserve="all"/>
 		<type fullname="UnityEngine.Vector3" preserve="all"/>
+		<type fullname="UnityEngine.LayerMask" preserve="all"/>
 		<type fullname="UnityEngine.WaitForSeconds" preserve="all"/>
 		<type fullname="UnityEngine.Object" preserve="all"/>
 		<type fullname="UnityEngine.Vector4" preserve="all"/>
@@ -131,8 +133,8 @@
 		<type fullname="UnityEngine.UI.InputField+CharacterValidation" preserve="all"/>
 		<type fullname="UnityEngine.UI.InputField+InputType" preserve="all"/>
 		<type fullname="UnityEngine.UI.InputField+ContentType" preserve="all"/>
-		<type fullname="UnityEngine.UI.ScrollRect" preserve="all"/>
 		<type fullname="UnityEngine.UI.GridLayoutGroup" preserve="all"/>
+		<type fullname="UnityEngine.UI.ScrollRect" preserve="all"/>
 		<type fullname="UnityEngine.UI.GridLayoutGroup+Constraint" preserve="all"/>
 		<type fullname="UnityEngine.UI.GridLayoutGroup+Axis" preserve="all"/>
 		<type fullname="UnityEngine.UI.GridLayoutGroup+Corner" preserve="all"/>
@@ -161,6 +163,11 @@
 
 	<assembly fullname="UnityEngine.ImageConversionModule">
 	    <type fullname="UnityEngine.ImageConversion" preserve="all"/>
+		
+	</assembly>
+
+	<assembly fullname="UnityEngine.UIModule">
+	    <type fullname="UnityEngine.CanvasRenderer" preserve="all"/>
 		
 	</assembly>
 

@@ -27,3 +27,4 @@ function this:SetClick(func)
     self.func = func
     return self
 end
+

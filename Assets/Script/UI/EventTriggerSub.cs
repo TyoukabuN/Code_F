@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Entry = UnityEngine.EventSystems.EventTrigger.Entry;
 
-public class EventTriggerSub : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+public class EventTriggerSub : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
     public List<Entry> triggers = new List<Entry>();
 
@@ -15,6 +16,16 @@ public class EventTriggerSub : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         InvokeTrigger(EventTriggerType.PointerDown, eventData);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        InvokeTrigger(EventTriggerType.PointerEnter, eventData);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        InvokeTrigger(EventTriggerType.PointerExit, eventData);
     }
 
     public void OnPointerUp(PointerEventData eventData)

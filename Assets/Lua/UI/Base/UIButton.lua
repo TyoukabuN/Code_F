@@ -9,18 +9,33 @@ function this:ctor(go,...)
     self._eventTrigger = self:GetComponent(typeof(EventTrigger))
 end
 
+--点击事件
 function this:SetClickCB(callback)
     self:AddTriggerListener(EventTriggerType.PointerClick, callback) 
 end
 
-function UIButton:SetClickUpCB(callback)
+--弹起事件
+function this:SetClickUpCB(callback)
     self:AddTriggerListener(EventTriggerType.PointerUp, callback) 
 end
 
-function UIButton:SetClickDownCB(callback)
+--按下事件
+function this:SetClickDownCB(callback)
     self:AddTriggerListener(EventTriggerType.PointerDown, callback) 
 end
 
+--得到焦点
+function this:SetPointEnter(callback)
+    self:AddTriggerListener(EventTriggerType.PointerEnter, callback) 
+end
+
+--失去焦点
+function this:SetPointExit(callback)
+    self:AddTriggerListener(EventTriggerType.PointerExit, callback) 
+end
+
+
+-- type：
 -- PointerEnter = 0,
 -- PointerExit = 1,
 -- PointerDown = 2,

@@ -36,7 +36,9 @@ function this:AfterInit()
         UISystem.OpenPanel(PanelName.Test2,true,self)
     end)
     self._optionPool:Get():SetContent("输出当前面板队列"):SetClick(function() UISystem.ToString() end)
-    self._optionPool:Get():SetContent("关闭"):SetClick(self.OnClick)
+    local btn_close = self._optionPool:Get():SetContent("关闭"):SetClick(self.OnClick)
+    btn_close._button:SetPointEnter(function() printc("进入") end)
+    btn_close._button:SetPointExit(function() printc("退出") end)
 end
 
 function this:OnClick()

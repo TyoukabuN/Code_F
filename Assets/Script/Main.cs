@@ -15,17 +15,6 @@ public class Main : MonoBehaviour
     {
         LuaSystem.Init();
     }
-    // Use this for initialization
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     void OnGUI()
     {
@@ -41,6 +30,7 @@ public class Main : MonoBehaviour
         float posX = 0;
         float posY = 0;//Screen.height - height;
         Rect rect = new Rect(posX, posY, width, height);
+        //          test for resourseManager
         //if (GUI.Button(rect, "Load"))
         //{
         //    //同步加载
@@ -59,11 +49,6 @@ public class Main : MonoBehaviour
             string filePath = "HoTFixTest";
             LuaSystem.DoString(LuaLoader(filePath));
         }
-        //if (GUI.Button(new Rect(rect.x + rect.width*2, posY, width, height), "Excel"))
-        //{
-        //    string filePath = @"F:/WorkSpace/Project/tools/excel/xls/M-秘境夺宝.xlsx";
-        //    //ExcelTool.ExcelToLuaTable(filePath, "C:/Users/Administrator/Desktop");
-        //}
     }
 
     public static string LuaLoader(string filepath)

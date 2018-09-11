@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09bcced9c0eb86c46acc6930d47faf47, type: 3}
   m_Name: ConfigBuilderData
   m_EditorClassIdentifier: 
-  ConfigPath: F:/WorkSpace/Project/tools/branches
-  SavePath: C:/Users/Administrator/Desktop/Config/NPOI
+  ConfigPath: F:/WorkSpace/Project/tools/excel/xls
+  SavePath: C:/Users/Administrator/Desktop/Config
