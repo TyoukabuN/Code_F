@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 [SerializeField]
-public class ViewEffect : MonoBehaviour {
+public class ViewEffect : MonoBehaviour
+{
 
     public RectTransform UIRoot = null;
 
     public CanvasGroup CanvasGroup = null;
 
-    public float ScaleYAnim_Duration = 0.3f;
+    public float ScaleYAnim_Duration = 0.25f;
 
     //public float AlphaAnim_Duration = 0.2f;
     [Range(0, 1)]
@@ -18,7 +20,7 @@ public class ViewEffect : MonoBehaviour {
 
     private void Awake()
     {
-        if (CanvasGroup==null)
+        if (CanvasGroup == null)
         {
             CanvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
         }
@@ -26,12 +28,13 @@ public class ViewEffect : MonoBehaviour {
 
     private void OnEnable()
     {
-        Show();
+        //Show();
     }
-    public void Show()
+    public void Show(TweenCallback callback)
     {
-        UIRoot.localScale = new Vector3(1,0,1);
-        if (UIRoot) {
+        UIRoot.localScale = new Vector3(1, 0, 1);
+        if (UIRoot)
+        {
             DOTween.To(() => { return UIRoot.localScale.y; },
             (float scaY) => { UIRoot.localScale = new Vector3(1, scaY, 1); },
             1.0f,
@@ -42,11 +45,41 @@ public class ViewEffect : MonoBehaviour {
         if (CanvasGroup)
         {
             CanvasGroup.alpha = 0.0f;
-            DOTween.To(() => { return CanvasGroup.alpha; },
+            var tweener = DOTween.To(() => { return CanvasGroup.alpha; },
             (float alpha) => { CanvasGroup.alpha = alpha; },
             1.0f,
             ScaleYAnim_Duration * 1.6f
             );
+            if (callback != null)
+            {
+                tweener.OnComplete(callback);
+            }
+        }
+    }
+
+    public void Close(TweenCallback callback)
+    {
+        UIRoot.localScale = new Vector3(1, 1, 1);
+        if (UIRoot)
+        {
+            DOTween.To(() => { return UIRoot.localScale.y; },
+            (float scaY) => { UIRoot.localScale = new Vector3(1, scaY, 1); },
+            0.0f,
+            ScaleYAnim_Duration
+            );
+        }
+        if (CanvasGroup)
+        {
+            CanvasGroup.alpha = 1.0f;
+            var tweener = DOTween.To(() => { return CanvasGroup.alpha; },
+            (float alpha) => { CanvasGroup.alpha = alpha; },
+            0.0f,
+            ScaleYAnim_Duration * 1.6f
+            );
+            if (callback != null)
+            {
+                tweener.OnComplete(callback);
+            }
         }
     }
 }

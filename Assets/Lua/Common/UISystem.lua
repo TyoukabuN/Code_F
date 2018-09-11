@@ -22,6 +22,7 @@ PanelPath = {
     TestPanel2 = "UI/Panel/TestPanel2.prefab",
 }
 
+--输出队列
 UISystem.ToString = function()
     local temp = {}
     for i,conf in ipairs(panel_queue)do
@@ -31,27 +32,31 @@ UISystem.ToString = function()
     print("当前面板队列：",table.unpack(temp))
 end
 
+--打开面板
 UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
+    printc("OpenPanel",panelName,closeOther,parent_hInstance)
     if(not closeOther)then
         closeOther = false
     end
     local panelConfig,index = UISystem.GetPanel(panelName)
     local hInstance
+    local isCommonPanel = isCommonPanel(panelName)
 
     if(panelConfig)then
         local curConf = UISystem.GetCurrentPanel()
-        -- if(panelConfig == curConf)then
-        --     hInstance = panelConfig.hInstance
-        -- elseif(not isCommonPanel(panelName))then
-        --     if(panelConfig:IsCloser(curConf.panelName))then
-        --         return
-        --     else
-        --         hInstance = panelConfig.hInstance
-        --     end
-        -- else
-        --     ---@TODO
-        -- end
-        hInstance = panelConfig.hInstance
+        if(panelConfig == curConf)then
+            hInstance = panelConfig.hInstance
+        elseif(not isCommonPanel)then --不是常驻面板
+            local removeCount = #panel_queue - index
+            for i = 1,removeCount do
+                local conf = table.remove(panel_queue,#panel_queue)
+                conf.hInstance:Close()
+                conf.hInstance:Destroy()
+            end
+            hInstance = panelConfig.hInstance
+        else
+            ---@TODO
+        end
         table.remove(panel_queue,index)
     else
         hInstance = globalClass[panelName]
@@ -69,13 +74,13 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
         panelConfig = UIPanelConfig.New(panelName,hInstance,parent_hInstance)
     end
 
-    if(not isCommonPanel(panelName))then
+    if(not isCommonPanel)then
         table.insert(panel_queue,panelConfig)
     else
         table.insert(common_panel_queue,panelConfig) 
     end
     
-    if(closeOther)then
+    if(closeOther and not isCommonPanel)then
         for i = 1,#panel_queue-1 do
             panel_queue[i]:AddCloser(panelConfig)
         end
@@ -86,7 +91,10 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
     return hInstance
 end
 
+--关闭面板
 UISystem.ClosePanel = function(panelName)
+    printc("UISystem.ClosePanel ")
+
     local confs = table.ifinds(panel_queue,function(arg) return arg.panelName == panelName end)
     if(#confs==0)then
         return
@@ -96,9 +104,11 @@ UISystem.ClosePanel = function(panelName)
     if(current and current.panelName == panelName)then
         local conf = table.remove(panel_queue,#panel_queue)
         conf.hInstance:Close()
-        conf.hInstance:Destroy()
+        -- conf.hInstance:Destroy()
         confs[#confs] = nil
     end
+
+    UISystem.ToString()
 
     for i,conf in ipairs(panel_queue)do
         conf:Redisplay(panelName)
@@ -118,7 +128,7 @@ UISystem.GetCurrentPanel = function()
 end
 
 
---面板信息
+--面板配置
 UIPanelConfig = class("UIPanelConfig")
 function UIPanelConfig:ctor(panelName,hInstance,parent_hInstance)
     self.panelName = panelName
@@ -140,20 +150,21 @@ function UIPanelConfig:AddCloser(conf)
 end
 
 function UIPanelConfig:Redisplay(panelName)
-    if(#self.conf_closer<=0)then
-        return
-    end
-    -- local last_conf = self.conf_closer[#self.conf_closer]
-    -- if(last_conf.panelName == panelName)then
-    --     table.remove(self.conf_closer,#self.conf_closer)
+    printc("Redisplay")
+    self.hInstance:Redisplay()
+
+    -- if(#self.conf_closer<=0)then
+    --     return
     -- end
-    local conf,index = table.ifind(self.conf_closer,function(arg) return arg.panelName == panelName end)
-    if(conf)then
-        table.remove(self.conf_closer,index)
-    end
-    if(#self.conf_closer<=0)then
-        self.hInstance:Redisplay()
-    end
+
+    -- local conf,index = table.ifind(self.conf_closer,function(arg) return arg.panelName == panelName end)
+    -- if(conf)then
+    --     table.remove(self.conf_closer,index)
+    -- end
+
+    -- if(#self.conf_closer<=0)then
+    --     self.hInstance:Redisplay()
+    -- end
 end
 
 function UIPanelConfig:IsCloser(panelName)

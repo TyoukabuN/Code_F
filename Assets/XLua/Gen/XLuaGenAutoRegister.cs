@@ -381,6 +381,9 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(UISlots), UISlotsWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(ViewEffect), ViewEffectWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(LuaBehaviour), LuaBehaviourWrap.__Register);
         
         
@@ -485,9 +488,11 @@ namespace XLua.CSObjectWrap
         
             translator.DelayWrapLoader(typeof(Tutorial.DrivenClassExtensions), TutorialDrivenClassExtensionsWrap.__Register);
         
-        
-        
         }
+        
+        
+        
+        
         
         static void Init(LuaEnv luaenv, ObjectTranslator translator)
         {

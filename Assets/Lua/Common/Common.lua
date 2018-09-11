@@ -10,7 +10,12 @@ Common = class("Common")
 Common.debugSwitch = true
 Common.format_rankText_other = "<color=#68d7f3>%s</color>"
 
-Common.ColorLog = function(content,color)
+printc = function(...)
+    local arg = {...}
+    for i = 1,#arg do
+        arg[i] = tostring(arg[i])
+    end
+    local content = table.concat(arg,"  ")
     local format_log = "<color=yellow>%s</color>"
     local format_log_color = "<color=%s>%s</color>"
     if(Common.debugSwitch)then

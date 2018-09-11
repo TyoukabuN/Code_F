@@ -8,6 +8,11 @@ function this:ctor(panelName,go,...)
     self.panelName = panelName
     go = go or self:LoadPanel(panelName)
     this.base.ctor(self,go,...)
+    self.viewEffect = self:GetComponent("ViewEffect")
+end
+
+function this:Init(...)
+    this.base.Init(self,...)
 end
 
 function this:LoadPanel(panelName)   
@@ -29,13 +34,40 @@ function this:LoadPanel(panelName)
 end
 
 function this:Redisplay()
+    if self.viewEffect then
+		self.viewEffect:Show()
+	end
     self:SetActive(true)
 end
 
 function this:Hide()
-    self:SetActive(false)
+    local func = function()
+        self:SetActive(false)
+    end
+
+    if self.viewEffect then
+		self.viewEffect:Close(func)
+	else
+		func()
+	end
+end
+
+function this:Close()
+    local func = function()
+        self:SetActive(false)
+        self:Destroy()
+    end
+
+    if self.viewEffect then
+		self.viewEffect:Close(func)
+	else
+		func()
+	end
 end
 
 function this:Show()
+    if self.viewEffect then
+		self.viewEffect:Show()
+	end
     self:SetActive(true)
 end

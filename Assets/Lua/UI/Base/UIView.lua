@@ -13,7 +13,7 @@ function UIView:ctor(go, ...)
 end
 
 function UIView:Init(...)
-
+	printc("UIView:Init(...)")
 end
 
 function UIView:AfterInit()

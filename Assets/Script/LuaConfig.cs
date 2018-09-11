@@ -154,5 +154,6 @@ public static class LuaConfig {
         typeof(EventTriggerSub),
         typeof(ResourceManager),
         typeof(UISlots),
+        typeof(ViewEffect),
     };
 }
