@@ -1,26 +1,7 @@
-UISystemBeta1 = class("UISystemBeta1")
+UISystem = class("UISystem")
 
 local common_panel_list = {
 }
-
-local panel_queue = {}
-
-local common_panel_queue = {}
-
-local isCommonPanel = function(panelName)
-    return table.any(common_panel_list,function(arg) return arg == panelName end)
-end
-
-UISystemBeta1.Init = function()
-    local root = GameObject.Find("Root")
-    if(not root)then
-        root = GameObject("Root")
-        --root:AddComponent(typeof(RectTransform))
-        root:AddComponent(typeof(CanvasRenderer))
-        root.layer = 5--LayerMask:GetMask({"UI"})
-    end
-    UISystemBeta1.UIRoot = root
-end
 
 PanelName = {
     Test = "TestPanel",
@@ -31,8 +12,73 @@ PanelPath = {
     TestPanel2 = "UI/Panel/TestPanel2.prefab",
 }
 
+local panel_queue = {}
+
+
+
+local IsCommonPanel = function(panelName)
+    return table.any(common_panel_list,function(arg) return arg == panelName end)
+end
+
+local AddToQueue = function(panelConfig)
+    if(not IsCommonPanel(panelConfig.panelName))then
+        table.insert(panel_queue,panelConfig)
+    else
+        table.insert(common_panel_queue,panelConfig) 
+    end
+end
+
+local RemoveFormQueue = function(panelConfig)
+    local queue
+    if(not IsCommonPanel(panelConfig.panelName))then
+        queue = panel_queue
+    else
+        queue = common_panel_queue
+    end
+    local conf,index = table.ifind(queue,function(arg) return arg.panelName == panelConfig.panelName end)
+    if(index)then
+        table.remove(queue,index)
+    end
+end
+
+UILayer = {
+    Base = "Layer_Base",
+    Dialog = "Layer_Dialog",
+}
+
+UILayerSort = {
+    UILayer.Base,
+    UILayer.Dialog
+}
+
+--初始化
+UISystem.Init = function()
+    local addLayerObj = function(name,parentTrans)
+        local gobj = GameObject(name)
+        --root:AddComponent(typeof(RectTransform))
+        gobj:AddComponent(typeof(CanvasRenderer))
+        gobj.layer = 5--LayerMask:GetMask({"UI"})
+        gobj.transform:SetParent(parentTrans,false)
+        return gobj
+    end
+    
+    local root = GameObject.Find("Root")
+    if(not root)then
+        root = addLayerObj("Root")
+    end
+
+    for i,name in ipairs(UILayerSort)do
+        local layout = root.transform:Find(name)
+        if(not layout)then
+            layout = addLayerObj(name,root.transform)
+        end
+    end
+    
+    UISystem.UIRoot = root
+end
+
 --输出队列
-UISystemBeta1.ToString = function()
+UISystem.ToString = function()
     local temp = {}
     for i,conf in ipairs(panel_queue)do
         table.insert( temp,conf.panelName)
@@ -42,30 +88,17 @@ UISystemBeta1.ToString = function()
 end
 
 --打开面板
-UISystemBeta1.OpenPanel = function(panelName,closeOther,parent_hInstance)
+UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
     if(not closeOther)then
         closeOther = false
     end
-    local panelConfig,index = UISystemBeta1.GetPanel(panelName)
+    local panelConfig,index = UISystem.GetPanel(panelName)
     local hInstance
-    local isCommonPanel = isCommonPanel(panelName)
+    local isCommonPanel = IsCommonPanel(panelName)
 
     if(panelConfig)then
-        local curConf = UISystemBeta1.GetCurrentPanel()
-        if(panelConfig == curConf)then
-            hInstance = panelConfig.hInstance
-        elseif(not isCommonPanel)then --不是常驻面板
-            local removeCount = #panel_queue - index
-            for i = 1,removeCount do
-                local conf = table.remove(panel_queue,#panel_queue)
-                conf.hInstance:Close()
-                conf.hInstance:Destroy()
-            end
-            hInstance = panelConfig.hInstance
-        else
-            ---@TODO
-        end
-        table.remove(panel_queue,index)
+        local curConf = UISystem.GetCurrentPanel()
+        hInstance = panelConfig.hInstance
     else
         hInstance = globalClass[panelName]
         if(not hInstance)then
@@ -80,12 +113,8 @@ UISystemBeta1.OpenPanel = function(panelName,closeOther,parent_hInstance)
         end
 
         panelConfig = UIPanelConfig.New(panelName,hInstance,parent_hInstance)
-    end
 
-    if(not isCommonPanel)then
-        table.insert(panel_queue,panelConfig)
-    else
-        table.insert(common_panel_queue,panelConfig) 
+        AddToQueue(panelConfig)
     end
     
     if(closeOther and not isCommonPanel)then
@@ -100,38 +129,42 @@ UISystemBeta1.OpenPanel = function(panelName,closeOther,parent_hInstance)
 end
 
 --关闭面板
-UISystemBeta1.ClosePanel = function(panelName)
-    printc("UISystemBeta1.ClosePanel ")
+UISystem.ClosePanel = function(panelName)
+    printc("UISystem.ClosePanel ")
 
     local confs = table.ifinds(panel_queue,function(arg) return arg.panelName == panelName end)
     if(#confs==0)then
         return
     end
 
-    local current = UISystemBeta1.GetCurrentPanel()
+    local current = UISystem.GetCurrentPanel()
     if(current and current.panelName == panelName)then
         local conf = table.remove(panel_queue,#panel_queue)
         conf.hInstance:Close()
-        -- conf.hInstance:Destroy()
-        confs[#confs] = nil
+        --confs[#confs] = nil
+
+        for i,conf in ipairs(panel_queue)do
+            conf:Redisplay(panelName)
+        end
+    else
+        local conf = UISystem.GetPanel(panelName)
+        if(conf)then
+            RemoveFormQueue(conf)
+            conf.hInstance:Close()
+        end
     end
 
-    UISystemBeta1.ToString()
-
-    for i,conf in ipairs(panel_queue)do
-        conf:Redisplay(panelName)
-    end
-    
+    UISystem.ToString()
     --table.iaction(panel_queue,function(arg) if(arg)then arg:Close() end end)
 end
 
 
-UISystemBeta1.GetPanel =function(panelName)
+UISystem.GetPanel =function(panelName)
     local panelConfig,index = table.ifind(panel_queue,function(arg) return arg.panelName == panelName end)
     return panelConfig,index
 end
 
-UISystemBeta1.GetCurrentPanel = function()
+UISystem.GetCurrentPanel = function()
     return panel_queue[#panel_queue]
 end
 

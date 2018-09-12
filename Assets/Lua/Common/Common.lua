@@ -26,3 +26,7 @@ printc = function(...)
         end
     end
 end
+
+-- SetParent = function(trans,parentTrans)
+--     trans:SetParent(parentTrans,false)
+-- end
