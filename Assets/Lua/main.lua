@@ -20,6 +20,7 @@ Debug = UnityEngine.Debug
 DOTween = CS.DG.Tweening.DOTween
 RectTransform = UnityEngine.RectTransform
 CanvasRenderer = UnityEngine.CanvasRenderer
+Canvas = UnityEngine.Canvas
 LayerMask = UnityEngine.UnityEngine
 
 require "requireInit"

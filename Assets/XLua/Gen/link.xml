@@ -167,7 +167,8 @@
 	</assembly>
 
 	<assembly fullname="UnityEngine.UIModule">
-	    <type fullname="UnityEngine.CanvasRenderer" preserve="all"/>
+	    <type fullname="UnityEngine.Canvas" preserve="all"/>
+		<type fullname="UnityEngine.CanvasRenderer" preserve="all"/>
 		
 	</assembly>
 

@@ -9,10 +9,18 @@ function this:ctor(panelName,go,...)
     go = go or self:LoadPanel(panelName)
     this.base.ctor(self,go,...)
     self.viewEffect = self:GetComponent("ViewEffect")
+    self.canvas = self:GetComponent(typeof(Canvas))
 end
 
 function this:Init(...)
     this.base.Init(self,...)
+end
+
+function this:SetCanvasOrderSort(val)
+    if(type(val)~="number")then
+        return
+    end
+    self.canvas.sortingOrder = val
 end
 
 function this:LoadPanel(panelName)   

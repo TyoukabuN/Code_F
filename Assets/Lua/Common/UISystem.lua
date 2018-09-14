@@ -51,6 +51,9 @@ UILayerSort = {
     UILayer.Dialog
 }
 
+UILayerUnit = 1000
+UIPanelUnit = 100
+
 --初始化
 UISystem.Init = function()
     local addLayerObj = function(name,parentTrans)
@@ -130,8 +133,6 @@ end
 
 --关闭面板
 UISystem.ClosePanel = function(panelName)
-    printc("UISystem.ClosePanel ")
-
     local confs = table.ifinds(panel_queue,function(arg) return arg.panelName == panelName end)
     if(#confs==0)then
         return

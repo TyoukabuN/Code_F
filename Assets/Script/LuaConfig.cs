@@ -124,6 +124,7 @@ public static class LuaConfig {
         typeof(MaskableGraphic.CullStateChangedEvent),
         typeof(Graphic),
         typeof(RectTransform),
+        typeof(Canvas),
         typeof(CanvasRenderer),
         typeof(UnityEngine.UI.Selectable),
         typeof(UnityEngine.UI.Selectable.Transition),
