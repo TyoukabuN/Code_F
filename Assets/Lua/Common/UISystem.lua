@@ -1,20 +1,32 @@
 UISystem = class("UISystem")
 
-local common_panel_list = {
-}
+--define
+local resolution = Vector2(750,1334)
+
+UISystem.GetResolution = function()
+    resolution = resolution or Vector2(750,1334)
+    return resolution
+end
+
+UISystem.GetCamera = function()
+
+end
 
 PanelName = {
     Test = "TestPanel",
     Test2 = "TestPanel2",
+    Loading = "LoadingPanel",
 }
+
 PanelPath = {
     TestPanel = "UI/Panel/TestPanel.prefab",
     TestPanel2 = "UI/Panel/TestPanel2.prefab",
+    LoadingPanel = "UI/Panel/LoadingPanel.prefab",
 }
 
+--container
+local common_panel_list = {}
 local panel_queue = {}
-
-
 
 local IsCommonPanel = function(panelName)
     return table.any(common_panel_list,function(arg) return arg == panelName end)
@@ -24,7 +36,7 @@ local AddToQueue = function(panelConfig)
     if(not IsCommonPanel(panelConfig.panelName))then
         table.insert(panel_queue,panelConfig)
     else
-        table.insert(common_panel_queue,panelConfig) 
+        table.insert(common_panel_queue,panelConfig)
     end
 end
 
@@ -64,7 +76,7 @@ UISystem.Init = function()
         gobj.transform:SetParent(parentTrans,false)
         return gobj
     end
-    
+
     local root = GameObject.Find("Root")
     if(not root)then
         root = addLayerObj("Root")
@@ -76,7 +88,7 @@ UISystem.Init = function()
             layout = addLayerObj(name,root.transform)
         end
     end
-    
+
     UISystem.UIRoot = root
 end
 
@@ -91,7 +103,7 @@ UISystem.ToString = function()
 end
 
 --打开面板
-UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
+UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
     if(not closeOther)then
         closeOther = false
     end
@@ -105,11 +117,11 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
     else
         hInstance = globalClass[panelName]
         if(not hInstance)then
-            Debug.LogError("find not lua class!")
+            Debug.LogError("find not lua class!  "..tostring(panelName))
             return
         end
 
-        hInstance = hInstance.New(panelName)
+        hInstance = hInstance.New(panelName,isAsync)
         if(not hInstance or not hInstance._gameObject)then
             hInstance = nil
             return
@@ -119,16 +131,20 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance)
 
         AddToQueue(panelConfig)
     end
-    
+
     if(closeOther and not isCommonPanel)then
         for i = 1,#panel_queue-1 do
             panel_queue[i]:AddCloser(panelConfig)
         end
     end
 
-    hInstance:Show()
+    hInstance:Open()
 
     return hInstance
+end
+
+UISystem.OpenPanelAsync = function(panelName,closeOther,parent_hInstance)
+    UISystem.OpenPanel(panelName,closeOther,parent_hInstance,true)
 end
 
 --关闭面板
@@ -168,6 +184,7 @@ end
 UISystem.GetCurrentPanel = function()
     return panel_queue[#panel_queue]
 end
+
 
 
 --面板配置
@@ -211,4 +228,31 @@ end
 
 function UIPanelConfig:IsCloser(panelName)
     return table.iany(self.conf_closer,function(arg) return arg.panelName == panelName end)
+end
+
+
+
+local loading_queue = {}
+
+UISystem.OpenLoading = function(hInstance)
+    UISystem.OpenPanelAsync(PanelName.Loading)
+    if(hInstance)then
+        table.insert(loading_queue,hInstance)
+    end
+end
+
+UISystem.CloseLoading = function(hInstance)
+    local find = true
+    while(find)do
+        find = nil
+        for i,k in ipairs(loading_queue)do
+            if(k == hInstance or k == nil)then
+                find = i
+            end
+        end
+        table.remove(loading_queue,find)
+    end
+    if(#loading_queue<=0)then
+        UISystem.ClosePanel(PanelName.Loading)
+    end
 end

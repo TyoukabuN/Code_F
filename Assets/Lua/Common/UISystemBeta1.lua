@@ -22,14 +22,14 @@ UISystemBeta1.Init = function()
     UISystemBeta1.UIRoot = root
 end
 
-PanelName = {
-    Test = "TestPanel",
-    Test2 = "TestPanel2",
-}
-PanelPath = {
-    TestPanel = "UI/Panel/TestPanel.prefab",
-    TestPanel2 = "UI/Panel/TestPanel2.prefab",
-}
+-- PanelName = {
+--     Test = "TestPanel",
+--     Test2 = "TestPanel2",
+-- }
+-- PanelPath = {
+--     TestPanel = "UI/Panel/TestPanel.prefab",
+--     TestPanel2 = "UI/Panel/TestPanel2.prefab",
+-- }
 
 --输出队列
 UISystemBeta1.ToString = function()

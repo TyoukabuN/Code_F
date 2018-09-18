@@ -13,7 +13,7 @@ function UIView:ctor(go, ...)
 end
 
 function UIView:Init(...)
-	printc("UIView:Init(...)")
+	self._eventDict = {}
 end
 
 function UIView:AfterInit()
@@ -31,47 +31,38 @@ end
 --2018年7月19日11:03:48 zjw
 --@用于本地事件的自动回收
 function UIView:Close()
-	-- if(self._eventDict~=nil)then
-	-- 	OvercomeModule.ColorLog("事件回收")
-	-- 	for eventType,list in pairs(self._eventDict) do
-	-- 		if(list~=nil)then
-	-- 			for i,info in ipairs(self._eventDict) do
-	-- 				EventManager.RemoveEventListener(eventType,unpack(info))
-	-- 			end
-	-- 		end
-	-- 	end
-	-- 	self._eventDict = nil
-	-- end
+	if(self._eventDict~=nil)then
+		for eventType,list in pairs(self._eventDict) do
+			if(list~=nil)then
+				for i,config in ipairs(list) do
+					EventSystem.CancelByConfig(config)
+				end
+			end
+		end
+		self._eventDict = nil
+	end
 end
 
 function UIView:AddLocalEventListener(eventType, func, target)
 	if(self._eventDict == nil)then
 		self._eventDict = {}
 	end
-	if self._eventDict[eventType] == nil then
-		self._eventDict[eventType] = {}
-	end
-	table.add(self._eventDict[eventType], table.pack(func, target))
-	EventManager.AddEventListener(eventType,func,target)
+    local eventConfig = EventConfig.New(eventType,callback,instance)
+	table.insert(self._eventDict, eventConfig )
+	EventSystem.RegisterByConfig(eventConfig)
 end
 
 --
 function UIView:RemoveLocalEventListener(eventType, func, target)
-	if(self._eventDict==nil)then
+	if(self._eventDict == nil)then
 		self._eventDict = {}
 		return
 	end
-	if self._eventDict[eventType] == nil then
-		self._eventDict[eventType] = {}
-		return
-	end
-	if self._eventDict[eventType] ~= nil and #self._eventDict[eventType] > 0 then
-		for idx, t in ipairs(self._eventDict[eventType]) do
-			if t[1] == func and t[2] == target then
-				table.remove(self._eventDict[eventType], idx)
-				EventManager.RemoveEventListener(eventType,unpack(t))
-			end
-		end
+    local config,index = table.ifind(self._eventDict,function(arg) return arg:EqualField(eventType, func, target) end)
+    if(not config)then
+        return
     end
+	local config = table.remove(self._eventDict,index)
+	EventSystem.CancelByConfig(config)
 end
 --@

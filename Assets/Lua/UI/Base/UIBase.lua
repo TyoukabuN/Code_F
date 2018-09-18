@@ -32,6 +32,14 @@ function this:SetParent(trans)
     end
 end
 
+function this:AddComponent(type)
+	if(self._gameObject==nil)then
+		return
+	end
+	local comp = self._gameObject:AddComponent(type)
+	return comp
+end
+
 function this:OpenPanel(panelType,closeOther)
 	UISystem.OpenPanel(panelTpye,closeOther,self)
 end

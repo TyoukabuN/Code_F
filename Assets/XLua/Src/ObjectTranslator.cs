@@ -272,9 +272,9 @@ namespace XLua
             ERROR
         }
 
+#if UNITY_EDITOR || XLUA_GENERAL
         Type delegate_birdge_type;
 
-#if UNITY_EDITOR || XLUA_GENERAL
         class CompareByArgRet : IEqualityComparer<MethodInfo>
         {
             public bool Equals(MethodInfo x, MethodInfo y)
@@ -296,8 +296,8 @@ namespace XLua
 
         void initCSharpCallLua()
         {
-            delegate_birdge_type = typeof(DelegateBridge);
 #if UNITY_EDITOR || XLUA_GENERAL
+            delegate_birdge_type = typeof(DelegateBridge);
             if (!DelegateBridge.Gen_Flag)
             {
                 List<Type> cs_call_lua = new List<Type>();
@@ -765,6 +765,10 @@ namespace XLua
                     if (rawObject != null)
                     {
                         obj = rawObject.Target;
+                    }
+                    if (obj == null)
+                    {
+                        return !type.IsValueType;
                     }
                     return type.IsAssignableFrom(obj.GetType());
                 }
@@ -1261,7 +1265,7 @@ namespace XLua
             }
             else if (objects.TryGetValue(udata, out obj))
             {
-#if !UNITY_5 && !XLUA_GENERAL && !UNITY_2017
+#if !UNITY_5 && !XLUA_GENERAL && !UNITY_2017 && !UNITY_2017_1_OR_NEWER && !UNITY_2018
                 if (obj != null && obj is UnityEngine.Object && ((obj as UnityEngine.Object) == null))
                 {
                     //throw new UnityEngine.MissingReferenceException("The object of type '"+ obj.GetType().Name +"' has been destroyed but you are still trying to access it.");

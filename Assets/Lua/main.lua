@@ -16,15 +16,25 @@ EventTriggerSub = CS.EventTriggerSub
 GameObject = UnityEngine.GameObject
 Vector2 = UnityEngine.Vector2
 Vector3 = UnityEngine.Vector3
+Quaternion = UnityEngine.Quaternion
 Debug = UnityEngine.Debug
-DOTween = CS.DG.Tweening.DOTween
+DG = CS.DG
+Tweening = DG.Tweening
+DOTween = Tweening.DOTween
+Ease = DOTween.Ease
 RectTransform = UnityEngine.RectTransform
 CanvasRenderer = UnityEngine.CanvasRenderer
+CanvasScaler = UnityEngine.UI.CanvasScaler
+ScaleMode = CanvasScaler.ScaleMode
+ScreenMatchMode = CanvasScaler.ScreenMatchMode
 Canvas = UnityEngine.Canvas
 LayerMask = UnityEngine.UnityEngine
 
 require "requireInit"
 
-function Init()
+local function Init()
     UISystem.Init()
 end
+
+Init()
+

@@ -21,7 +21,6 @@ public class LuaSystem : MonoSingleton<LuaSystem>
             InheritGlobal(table_main);
 
             Instance.luaEnv.DoString("require 'Main'", "Main", table_main);
-            Instance.luaEnv.Global.Get<LuaFunction>("Init").Call();
         }
     }
 

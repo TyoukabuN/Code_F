@@ -14,6 +14,9 @@ using Object = UnityEngine.Object;
 
 public class ResourceManager : MonoSingleton<ResourceManager>
 {
+    private const string ERROR_PATH = "Find not asset:{0}";
+    private const string ERROR_INSTANTICATE = "Instantiate error:{0} {1}";
+
     private Dictionary<string, Object> assetMap = new Dictionary<string, Object>();
 
     //同步加载
@@ -27,7 +30,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         if (!Instance.assetMap.TryGetValue(path,out asset))
         {
 #if UNITY_EDITOR
-            Debug.Log(GetPath(path));
+            //Debug.Log(GetPath(path));
             asset = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
 #else
             asset = BundleManager.GetAsset(path, type);
@@ -36,7 +39,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         }
         if (asset==null)
         {
-            Debug.LogError("Find not Asset");
+            Debug.LogError(string.Format(ERROR_PATH,GetPath(path)));
         }
         try
         {
@@ -44,19 +47,35 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         }
         catch (Exception e)
         {
-            Debug.LogError("Instantiate error:"+e.ToString() + path);
+            Debug.LogError(string.Format(ERROR_INSTANTICATE, e.ToString() , path));
         }
         
         return gobj;
     }
 
     //异步加载
-    public static void LoadAsyc(string path, Type type,Action<Object> onLoadComplete)
+    public static void LoadAsync(string path, Type type, Action<Object> onLoadComplete)
     {
+        if (type == null)
+        {
+            type = typeof(GameObject);
+        }
         Action<AsyncOperation> onComplete = null;
         if (onLoadComplete != null)
         {
-            onComplete = (AsyncOperation req) => onLoadComplete.Invoke((req as AssetBundleRequest).asset);
+            onComplete = delegate (AsyncOperation req)
+            {
+                AssetBundleRequest request = (req as AssetBundleRequest);
+                if (request.asset == null)
+                {
+                    Debug.LogError("failure to load asset");
+                }
+                else
+                {
+                    Object obj = request.asset;
+                    onLoadComplete.Invoke(obj);
+                }
+            };
         }
         BundleManager.GetAssetAsync(path, type,onComplete);
     }

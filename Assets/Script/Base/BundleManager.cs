@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 using UnityEngine.Networking;
 using Object = UnityEngine.Object;
 
@@ -57,6 +58,13 @@ public class BundleManager : MonoSingleton<BundleManager>
             }
             Instance.bundleMap[path] = ab;
         }
+        string[] names = ab.GetAllAssetNames();
+        foreach (string name in names)
+        {
+            Debug.Log(name);
+        }
+        path = GetAssetName(path);
+        Debug.Log("AssetName:  " + path);
         AssetBundleRequest req = ab.LoadAssetAsync(path, type);
         if (onComplete!=null)
         {
@@ -65,6 +73,10 @@ public class BundleManager : MonoSingleton<BundleManager>
         return req;
     }
 
+    private static string GetAssetName(string path)
+    {
+        return Path.Combine("Assets", path).ToLower();
+    }
     //private void OnUpdate()
     //{
     //    CheckAssetRequestPrograss();
@@ -92,6 +104,10 @@ public class BundleManager : MonoSingleton<BundleManager>
 
     private AssetBundle LoadAssetBundleByPath(string path)
     {
+        path = path.Substring(path.IndexOf("Assets"));
+        path = path.Substring(0, path.LastIndexOf('.'));
+        //path = path + ".bundle";
+        Debug.Log(path);
         var ab = AssetBundle.LoadFromFile(path);
         if (ab == null)
         {
@@ -103,6 +119,9 @@ public class BundleManager : MonoSingleton<BundleManager>
 
     private static string GetPath(string folderName)
     {
+        //string path = Path.Combine(Application.dataPath, "AssetsBundle", folderName);
+        //path.Replace("/", "\\");
+        //Debug.Log(Application.streamingAssetsPath);
         return Application.dataPath + "/AssetsBundle/" + folderName;
     }
     private string GetStreamPath(string folderName)

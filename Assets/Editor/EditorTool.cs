@@ -8,7 +8,7 @@ using System.IO;
 
 public class EditorTool {
     //自动生成require文件
-    [MenuItem("Tool/自动生成require文件")]
+    [MenuItem("Tool/Generate require.lua")]
     public static void RequireAllLuaFile()
     {
         List<string> exceptList = new List<string>{

@@ -1,16 +1,16 @@
 ManifestFileVersion: 0
-CRC: 972427984
+CRC: 3327680018
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: slotmachine
+      Name: ui/panel/testpanel
       Dependencies: {}
     Info_1:
-      Name: ui/fonts/fzdhtjw.bundle
+      Name: ui/panel/slotmachine
       Dependencies: {}
     Info_2:
-      Name: testpanel
+      Name: ui/panel/testpanel2
       Dependencies: {}
     Info_3:
-      Name: testpanelppp
+      Name: ui/panel/loadingpanel
       Dependencies: {}

@@ -42,7 +42,7 @@ public class Main : MonoBehaviour
 
         //    //异步
         //    string path = "UI/Panel/slotmachine";
-        //    ResourceManager.LoadAsyc(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
+        //    ResourceManager.LoadAsync(path, typeof(GameObject),(UnityEngine.Object obj)=> { GameObject.Instantiate(obj as GameObject); });
         //}
         if (GUI.Button(new Rect(rect.x, posY, width, height),"OP"))//+rect.width
         {

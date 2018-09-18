@@ -503,7 +503,22 @@ namespace CSObjectWrapEditor
         static bool isObsolete(MemberInfo mb)
         {
             if (mb == null) return false;
-            return mb.IsDefined(typeof(System.ObsoleteAttribute), false);
+            ObsoleteAttribute oa = Attribute.GetCustomAttribute(mb, typeof(ObsoleteAttribute)) as ObsoleteAttribute;
+#if XLUA_GENERAL || XLUA_JUST_EXCLUDE_ERROR
+            return oa != null && oa.IsError;
+#else
+            return oa != null;
+#endif
+        }
+
+        static bool isObsolete(Type type)
+        {
+            if (type == null) return false;
+            if (isObsolete(type as MemberInfo))
+            {
+                return true;
+            }
+            return (type.DeclaringType != null) ? isObsolete(type.DeclaringType) : false;
         }
 
         static bool isMemberInBlackList(MemberInfo mb)
@@ -1643,8 +1658,8 @@ namespace CSObjectWrapEditor
             return true;
         }
 #if !XLUA_GENERAL
-        [UnityEditor.Callbacks.PostProcessScene]
-        public static void CheckGenrate()
+        [UnityEditor.Callbacks.PostProcessBuild(1)]
+        public static void CheckGenrate(BuildTarget target, string pathToBuiltProject)
         {
             if (EditorApplication.isCompiling || Application.isPlaying)
             {

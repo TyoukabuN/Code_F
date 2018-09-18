@@ -30,7 +30,7 @@ public class ViewEffect : MonoBehaviour
     {
         //Show();
     }
-    public void Show(TweenCallback callback)
+    public void Open(TweenCallback callback)
     {
         UIRoot.localScale = new Vector3(1, 0, 1);
         if (UIRoot)

@@ -25,7 +25,7 @@ class = function(className,base)
 end
 
 classBase = {}
-function classBase:ctor () end
+function classBase:ctor() end
 function classBase:onEnabled() end
 function classBase:onDisabled()end
 function classBase:onUpdate()  end

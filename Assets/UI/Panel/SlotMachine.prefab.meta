@@ -1,9 +1,8 @@
 fileFormatVersion: 2
 guid: 6cd31d971d788374a9487bd7f557e5b7
-timeCreated: 1495955835
-licenseType: Pro
 NativeFormatImporter:
+  externalObjects: {}
   mainObjectFileID: 100100000
   userData: 
-  assetBundleName: slotmachine
+  assetBundleName: ui/panel/slotmachine
   assetBundleVariant: 

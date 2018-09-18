@@ -177,7 +177,7 @@ table.find = function(table, predicate)
 end
 
 table.ifind = function(table, predicate)
-	if(table==nil)then
+	if(table==nil or #table==0)then
 		return nil
 	end
 	for k, v in ipairs(table) do
