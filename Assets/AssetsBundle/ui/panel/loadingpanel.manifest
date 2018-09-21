@@ -1,0 +1,38 @@
+ManifestFileVersion: 0
+CRC: 3567595871
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 65f5541b1f03e9f679fc0eefc67ab96e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ee80a7ea4cac6ece9a284e1fb8248f23
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4ff53d28c65a67b439811696f23b6854, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2fb53278c06afa44e9cbcef5b95d9770, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 223
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+- Class: 225
+  Script: {instanceID: 0}
+Assets:
+- Assets/UI/Panel/LoadingPanel.prefab
+Dependencies: []
