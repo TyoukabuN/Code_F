@@ -8,8 +8,10 @@ public class ConfigBuilder : EditorWindow
 {
 
     //some default value
-    private static string configPath = "F:/WorkSpace/Project/tools/excel/xls";
-    private static string savePath = "C:/Users/Administrator/Desktop/Config";
+    private static string configPath = string.Empty;//"F:/WorkSpace/Project/tools/excel/xls";
+    private static string savePath = string.Empty;//"C:/Users/Administrator/Desktop/Config";
+
+    private static readonly int BUTTON_WIDTH = 45;
 
     [MenuItem("Tool/ConfigBuilder")]
     public static void Open()
@@ -23,26 +25,9 @@ public class ConfigBuilder : EditorWindow
     {
         if (configBuilderData == null)
         {
-            string dataPath = Application.dataPath + "/Editor/EditorData/ConfigBuilderData.asset";
-
-            configBuilderData = AssetDatabase.LoadAssetAtPath<ConfigBuilderData>(dataPath);
-            if (configBuilderData == null)
-            {
-                DirectoryInfo dir = new DirectoryInfo(dataPath.Substring(0, dataPath.LastIndexOf('/')));
-                if (!dir.Exists)
-                {
-                    dir.Create();
-                }
-
-                configBuilderData = CreateInstance<ConfigBuilderData>();
-                configBuilderData.SavePath = savePath;
-                configBuilderData.ConfigPath = configPath;
-
-                var path1 = dataPath.Substring(dataPath.LastIndexOf("Assets"));
-                AssetDatabase.CreateAsset(configBuilderData, path1);
-                AssetDatabase.Refresh();
-            }
-
+            configBuilderData = ConfigBuilderData.instance;
+        }
+        if (configPath != configBuilderData.ConfigPath) {
             configPath = configBuilderData.ConfigPath;
             savePath = configBuilderData.SavePath;
         }
@@ -55,8 +40,49 @@ public class ConfigBuilder : EditorWindow
         //
         EditorGUILayout.BeginHorizontal("HelpBox");
 
-        configPath = EditorGUILayout.TextField(configPath);
-        if (GUILayout.Button("Select", GUILayout.Width(60)))
+        EditorGUILayout.LabelField("ConfigPath:", GUILayout.Width(120));
+        EditorGUILayout.LabelField(configPath);
+
+
+        if (GUILayout.Button("NPOI", GUILayout.Width(BUTTON_WIDTH)))
+        {
+            DirectoryInfo dir = new DirectoryInfo(configPath);
+            if (!dir.Exists)
+            {
+                EditorUtility.DisplayDialog("error", "find not directory", "ok");
+                return;
+            }
+
+            FileInfo[] fileInfos = dir.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                if (!ExcelTool.ExcelToLuaTableNPOT(fileInfo.FullName, savePath + ""))
+                {
+                    continue;
+                }
+            }
+        }
+
+        if (GUILayout.Button("Kiang", GUILayout.Width(BUTTON_WIDTH)))
+        {
+            DirectoryInfo dir = new DirectoryInfo(configPath);
+            if (!dir.Exists)
+            {
+                EditorUtility.DisplayDialog("error", "find not directory", "ok");
+                return;
+            }
+
+            FileInfo[] fileInfos = dir.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                if (!ExcelTool.ExcelToLuaTableNPOTKiang(fileInfo.FullName, savePath + ""))
+                {
+                    continue;
+                }
+            }
+        }
+
+        if (GUILayout.Button("Select", GUILayout.Width(BUTTON_WIDTH)))
         {
             string path = EditorUtility.SaveFolderPanel("SelectConfigPath", configPath, string.Empty);
             if (!path.Equals(string.Empty))
@@ -65,51 +91,35 @@ public class ConfigBuilder : EditorWindow
                 SaveConfigData();
             }
         }
-
-        if (GUILayout.Button("NPOI", GUILayout.Width(60)))
+        if(GUILayout.Button("Open",GUILayout.Width(BUTTON_WIDTH)))
         {
-            DirectoryInfo dir = new DirectoryInfo(configPath);
-            if (!dir.Exists)
-            {
-                EditorUtility.DisplayDialog("error", "find not directory", "ok");
-                return;
-            }
-
-            FileInfo[] fileInfos = dir.GetFiles();
-            foreach (FileInfo fileInfo in fileInfos)
-            {
-                if (!ExcelTool.ExcelToLuaTableNPOT(fileInfo.FullName, savePath + "/NPOI"))
-                {
-                    continue;
-                }
-            }
+            System.Diagnostics.Process.Start("explorer.exe", configPath.Replace("/", "\\"));
         }
+        //if (GUILayout.Button("EPPlus", GUILayout.Width(BUTTON_WIDTH)))
+        //{
+        //    DirectoryInfo dir = new DirectoryInfo(configPath);
+        //    if (!dir.Exists)
+        //    {
+        //        EditorUtility.DisplayDialog("error", "find not directory", "ok");
+        //        return;
+        //    }
 
-        if (GUILayout.Button("EPPlus", GUILayout.Width(60)))
-        {
-            DirectoryInfo dir = new DirectoryInfo(configPath);
-            if (!dir.Exists)
-            {
-                EditorUtility.DisplayDialog("error", "find not directory", "ok");
-                return;
-            }
-
-            FileInfo[] fileInfos = dir.GetFiles();
-            foreach (FileInfo fileInfo in fileInfos)
-            {
-                if (!ExcelTool.ExcelToLuaTableEPPlus(fileInfo.FullName, savePath+ "/EPPlus"))
-                {
-                    continue;
-                }
-            }
-        }
+        //    FileInfo[] fileInfos = dir.GetFiles();
+        //    foreach (FileInfo fileInfo in fileInfos)
+        //    {
+        //        if (!ExcelTool.ExcelToLuaTableEPPlus(fileInfo.FullName, savePath+ "/EPPlus"))
+        //        {
+        //            continue;
+        //        }
+        //    }
+        //}
 
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal("HelpBox");
-
-        savePath = EditorGUILayout.TextField("SavePath:", savePath);
-        if (GUILayout.Button("Select", GUILayout.Width(60)))
+        EditorGUILayout.LabelField("SavePath:",GUILayout.Width(120));
+        EditorGUILayout.LabelField(savePath);
+        if (GUILayout.Button("Select", GUILayout.Width(BUTTON_WIDTH)))
         {
             string path = EditorUtility.SaveFolderPanel("SelectSavePath", savePath, string.Empty);
             if (!path.Equals(string.Empty))
@@ -118,7 +128,10 @@ public class ConfigBuilder : EditorWindow
                 SaveConfigData();
             }
         }
-
+        if (GUILayout.Button("Open", GUILayout.Width(BUTTON_WIDTH)))
+        {
+            System.Diagnostics.Process.Start("explorer.exe", savePath.Replace("/","\\"));
+        }
         EditorGUILayout.EndHorizontal();
     }
     private void SaveConfigData()
