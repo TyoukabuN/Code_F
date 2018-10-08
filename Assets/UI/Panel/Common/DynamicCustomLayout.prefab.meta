@@ -1,9 +1,8 @@
 fileFormatVersion: 2
 guid: cb7b70289d1278f4a9bf4f063b83bd1d
-timeCreated: 1534151365
-licenseType: Pro
 NativeFormatImporter:
+  externalObjects: {}
   mainObjectFileID: 100100000
   userData: 
-  assetBundleName: windows/commoniteminfo/dynamiccustomlayout
-  assetBundleVariant: unity3d
+  assetBundleName: ui/panel/common/dynamiccustomlayout
+  assetBundleVariant: 

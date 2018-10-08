@@ -185,7 +185,7 @@ public class AssetTestSec : EditorWindow
 
         EditorGUILayout.BeginHorizontal();
         OutputPath = EditorGUILayout.TextField(OutputPath);
-        if (GUILayout.Button("输出路径"))
+        if (GUILayout.Button("输出路径", GUILayout.MinWidth(60)))
         {
             OutputPath = EditorUtility.SaveFolderPanel("AssetBundle输出路径", OutputPath, string.Empty);
         }

@@ -12,7 +12,8 @@ function this:Open(...)
         return
     end
     self.sprite_loading._transform.localRotation = Quaternion.Euler(0, 0, 0)
-    self._tweener = self.sprite_loading._transform:DORotate(Vector3(0, 0, -180),0.7,DG.Tweening.RotateMode.Fast):SetLoops(-1)
+    self._tweener = self.sprite_loading._transform:DORotate(Vector3(0, 0, -180),0.7,DG.Tweening.RotateMode.Fast)
+    self._tweener:SetLoops(-1)
     self._tweener:SetEase(DG.Tweening.Ease.Linear)
 end
 

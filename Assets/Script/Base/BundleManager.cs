@@ -32,7 +32,7 @@ public class BundleManager : MonoSingleton<BundleManager>
             }
             Instance.bundleMap[path] = ab;
         }
-        asset = ab.LoadAsset(path.ToString(), type);
+        asset = ab.LoadAsset(GetAssetName(path), type);
         if (asset == null)
         {
             Debug.LogError("find not asset: " + path);

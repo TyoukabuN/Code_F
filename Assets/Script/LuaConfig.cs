@@ -125,6 +125,7 @@ public static class LuaConfig
         typeof(MaskableGraphic),
         typeof(MaskableGraphic.CullStateChangedEvent),
         typeof(Graphic),
+        typeof(Transform),
         typeof(RectTransform),
         typeof(Canvas),
         typeof(UnityEngine.CanvasRenderer),
@@ -137,6 +138,7 @@ public static class LuaConfig
         typeof(UnityEngine.Events.UnityEvent),
         typeof(UnityEngine.Events.UnityEvent<string>),
         typeof(UnityEngine.EventSystems.UIBehaviour),
+
 
         typeof(DG.Tweening.Tween),
         typeof(DG.Tweening.Tweener),
@@ -151,6 +153,7 @@ public static class LuaConfig
         typeof(DG.Tweening.LoopType),
         typeof(DG.Tweening.RotateMode),
 
+        typeof(Camera),
         typeof(Vector2),
         typeof(Vector3),
         typeof(Quaternion),

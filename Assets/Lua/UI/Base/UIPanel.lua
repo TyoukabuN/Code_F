@@ -7,7 +7,7 @@ local this = UIPanel
 function this:ctor(panelName,isAsync)
     self.panelName = panelName
     self.isAsync = isAsync
-    
+
     if(isAsync)then
         self:LoadPanel(panelName,isAsync)
         return
@@ -17,15 +17,8 @@ function this:ctor(panelName,isAsync)
 end
 
 function this:Init(...)
+    printc("Init")
     this.base.Init(self,...)
-    self.viewEffect = self:GetComponent("ViewEffect")
-    self.canvas = self:GetComponent(typeof(Canvas))
-    
-    self.canvasScaler = self:GetComponent(typeof(CanvasScaler)) or self:AddComponent(typeof(CanvasScaler))
-    self.canvasScaler.uiScaleMode = ScaleMode.ScaleWithScreenSize
-    self.canvasScaler.referenceResolution = UISystem.GetResolution()
-    self.canvasScaler.screenMatchMode = ScreenMatchMode.Expand
-    self.canvasScaler.referencePixelsPerUnit = 100
 end
 
 function this:SetCanvasOrderSort(val)
@@ -35,25 +28,42 @@ function this:SetCanvasOrderSort(val)
     self.canvas.sortingOrder = val
 end
 
-function this:LoadPanel(panelName,isAsync)   
+function this:LoadPanel(panelName,isAsync)
     local path = PanelPath[panelName]
     if(not path)then
         Debug.LogError("find not path!")
         return
     end
-    
+
     local afterLoad = function(obj)
         if(not obj)then
             Debug.LogError("fail to load prefab!")
             return
         end
+        printc("afterLoad")
+        print(self.Init)
         obj.transform:SetParent(UISystem.UIRoot.transform,false)
         obj.name = string.gsub(obj.name,"%(Clone%)","")
         this.base.ctor(self,obj)
+
+        self.viewEffect = self:GetComponent("ViewEffect")
+        self.canvas = self:GetComponent(typeof(Canvas))
+        self.canvas.worldCamera = UISystem.GetCamera()
+
+        self.canvasScaler = self:GetComponent(typeof(CanvasScaler)) or self:AddComponent(typeof(CanvasScaler))
+        self.canvasScaler.uiScaleMode = ScaleMode.ScaleWithScreenSize
+        self.canvasScaler.referenceResolution = UISystem.GetResolution()
+        self.canvasScaler.screenMatchMode = ScreenMatchMode.Expand
+        self.canvasScaler.referencePixelsPerUnit = 100
+        if(isAsync)then
+            self:Open()
+        end
         return obj
     end
-    
+
     if(isAsync)then
+        printc("isAsync")
+        print(self.Init)
         ResourceManager.LoadAsync(path, typeof(GameObject),afterLoad)
         return
     end

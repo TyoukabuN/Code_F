@@ -41,7 +41,10 @@ public class ViewEffect : MonoBehaviour
             ScaleYAnim_Duration
             );
         }
-
+        if (CanvasGroup == null)
+        {
+            CanvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
+        }
         if (CanvasGroup)
         {
             CanvasGroup.alpha = 0.0f;
@@ -67,6 +70,10 @@ public class ViewEffect : MonoBehaviour
             0.0f,
             ScaleYAnim_Duration
             );
+        }
+        if (CanvasGroup == null)
+        {
+            CanvasGroup = GetComponent<CanvasGroup>() ?? gameObject.AddComponent<CanvasGroup>();
         }
         if (CanvasGroup)
         {

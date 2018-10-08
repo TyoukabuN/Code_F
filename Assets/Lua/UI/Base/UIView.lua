@@ -4,7 +4,7 @@ UIView = class("UIView", UIBase)
 
 local this = UIView
 
-function UIView:ctor(go, ...)
+function this:ctor(go, ...)
 	this.base.ctor(self, go, ...)
 
 	self._UISlots = self:GetComponent("UISlots")
@@ -12,25 +12,25 @@ function UIView:ctor(go, ...)
 	self:AfterInit()
 end
 
-function UIView:Init(...)
+function this:Init(...)
+	printc("uiview init")
+end
+
+function this:AfterInit()
 	self._eventDict = {}
 end
 
-function UIView:AfterInit()
+function this:Show()
 
 end
 
-function UIView:Show()
-	
-end
+function this:Hide()
 
-function UIView:Hide()
-	
 end
 
 --2018年7月19日11:03:48 zjw
 --@用于本地事件的自动回收
-function UIView:Close()
+function this:Close()
 	if(self._eventDict~=nil)then
 		for eventType,list in pairs(self._eventDict) do
 			if(list~=nil)then
@@ -43,7 +43,7 @@ function UIView:Close()
 	end
 end
 
-function UIView:AddLocalEventListener(eventType, func, target)
+function this:AddLocalEventListener(eventType, func, target)
 	if(self._eventDict == nil)then
 		self._eventDict = {}
 	end
@@ -53,7 +53,7 @@ function UIView:AddLocalEventListener(eventType, func, target)
 end
 
 --
-function UIView:RemoveLocalEventListener(eventType, func, target)
+function this:RemoveLocalEventListener(eventType, func, target)
 	if(self._eventDict == nil)then
 		self._eventDict = {}
 		return

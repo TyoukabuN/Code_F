@@ -9,7 +9,7 @@ UISystem.GetResolution = function()
 end
 
 UISystem.GetCamera = function()
-
+    return Camera.mainCamera
 end
 
 PanelName = {
@@ -56,11 +56,13 @@ end
 UILayer = {
     Base = "Layer_Base",
     Dialog = "Layer_Dialog",
+    Info = "Layer_Info",
 }
 
 UILayerSort = {
     UILayer.Base,
-    UILayer.Dialog
+    UILayer.Dialog,
+    UILayer.Info,
 }
 
 UILayerUnit = 1000
@@ -235,7 +237,7 @@ end
 local loading_queue = {}
 
 UISystem.OpenLoading = function(hInstance)
-    UISystem.OpenPanelAsync(PanelName.Loading)
+    UISystem.OpenPanel(PanelName.Loading,nil,nil,false)
     if(hInstance)then
         table.insert(loading_queue,hInstance)
     end

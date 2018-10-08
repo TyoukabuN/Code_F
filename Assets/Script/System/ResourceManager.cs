@@ -31,7 +31,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         {
 #if UNITY_EDITOR
             //Debug.Log(GetPath(path));
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
+            asset = BundleManager.GetAsset(path, type);
+            //asset = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
 #else
             asset = BundleManager.GetAsset(path, type);
 #endif

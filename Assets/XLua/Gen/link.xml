@@ -35,10 +35,12 @@
 		<type fullname="UnityEngine.SystemInfo" preserve="all"/>
 		<type fullname="UnityEngine.Resolution" preserve="all"/>
 		<type fullname="UnityEngine.Debug" preserve="all"/>
+		<type fullname="UnityEngine.Transform" preserve="all"/>
 		<type fullname="UnityEngine.RectTransform" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEventBase" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEvent" preserve="all"/>
 		<type fullname="UnityEngine.Events.UnityEvent`1[System.String]" preserve="all"/>
+		<type fullname="UnityEngine.Camera" preserve="all"/>
 		<type fullname="UnityEngine.Vector2" preserve="all"/>
 		<type fullname="UnityEngine.Vector3" preserve="all"/>
 		<type fullname="UnityEngine.Quaternion" preserve="all"/>

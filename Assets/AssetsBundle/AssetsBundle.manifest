@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3327680018
+CRC: 1008423628
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -13,4 +13,7 @@ AssetBundleManifest:
       Dependencies: {}
     Info_3:
       Name: ui/panel/loadingpanel
+      Dependencies: {}
+    Info_4:
+      Name: ui/panel/common/dynamiccustomlayout
       Dependencies: {}
