@@ -1,42 +1,69 @@
 <!DOCTYPE HTML>
 <html>
 
-<body background="image/1031.jpg" style=" background-repeat:no-repeat ;
-background-size:100% 100%;
-background-attachment: fixed;
-background-color: black">
+<head>
+    <title>
+        WEB NOTE
+    </title>
+    <link rel="shortcut icon" href="image/pageicon.ico" type="image/x-icon">
+    <!-- <link rel="shortcut icon" href="pageicon.ico" type="image/x-icon"> -->
+</head>
 
+<body background="image/103.jpg" style="
+background-attachment: fixed;
+background-size:cover;
+background-color: black">
     <style type="text/css">
-        .maintitle {
+        .maintitle,
+        .subtitle {
             color: rgb(95, 243, 36);
+            text-align: center;
+        }
+
+        .maintitle {
             font-size: 75px;
-            text-align: center
+            font-family: fantasy
         }
 
         .subtitle {
-            color: rgb(255, 255, 255);
             font-size: 45px;
-            text-align: center
+            font-family: 微软雅黑
         }
 
         p {
-            color: rgb(255, 255, 255);
-            text-align: center
+            color: rgb(0, 0, 0);
+            text-align: center;
+            font-family: fantasy;
+            background-color: rgba(255, 255, 255, 0.637)
         }
 
         .center {
-            margin: auto;
             text-align: center;
-            width: 70%;
+            margin: auto;
+            /* width: 100%; */
         }
 
-        .link {
-            color: rgb(0, 247, 255);
+        .link,
+        .linknotline {
+            color: rgb(2, 175, 206);
+        }
+
+        .linknotline {
+            text-decoration: none;
+        }
+
+        .line {
+            color: rgb(255, 255, 255)
         }
     </style>
 
+
+
     <a name="top"></a>
-    <h1 id="maintitle" class="maintitle">WEB NOTE </h1>
+    <div id="toppart">
+        <h1 id="maintitle" class="maintitle"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
+    </div>
+    <hr class="line" />
     <h2 id="editorrecommend" class="subtitle">HTML编辑器</a> </h2>
     <p class="center">
         使用 Notepad 或 TextEdit 来编写 HTML <br />
@@ -48,14 +75,16 @@ background-color: black">
         我们相信，使用一款简单的文本编辑器是学习 HTML 的好方法。
     </p>
     <p>
-        <a href="https://www.bilibili.com/" class="link">B站链接</a><br />
-    </p>
-    <p>
-        <!-- <img src="image\001.jpg" /><br /> -->
-        <a href="#top" class="link">返回顶部</a>
-    </p>
-    <div style="background-color:#fcfdf8; padding:0;">
 
+    </p>
+    <hr class="line" />
+    <p>
+        <a href="https://www.bilibili.com/" class="link" target="_blank">B站链接</a>
+        <a href="#top" class="linknotline">返回顶部</a>
+    </p><br />
+    <div style="text-align:center">
+        <img src="image/headicon.jpg" width="60" height="60" alt="如果无法显示图像，将显示 " alt" 属性中的文本：">
+    </div>
 </body>
 
 </html>
