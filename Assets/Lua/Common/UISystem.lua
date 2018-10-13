@@ -140,9 +140,9 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
         end
     end
 
-    hInstance:Open()
+    panelConfig.hInstance:Open()
 
-    return hInstance
+    return panelConfig.hInstance
 end
 
 UISystem.OpenPanelAsync = function(panelName,closeOther,parent_hInstance)

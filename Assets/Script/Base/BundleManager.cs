@@ -66,7 +66,7 @@ public class BundleManager : MonoSingleton<BundleManager>
         path = GetAssetName(path);
         Debug.Log("AssetName:  " + path);
         AssetBundleRequest req = ab.LoadAssetAsync(path, type);
-        if (onComplete!=null)
+        if (onComplete != null)
         {
             req.completed += onComplete;
         }
@@ -77,35 +77,13 @@ public class BundleManager : MonoSingleton<BundleManager>
     {
         return Path.Combine("Assets", path).ToLower();
     }
-    //private void OnUpdate()
-    //{
-    //    CheckAssetRequestPrograss();
-    //}
 
-    //private void CheckAssetRequestPrograss()
-    //{
-    //    if (abReqtList.Count <= 0)
-    //    {
-    //        return;
-    //    }
-    //    List<AssetBundleCreateRequest> finishList = new List<AssetBundleCreateRequest>();
-    //    foreach (var req in abReqtList)
-    //    {
-    //        if (req.isDone)
-    //        {
-    //            finishList.Add(req);
-    //        }
-    //    }
-    //    foreach (var req in finishList)
-    //    {
-    //        abReqtList.Remove(req);
-    //    }
-    //}
 
     private AssetBundle LoadAssetBundleByPath(string path)
     {
-        path = path.Substring(path.IndexOf("Assets"));
+        path = path.Substring(path.IndexOf("Assets") + 6);
         path = path.Substring(0, path.LastIndexOf('.'));
+        path = path.ToLower();
         //path = path + ".bundle";
         Debug.Log(path);
         var ab = AssetBundle.LoadFromFile(path);

@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 223970335472875190}
   - component: {fileID: 114308115897420762}
   - component: {fileID: 114159986747199328}
-  - component: {fileID: 114265055996013908}
   - component: {fileID: 225325209486523350}
   m_Layer: 5
   m_Name: LoadingPanel
@@ -76,21 +75,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Objects:
   - {fileID: 1653617160081878}
---- !u!114 &114265055996013908
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1231532232011910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fb53278c06afa44e9cbcef5b95d9770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UIRoot: {fileID: 224714519564803386}
-  CanvasGroup: {fileID: 0}
-  ScaleYAnim_Duration: 0.2
-  Alpha_BeginValue: 0
 --- !u!114 &114308115897420762
 MonoBehaviour:
   m_ObjectHideFlags: 1

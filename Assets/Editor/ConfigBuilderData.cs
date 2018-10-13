@@ -31,6 +31,7 @@ public class ConfigBuilderData : ScriptableObject{
                     }
                     configBuilderData = new ConfigBuilderData();
                     AssetDatabase.CreateAsset(configBuilderData, dataPath);
+                    AssetDatabase.Refresh();
                 }
             }
             return configBuilderData;

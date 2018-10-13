@@ -29,14 +29,15 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         Object asset = null; 
         if (!Instance.assetMap.TryGetValue(path,out asset))
         {
-#if UNITY_EDITOR
-            //Debug.Log(GetPath(path));
-            asset = BundleManager.GetAsset(path, type);
-            //asset = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
+#if UNITY_EDITOR && !A_TEST
+            asset = UnityEditor.AssetDatabase.LoadAssetAtPath(path, type);
 #else
             asset = BundleManager.GetAsset(path, type);
 #endif
-            Instance.assetMap[path] = asset;
+            if (asset != null)
+            {
+                Instance.assetMap[path] = asset;
+            }
         }
         if (asset==null)
         {

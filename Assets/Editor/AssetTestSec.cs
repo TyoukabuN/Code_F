@@ -103,8 +103,22 @@ public class AssetTestSec : EditorWindow
         GetWindow<AssetTestSec>(false, "AssetCreaterSec", true);
     }
 
+    private AssetsBundleBuilderData _data;
+    private void CheckData()
+    {
+        if (_data == null)
+        {
+            _data = AssetsBundleBuilderData.instance;
+        }
+        if (OutputPath != _data.OutputPath)
+        {
+            OutputPath = _data.OutputPath;
+        }
+    }
+
     private void OnGUI()
     {
+        CheckData();
         DrawBuildWindow();
     }
     //绘制建造窗口
@@ -184,10 +198,17 @@ public class AssetTestSec : EditorWindow
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        OutputPath = EditorGUILayout.TextField(OutputPath);
+
+        string tempsp = string.Empty;
+        EditorGUILayout.TextField(OutputPath);
         if (GUILayout.Button("输出路径", GUILayout.MinWidth(60)))
         {
-            OutputPath = EditorUtility.SaveFolderPanel("AssetBundle输出路径", OutputPath, string.Empty);
+            tempsp = EditorUtility.SaveFolderPanel("AssetBundle输出路径", OutputPath, string.Empty);
+        }
+        if (!string.IsNullOrEmpty(tempsp))
+        {
+            OutputPath = _data.OutputPath = tempsp;
+            SaveConfigData();
         }
         EditorGUILayout.EndHorizontal();
         if (GUILayout.Button("Build"))
@@ -223,7 +244,7 @@ public class AssetTestSec : EditorWindow
             BuildPipeline.BuildAssetBundles(OutputPath, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
             EditorApplication.RepaintProjectWindow();
         }
-        if (GUILayout.Button("BuildNormal"))
+        if (GUILayout.Button("Only Call BuildAssetBundles"))
         {
             BuildPipeline.BuildAssetBundles(OutputPath, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
         }
@@ -256,6 +277,16 @@ public class AssetTestSec : EditorWindow
     private void OnInspectorUpdate()
     {
         Repaint();//窗口刷新
+    }
+
+    private void SaveConfigData()
+    {
+        if (_data)
+        {
+            EditorUtility.SetDirty(_data);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
     }
 }
 
