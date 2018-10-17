@@ -6,46 +6,56 @@
     <title>
         WEB NOTE
     </title>
+    <base target="_blank" />
     <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
-</head>
-
-<body background="image/101.jpg" style="
-background-attachment: fixed;
-background-size:cover;
-background-color: black">
+    <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <!-- <meta http-equiv="Refresh" content="5;url=https://www.bilibili.com" /> -->
     <style type="text/css">
         .maintitle,
-        .subtitle {
-            color: rgb(95, 243, 36);
+        .subtitle,
+        h2,
+        h3 {
+            color: rgb(36, 243, 115);
             text-align: center;
         }
 
         .maintitle {
             font-size: 75px;
-            font-family: fantasy
+            font-family: fantasy;
+            /* text-shadow: rgb(36, 243, 215) 1px 0; */
         }
 
-        .subtitle {
+        .subtitle,
+        h2,
+        h3 {
             font-size: 45px;
             font-family: 微软雅黑
         }
 
+        h3 {
+            font-size: 25px;
+        }
+
+
         p {
             color: rgb(0, 0, 0);
             text-align: center;
+            margin: auto;
             font-family: fantasy;
-            background-color: rgba(255, 255, 255, 0.637)
+            background-color: rgba(252, 77, 106, 0.9);
         }
 
+        .center,
         div {
             text-align: center;
             margin: auto;
-        }
-
-        .center {
-            text-align: center;
-            margin: auto;
+            border: 0;
+            /* border-bottom: 1px solid rgb(255, 255, 255); */
+            background-color: rgba(252, 77, 144, 0.95);
             /* width: 100%; */
+            outline-style: groove;
+            outline-color: rgb(0, 255, 221);
+            outline-width: 2px;
         }
 
         .link,
@@ -72,32 +82,286 @@ background-color: black">
             vertical-align: baseline;
             margin: auto;
         }
+
+        table.style {
+            margin-top: 15px;
+            border-collapse: collapse;
+            border: 1px solid #aaa
+        }
     </style>
+</head>
+
+<body background="image/101.jpg" style="
+background-attachment:scroll;
+background-size:contain;
+background-color: rgb(255, 255, 255)">
+
 
     <a name="top"></a>
+
     <div id="toppart">
         <h1 id="maintitle" class="maintitle"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
     </div>
-    <hr class="line" />
-    <h2 id="editorrecommend" class="subtitle">HTML编辑器</a> </h2>
-    <p class="center">
-        使用 Notepad 或 TextEdit 来编写 HTML <br />
-        可以使用专业的 HTML 编辑器来编辑 HTML：<br />
-        Adobe Dreamweaver<br />
-        Microsoft Expression Web<br />
-        CoffeeCup HTML Editor<br />
-        不过，我们同时推荐使用文本编辑器来学习 HTML，比如 Notepad (PC) 或 TextEdit (Mac)。<br />
-        我们相信，使用一款简单的文本编辑器是学习 HTML 的好方法。
-    </p>
-    <p>
-        <a href="https://www.bilibili.com/" class="link" target="_blank">B站链接</a>
-        <a href="#top" class="linknotline">返回顶部</a>
-    </p><br />
-    <div>
-        <a href="http://huaban.com/c4jckhsqyfb/" target="_blank">
-            <h3 class="headicon"></h3>
-        </a>
+    <div id="editorrecommend">
+
+        <h2>HTML编辑器</a> </h2>
+        <p>
+            使用 Notepad 或 TextEdit 来编写 HTML <br />
+            可以使用专业的 HTML 编辑器来编辑 HTML：<br />
+            Adobe Dreamweaver<br />
+            Microsoft Expression Web<br />
+            CoffeeCup HTML Editor<br />
+            不过，我们同时推荐使用文本编辑器来学习 HTML，比如 Notepad (PC) 或 TextEdit (Mac)。<br />
+            我们相信，使用一款简单的文本编辑器是学习 HTML 的好方法。
+        </p>
     </div>
+
+    <div id="table">
+        <h2>表格 table</h2>
+        <p>
+            <table border="1" class="style">
+                <tr>
+                    <th>key</th>
+                    <th>value</th>
+                </tr>
+                <tr>
+                    <td>键1</td>
+                    <td>值1</td>
+                </tr>
+                <tr>
+                    <td>键2</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </table>
+        </p>
+    </div>
+
+    <div id="list">
+        <h2>列表</h2>
+        <p>
+            <ul style="text-align: center">
+                <li style="background-color: greenyellow">列表元素1</li>
+                <li style="background-color: greenyellow">列表元素2</li>
+                <li style="background-color: greenyellow">列表元素3</li>
+            </ul>
+        </p>
+    </div>
+
+    <div id="script">
+        <h2>HTML脚本</h2>
+        <p>
+            <script>
+                document.write("脚本代码输出")
+            </script>
+        </p>
+    </div>
+
+    <div id="input">
+        <h2>表单</h2>
+        <h3> input</h3>
+        <form>
+            账号：<input type="text" name="account" value=""><br />
+            密码：<input type="password" name="passwork" value=""><br />
+            自动登录：<input type="checkbox" name="auto" value="1">
+            记住密码：<input type="checkbox" name="checkbox" value="1"><br />
+            电信<input type="radio" name="radio" value="telecom">
+            网通<input type="radio" name="radio" value="netcom"><br />
+            <input type="submit" name="button" value="login"><br />
+        </form>
+        <h3>selert</h3>
+        <form>
+            <select>
+                <option value="
+                option1">option1</option>
+                <option value="option2" selected>option2</option>
+                <option value="option3">option3</option>
+            </select>
+        </form>
+
+        <h3>textarea</h3>
+        <form>
+            <textarea name="onetextarea" rows="10" cols="100">
+                这个是一个文本区域(默认值))
+            </textarea>
+        </form>
+
+        <h3>button</h3>
+        <form>
+            <button type="button" onclick="alert('一个按钮')">
+                buttton
+            </button>
+            <button type="menu">
+                menu
+            </button>
+            <button type="reset">
+                reset
+            </button>
+        </form>
+
+        <h3>datalist</h3>
+        <p>
+            <blockquote>
+                "&lt;datalist&gt; 元素为 &lt;input&gt; 元素规定预定义选项列表。<br />
+                用户会在他们输入数据时看到预定义选项的下拉列表。<br />
+                &lt;input&gt; 元素的 list 属性必须引用 &lt;datalist&gt; 元素的 id 属性。"<br />
+            </blockquote>
+        </p>
+        <form>
+            <input list="arealist">
+            <datalist id="arealist">
+                <option value="广北"></option>
+                <option value="广州"></option>
+                <option value="开平"></option>
+                <option value="鹤山"></option>
+            </datalist><br />
+        </form>
+    </div>
+
+    <div id="">
+        <h2>HTML 中有用的字符实体</h2>
+
+        <p class="note"><span>注释：</span>实体名称对大小写敏感！</p>
+
+        <table class="dataintable">
+            <tbody>
+                <tr>
+                    <th style="width:20%">显示结果</th>
+                    <th style="width:20%">描述</th>
+                    <th style="width:30%">实体名称</th>
+                    <th style="width:30%">实体编号</th>
+                </tr>
+
+                <!-- &amp;的意思是&的字符实体 -->
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>空格</td>
+                    <td>&amp;nbsp;</td>
+                    <td>&amp;#160;</td>
+                </tr>
+
+                <tr>
+                    <td>&lt;</td>
+                    <td>小于号</td>
+                    <td>&amp;lt;</td>
+                    <td>&amp;#60;</td>
+                </tr>
+
+                <tr>
+                    <td>&gt;</td>
+                    <td>大于号</td>
+                    <td>&amp;gt;</td>
+                    <td>&amp;#62;</td>
+                </tr>
+
+                <tr>
+                    <td>&amp;</td>
+                    <td>和号</td>
+                    <td>&amp;amp;</td>
+                    <td>&amp;#38;</td>
+                </tr>
+
+                <tr>
+                    <td>"</td>
+                    <td>引号</td>
+                    <td>&amp;quot;</td>
+                    <td>&amp;#34;</td>
+                </tr>
+
+                <tr>
+                    <td>'</td>
+                    <td>撇号&nbsp;</td>
+                    <td>&amp;apos; (IE不支持)</td>
+                    <td>&amp;#39;</td>
+                </tr>
+
+                <tr>
+                    <td>￠</td>
+                    <td>分（cent）</td>
+                    <td>&amp;cent;</td>
+                    <td>&amp;#162;</td>
+                </tr>
+
+                <tr>
+                    <td>£</td>
+                    <td>镑（pound）</td>
+                    <td>&amp;pound;</td>
+                    <td>&amp;#163;</td>
+                </tr>
+
+                <tr>
+                    <td>¥</td>
+                    <td>元（yen）</td>
+                    <td>&amp;yen;</td>
+                    <td>&amp;#165;</td>
+                </tr>
+
+                <tr>
+                    <td>€</td>
+                    <td>欧元（euro）</td>
+                    <td>&amp;euro;</td>
+                    <td>&amp;#8364;</td>
+                </tr>
+
+                <tr>
+                    <td>§</td>
+                    <td>小节</td>
+                    <td>&amp;sect;</td>
+                    <td>&amp;#167;</td>
+                </tr>
+
+                <tr>
+                    <td>©</td>
+                    <td>版权（copyright）</td>
+                    <td>&amp;copy;</td>
+                    <td>&amp;#169;</td>
+                </tr>
+
+                <tr>
+                    <td>®</td>
+                    <td>注册商标</td>
+                    <td>&amp;reg;</td>
+                    <td>&amp;#174;</td>
+                </tr>
+
+                <tr>
+                    <td>™</td>
+                    <td>商标</td>
+                    <td>&amp;trade;</td>
+                    <td>&amp;#8482;</td>
+                </tr>
+
+                <tr>
+                    <td>×</td>
+                    <td>乘号</td>
+                    <td>&amp;times;</td>
+                    <td>&amp;#215;</td>
+                </tr>
+
+                <tr>
+                    <td>÷</td>
+                    <td>除号</td>
+                    <td>&amp;divide;</td>
+                    <td>&amp;#247;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>如需完整的实体符号参考，请访问我们的 <a href="/tags/html_ref_entities.html" title="HTML ISO-8859-1 参考手册">HTML 实体符号参考手册</a>。</p>
+    </div>
+
+    <div id="bottom">
+        <p>
+            <a href="https://www.bilibili.com/" class="link">B站链接</a>
+            <a href="http://www.w3school.com.cn/html/index.asp" class="link">W3school</a>
+            <a href="#top" class="linknotline">返回顶部</a>
+        </p><br />
+        <div>
+            <a href="http://huaban.com/c4jckhsqyfb/">
+                <h3 class="headicon"></h3>
+            </a>
+        </div>
+    </div>
+
 
 </body>
 
