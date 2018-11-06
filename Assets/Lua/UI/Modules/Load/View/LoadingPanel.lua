@@ -2,7 +2,10 @@ LoadingPanel = class("LoadingPanel",UIPanel)
 
 local this = LoadingPanel
 
+this.layer = UILayer.Info
+
 function this:Init(...)
+    self.base.Init(self,...)
     self.sprite_loading = self:GetSprite(0)
 end
 

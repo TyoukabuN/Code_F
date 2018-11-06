@@ -12,12 +12,13 @@ function this:ctor(panelName,isAsync)
         self:LoadPanel(panelName,isAsync)
         return
     end
+
     go = go or self:LoadPanel(panelName)
+
     this.base.ctor(self,go)
 end
 
 function this:Init(...)
-    printc("Init")
     this.base.Init(self,...)
 end
 
@@ -25,25 +26,35 @@ function this:SetCanvasOrderSort(val)
     if(type(val)~="number")then
         return
     end
+
     self.canvas.sortingOrder = val
 end
 
 function this:LoadPanel(panelName,isAsync)
     local path = PanelPath[panelName]
     if(not path)then
+        UISystem.ClearNoneHandleOne(panelName)
         Debug.LogError("find not path!")
         return
     end
 
     local afterLoad = function(obj)
         if(not obj)then
+            UISystem.ClearNoneHandleOne(self.__cname)
             Debug.LogError("fail to load prefab!")
             return
         end
-        printc("afterLoad")
-        print(self.Init)
-        obj.transform:SetParent(UISystem.UIRoot.transform,false)
+
+        obj = GameObject.Instantiate(obj)
         obj.name = string.gsub(obj.name,"%(Clone%)","")
+
+        if(not self.layer)then
+            self.layer = UILayer.Dialog
+        end
+
+        local layer = UISystem.GetLayer(self.layer) or UISystem.GetRoot()
+        obj.transform:SetParent(UISystem.UIRoot.transform,false)
+
         this.base.ctor(self,obj)
 
         self.viewEffect = self:GetComponent("ViewEffect")
@@ -55,18 +66,20 @@ function this:LoadPanel(panelName,isAsync)
         self.canvasScaler.referenceResolution = UISystem.GetResolution()
         self.canvasScaler.screenMatchMode = ScreenMatchMode.Expand
         self.canvasScaler.referencePixelsPerUnit = 100
+
         if(isAsync)then
+            UISystem.AddToQueueAsync(self.__cname,self)
             self:Open()
         end
+
         return obj
     end
 
     if(isAsync)then
-        printc("isAsync")
-        print(self.Init)
         ResourceManager.LoadAsync(path, typeof(GameObject),afterLoad)
-        return
+        return self
     end
+
     local gobj = ResourceManager.Load(path, typeof(GameObject))
     return afterLoad(gobj)
 end

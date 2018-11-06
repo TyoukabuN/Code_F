@@ -6,105 +6,24 @@
     <title>
         WEB NOTE
     </title>
-    <base target="_blank" />
-    <link rel="shortcut icon" href="image/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="image/favicon.ico" type="image/x-icon">
+    <!-- <base target="_blank" /> -->
+    <link rel="shortcut icon" href="image/favicon.ico" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <!-- <link rel="icon" href="image/favicon.ico" type="image/x-icon"> -->
     <!-- <meta http-equiv="Refresh" content="5;url=https://www.bilibili.com" /> -->
-    <style type="text/css">
-        .maintitle,
-        .subtitle,
-        h2,
-        h3 {
-            color: rgb(36, 243, 115);
-            text-align: center;
-        }
-
-        .maintitle {
-            font-size: 75px;
-            font-family: fantasy;
-            /* text-shadow: rgb(36, 243, 215) 1px 0; */
-        }
-
-        .subtitle,
-        h2,
-        h3 {
-            font-size: 45px;
-            font-family: 微软雅黑
-        }
-
-        h3 {
-            font-size: 25px;
-        }
-
-
-        p {
-            color: rgb(0, 0, 0);
-            text-align: center;
-            margin: auto;
-            font-family: fantasy;
-            background-color: rgba(252, 77, 106, 0.9);
-        }
-
-        .center,
-        div {
-            text-align: center;
-            margin: auto;
-            border: 0;
-            /* border-bottom: 1px solid rgb(255, 255, 255); */
-            background-color: rgba(252, 77, 144, 0.95);
-            /* width: 100%; */
-            outline-style: groove;
-            outline-color: rgb(0, 255, 221);
-            outline-width: 2px;
-        }
-
-        .link,
-        .linknotline {
-            color: rgb(2, 175, 206);
-        }
-
-        .linknotline {
-            text-decoration: none;
-        }
-
-        .line {
-            color: rgb(255, 255, 255)
-        }
-
-        .headicon {
-            width: 60px;
-            height: 60px;
-            background-size: contain;
-            background-image: url("image/headicon.jpg");
-            background-repeat: no-repeat;
-            background-position: center;
-            font: inherit;
-            vertical-align: baseline;
-            margin: auto;
-        }
-
-        table.style {
-            margin-top: 15px;
-            border-collapse: collapse;
-            border: 1px solid #aaa
-        }
-    </style>
 </head>
 
-<body background="image/101.jpg" style="
-background-attachment:scroll;
-background-size:contain;
-background-color: rgb(255, 255, 255)">
+<body>
+    <a href="#csspart" class="linknotline">to css</a>
+    <a id="top"></a>
 
-
-    <a name="top"></a>
-
-    <div id="toppart">
-        <h1 id="maintitle" class="maintitle"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
+    <div id="htmlpart">
+        <h1 id="html" class="title"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
     </div>
+
     <div id="editorrecommend">
 
-        <h2>HTML编辑器</a> </h2>
+        <h2>HTML编辑器</h2>
         <p>
             使用 Notepad 或 TextEdit 来编写 HTML <br />
             可以使用专业的 HTML 编辑器来编辑 HTML：<br />
@@ -115,9 +34,9 @@ background-color: rgb(255, 255, 255)">
             我们相信，使用一款简单的文本编辑器是学习 HTML 的好方法。
         </p>
     </div>
-
+    
     <div id="table">
-        <h2>表格 table</h2>
+        <h2>table表格</h2>
         <p>
             <table border="1" class="style">
                 <tr>
@@ -180,7 +99,7 @@ background-color: rgb(255, 255, 255)">
 
         <h3>textarea</h3>
         <form>
-            <textarea name="onetextarea" rows="10" cols="100">
+            <textarea name="onetextarea" rows="10" cols="50">
                 这个是一个文本区域(默认值))
             </textarea>
         </form>
@@ -217,7 +136,7 @@ background-color: rgb(255, 255, 255)">
         </form>
     </div>
 
-    <div id="">
+    <div>
         <h2>HTML 中有用的字符实体</h2>
 
         <p class="note"><span>注释：</span>实体名称对大小写敏感！</p>
@@ -349,6 +268,46 @@ background-color: rgb(255, 255, 255)">
         <p>如需完整的实体符号参考，请访问我们的 <a href="/tags/html_ref_entities.html" title="HTML ISO-8859-1 参考手册">HTML 实体符号参考手册</a>。</p>
     </div>
 
+    <a id="csspart"></a>
+    <div>
+        <h1 class="title"><dfn title="CSS">CSS</dfn></h1>
+    </div>
+
+    <div id="派生选择器">
+        <h2>派生选择器</h2>
+        <p><strong>我是粗体字，不是斜体字，因为我不在列表当中，所以这个规则对我不起作用</strong></p>
+
+        <ol>
+            <li><strong>我是斜体字。这是因为 strong 元素位于 li 元素内。</strong></li>
+            <li>我是正常的字体。</li>
+        </ol>
+        <p id="selector1">
+            id选择器1
+        </p>
+        <p id="selector2">
+            id选择器2
+        </p>
+    </div>
+
+    <div id="文本">
+        <h2>CSS文本</h2>
+        <test>文本缩进10px</test><br />
+        <test2>文本缩进20px</test2><br />
+        <test3>水平对齐</test3><br />
+    </div>
+
+    <div>
+        <h2>Frame Element</h2>
+        <p>
+            <felement>
+                frame element
+            </felement>
+            <border>
+                border_outside
+            </border>
+            <p>
+    </div>
+
     <div id="bottom">
         <p>
             <a href="https://www.bilibili.com/" class="link">B站链接</a>
@@ -357,11 +316,10 @@ background-color: rgb(255, 255, 255)">
         </p><br />
         <div>
             <a href="http://huaban.com/c4jckhsqyfb/">
-                <h3 class="headicon"></h3>
+                <h3 class="headicon"> </h3>
             </a>
         </div>
     </div>
-
 
 </body>
 

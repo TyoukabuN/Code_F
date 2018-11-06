@@ -85,9 +85,9 @@ UISystemBeta1.OpenPanel = function(panelName,closeOther,parent_hInstance)
     if(not isCommonPanel)then
         table.insert(panel_queue,panelConfig)
     else
-        table.insert(common_panel_queue,panelConfig) 
+        table.insert(common_panel_queue,panelConfig)
     end
-    
+
     if(closeOther and not isCommonPanel)then
         for i = 1,#panel_queue-1 do
             panel_queue[i]:AddCloser(panelConfig)
@@ -101,8 +101,6 @@ end
 
 --关闭面板
 UISystemBeta1.ClosePanel = function(panelName)
-    printc("UISystemBeta1.ClosePanel ")
-
     local confs = table.ifinds(panel_queue,function(arg) return arg.panelName == panelName end)
     if(#confs==0)then
         return
@@ -121,7 +119,7 @@ UISystemBeta1.ClosePanel = function(panelName)
     for i,conf in ipairs(panel_queue)do
         conf:Redisplay(panelName)
     end
-    
+
     --table.iaction(panel_queue,function(arg) if(arg)then arg:Close() end end)
 end
 
@@ -133,48 +131,4 @@ end
 
 UISystemBeta1.GetCurrentPanel = function()
     return panel_queue[#panel_queue]
-end
-
-
---面板配置
-UIPanelConfig = class("UIPanelConfig")
-function UIPanelConfig:ctor(panelName,hInstance,parent_hInstance)
-    self.panelName = panelName
-    self.hInstance = hInstance
-    self.parent_hInstance = parent_hInstance
-    self.conf_closer = {}  --关闭者需要优化
-end
-
-function UIPanelConfig:AddCloser(conf)
-    if(conf.panelName == self.panelName)then
-        return
-    end
-
-    local had = table.iany(self.conf_closer,function(arg) return arg.panelName == conf.panelName end)
-    if(not had)then
-        table.insert(self.conf_closer,conf)
-    end
-    self.hInstance:Hide()
-end
-
-function UIPanelConfig:Redisplay(panelName)
-    printc("Redisplay")
-    self.hInstance:Redisplay()
-
-    -- if(#self.conf_closer<=0)then
-    --     return
-    -- end
-
-    -- local conf,index = table.ifind(self.conf_closer,function(arg) return arg.panelName == panelName end)
-    -- if(conf)then
-    --     table.remove(self.conf_closer,index)
-    -- end
-
-    -- if(#self.conf_closer<=0)then
-    --     self.hInstance:Redisplay()
-    -- end
-end
-
-function UIPanelConfig:IsCloser(panelName)
-    return table.iany(self.conf_closer,function(arg) return arg.panelName == panelName end)
 end

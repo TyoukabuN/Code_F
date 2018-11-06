@@ -53,6 +53,8 @@ local RemoveFormQueue = function(panelConfig)
     end
 end
 
+local layers = {}
+
 UILayer = {
     Base = "Layer_Base",
     Dialog = "Layer_Dialog",
@@ -76,6 +78,7 @@ UISystem.Init = function()
         gobj:AddComponent(typeof(CanvasRenderer))
         gobj.layer = 5--LayerMask:GetMask({"UI"})
         gobj.transform:SetParent(parentTrans,false)
+        layers[name] = gobj.transform
         return gobj
     end
 
@@ -85,13 +88,21 @@ UISystem.Init = function()
     end
 
     for i,name in ipairs(UILayerSort)do
-        local layout = root.transform:Find(name)
-        if(not layout)then
-            layout = addLayerObj(name,root.transform)
+        local layer = root.transform:Find(name)
+        if(not layer)then
+            layer = addLayerObj(name,root.transform)
         end
     end
 
     UISystem.UIRoot = root
+end
+
+UISystem.GetLayer = function(name)
+    return layer[name]
+end
+
+UISystem.GetRoot = function()
+    return UIRoot.transform
 end
 
 --输出队列
@@ -117,8 +128,8 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
         local curConf = UISystem.GetCurrentPanel()
         hInstance = panelConfig.hInstance
     else
-        hInstance = globalClass[panelName]
-        if(not hInstance)then
+         hInstance = globalClass[panelName]
+         if(not hInstance)then
             Debug.LogError("find not lua class!  "..tostring(panelName))
             return
         end
@@ -126,25 +137,59 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
         hInstance = hInstance.New(panelName,isAsync)
         if(not hInstance or not hInstance._gameObject)then
             hInstance = nil
-            return
         end
 
-        panelConfig = UIPanelConfig.New(panelName,hInstance,parent_hInstance)
+        panelConfig = UIPanelConfig.New(panelName,hInstance,parent_hInstance,isAsync)
 
         AddToQueue(panelConfig)
     end
-
     if(closeOther and not isCommonPanel)then
         for i = 1,#panel_queue-1 do
             panel_queue[i]:AddCloser(panelConfig)
         end
     end
 
-    panelConfig.hInstance:Open()
+    panelConfig:Open()
 
     return panelConfig.hInstance
 end
 
+--将异步加载的面板加进队列
+UISystem.AddToQueueAsync = function(panelName,hInstance)
+    local add = function(panelConfig)
+        if(panelConfig and not panelConfig.hInstance)then
+            panelConfig.hInstance = hInstance
+            return true
+        end
+        return false
+    end
+
+    local panelConfig = table.ifind(panel_queue,function(arg) return arg.panelName == panelName end)
+    if(add(panelConfig))then return true end
+
+    panelConfig = table.ifind(common_panel_queue,function(arg) return arg.panelName == panelName end)
+    if(add(panelConfig))then return true end
+
+    return false
+end
+
+--将异步加载失败的面板从队列中去除
+UISystem.ClearNoneHandleOne = function(panelName)
+    local clear = functon(target,panelName)
+        local config,index = table.ifind(target,function(arg) return arg.panelName==panelName and arg.hInstance==nil end)
+        if(not config)then
+            return
+        end
+
+        table.remove(target,index)
+        clear(target,panelName)
+    end
+
+    clear(panel_queue,panelName)
+    clear(common_panel_queue,panelName)
+end
+
+--异步打开
 UISystem.OpenPanelAsync = function(panelName,closeOther,parent_hInstance)
     UISystem.OpenPanel(panelName,closeOther,parent_hInstance,true)
 end
@@ -191,10 +236,11 @@ end
 
 --面板配置
 UIPanelConfig = class("UIPanelConfig")
-function UIPanelConfig:ctor(panelName,hInstance,parent_hInstance)
+function UIPanelConfig:ctor(panelName,hInstance,parent_hInstance,isAsync)
     self.panelName = panelName
     self.hInstance = hInstance
     self.parent_hInstance = parent_hInstance
+    self.isAsync = isAsync
     self.conf_closer = {}  --关闭者需要优化
 end
 
@@ -210,9 +256,16 @@ function UIPanelConfig:AddCloser(conf)
     self.hInstance:Hide()
 end
 
+function UIPanelConfig:Open()
+    if(self.hInstance)then
+        self.hInstance:Open()
+    end
+end
+
 function UIPanelConfig:Redisplay(panelName)
-    printc("Redisplay")
-    self.hInstance:Redisplay()
+    if(self.hInstance)then
+        self.hInstance:Redisplay()
+    end
 
     -- if(#self.conf_closer<=0)then
     --     return
@@ -228,16 +281,18 @@ function UIPanelConfig:Redisplay(panelName)
     -- end
 end
 
+--是不是关闭者
 function UIPanelConfig:IsCloser(panelName)
     return table.iany(self.conf_closer,function(arg) return arg.panelName == panelName end)
 end
 
 
-
+--加载队列
 local loading_queue = {}
 
 UISystem.OpenLoading = function(hInstance)
-    UISystem.OpenPanel(PanelName.Loading,nil,nil,false)
+    -- UISystem.OpenPanelAsync(PanelName.Loading)
+    UISystem.OpenPanel(PanelName.Loading,nil,nil,true)
     if(hInstance)then
         table.insert(loading_queue,hInstance)
     end

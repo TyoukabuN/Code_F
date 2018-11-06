@@ -13,7 +13,6 @@ function this:ctor(go, ...)
 end
 
 function this:Init(...)
-	printc("uiview init")
 end
 
 function this:AfterInit()

@@ -93,7 +93,7 @@ function table.saveTxtFiles(tb,path)
   local test = assert(io.open(path, "w"))
   test:write(wirtjson)
   test:close()
-end 
+end
 
 --获取txt文件
 function table.readTxtFiles(path)
@@ -114,7 +114,7 @@ end
 -- end
 
 
---获取表元素索引值 
+--获取表元素索引值
 --2018年6月21日11:36:58 zjw
 table.index = function(table, element)
 	for k, v in pairs(table) do
@@ -122,7 +122,7 @@ table.index = function(table, element)
 			return k
 		end
 	end
-	
+
 	return -1
 end
 
@@ -234,26 +234,30 @@ end
 --2018年6月21日11:36:58 zjw
 table.max = function(table, predicate)
     local maxValue = -1 * 2 ^ 54
-    local index = nil
+	local index = nil
+	local obj = nil
 	for k, v in pairs(table) do
 		if(predicate(v) > maxValue) then
             maxValue = predicate(v)
-            index = k
+			index = k
+			obj = v
 		end
 	end
-	return maxValue,index
+	return maxValue,obj,index
 end
 
 table.imax = function(table, predicate)
     local maxValue = -1 * 2 ^ 54
     local index = nil
+	local obj = nil
 	for k, v in ipairs(table) do
 		if(predicate(v) > maxValue) then
             maxValue = predicate(v)
             index = k
+			obj = v
 		end
 	end
-	return maxValue,index
+	return maxValue,obj,index
 end
 
 --类System.Linq.Min

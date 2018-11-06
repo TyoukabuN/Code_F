@@ -47,6 +47,7 @@ public class BundleManager : MonoSingleton<BundleManager>
             Debug.LogError("bundle path is null");
             return null;
         }
+
         AssetBundle ab = null;
         if (!Instance.bundleMap.TryGetValue(path, out ab))
         {
@@ -58,19 +59,46 @@ public class BundleManager : MonoSingleton<BundleManager>
             }
             Instance.bundleMap[path] = ab;
         }
-        string[] names = ab.GetAllAssetNames();
-        foreach (string name in names)
-        {
-            Debug.Log(name);
-        }
+
         path = GetAssetName(path);
-        Debug.Log("AssetName:  " + path);
         AssetBundleRequest req = ab.LoadAssetAsync(path, type);
         if (onComplete != null)
         {
             req.completed += onComplete;
         }
+
         return req;
+    }
+
+    public static IEnumerable GetAssetAsyncE(string path, Type type, Action<AsyncOperation> onComplete)
+    {
+        if (path == string.Empty)
+        {
+            Debug.LogError("bundle path is null");
+            yield return 0;
+        }
+
+        AssetBundle ab = null;
+        if (!Instance.bundleMap.TryGetValue(path, out ab))
+        {
+            ab = Instance.LoadAssetBundleByPath(GetPath(path.ToString()));
+            if (ab == null)
+            {
+                Debug.LogError("find not bundle: " + path);
+                yield return 0;
+            }
+            Instance.bundleMap[path] = ab;
+        }
+
+        path = GetAssetName(path);
+        AssetBundleRequest req = ab.LoadAssetAsync(path, type);
+        yield return req;
+        if (onComplete != null)
+        {
+            req.completed += onComplete;
+        }
+
+        yield return 0;
     }
 
     private static string GetAssetName(string path)
@@ -81,17 +109,16 @@ public class BundleManager : MonoSingleton<BundleManager>
 
     private AssetBundle LoadAssetBundleByPath(string path)
     {
-        path = path.Substring(path.IndexOf("Assets") + 6);
         path = path.Substring(0, path.LastIndexOf('.'));
         path = path.ToLower();
-        //path = path + ".bundle";
-        Debug.Log(path);
+
         var ab = AssetBundle.LoadFromFile(path);
         if (ab == null)
         {
-            Debug.Log("Failed to load AssetBundle!");
+            Debug.Log("Failed to load AssetBundle!  " + path);
             return null;
         }
+
         return ab;
     }
 

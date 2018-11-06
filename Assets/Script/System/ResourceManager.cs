@@ -16,8 +16,8 @@ public class ResourceManager : MonoSingleton<ResourceManager>
 {
     private const string ERROR_PATH = "Find not asset:{0}";
     private const string ERROR_INSTANTICATE = "Instantiate error:{0} {1}";
-
-    private Dictionary<string, Object> assetMap = new Dictionary<string, Object>();
+    //assets same with prefab
+    private Dictionary<string, Object> prefabMap = new Dictionary<string, Object>();
 
     //同步加载
     public static GameObject Load(string path, Type type)
@@ -26,26 +26,26 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             type = typeof(GameObject);
         }
         GameObject gobj = null;
-        Object asset = null; 
-        if (!Instance.assetMap.TryGetValue(path,out asset))
+        Object prefab = null; 
+        if (!Instance.prefabMap.TryGetValue(path,out prefab))
         {
 #if UNITY_EDITOR && !A_TEST
-            asset = UnityEditor.AssetDatabase.LoadAssetAtPath(path, type);
+            prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, type);
 #else
-            asset = BundleManager.GetAsset(path, type);
+            prefab = BundleManager.GetAsset(path, type);
 #endif
-            if (asset != null)
+            if (prefab != null)
             {
-                Instance.assetMap[path] = asset;
+                Instance.prefabMap[path] = prefab;
             }
         }
-        if (asset==null)
+        if (prefab==null)
         {
             Debug.LogError(string.Format(ERROR_PATH,GetPath(path)));
         }
         try
         {
-            gobj = GameObject.Instantiate(asset as GameObject);
+            gobj = GameObject.Instantiate(prefab as GameObject);
         }
         catch (Exception e)
         {
@@ -63,23 +63,34 @@ public class ResourceManager : MonoSingleton<ResourceManager>
             type = typeof(GameObject);
         }
         Action<AsyncOperation> onComplete = null;
-        if (onLoadComplete != null)
+
+        Object prefab;
+        if (!Instance.prefabMap.TryGetValue(path,out prefab))
         {
-            onComplete = delegate (AsyncOperation req)
+            Debug.Log("<color=red>find not prefabTemp</color>");
+            if (onLoadComplete != null)
             {
-                AssetBundleRequest request = (req as AssetBundleRequest);
-                if (request.asset == null)
+                onComplete = delegate (AsyncOperation req)
                 {
-                    Debug.LogError("failure to load asset");
-                }
-                else
-                {
-                    Object obj = request.asset;
-                    onLoadComplete.Invoke(obj);
-                }
-            };
+                    AssetBundleRequest request = (req as AssetBundleRequest);
+                    if (request.asset == null)
+                    {
+                        Debug.LogError("failure to load asset");
+                    }
+                    else
+                    {
+                        Object obj = request.asset;
+                        Instance.prefabMap[path] = obj;
+
+                        onLoadComplete.Invoke(obj);
+                    }
+                };
+            }
+            BundleManager.GetAssetAsync(path, type, onComplete);
+            return;
         }
-        BundleManager.GetAssetAsync(path, type,onComplete);
+        Debug.Log("<color=yellow>find prefabTemp</color>");
+        onLoadComplete.Invoke(prefab);
     }
 
     private static string GetPath(string folderName)
