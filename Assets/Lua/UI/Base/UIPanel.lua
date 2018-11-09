@@ -14,8 +14,6 @@ function this:ctor(panelName,isAsync)
     end
 
     go = go or self:LoadPanel(panelName)
-
-    this.base.ctor(self,go)
 end
 
 function this:Init(...)
@@ -53,7 +51,7 @@ function this:LoadPanel(panelName,isAsync)
         end
 
         local layer = UISystem.GetLayer(self.layer) or UISystem.GetRoot()
-        obj.transform:SetParent(UISystem.UIRoot.transform,false)
+        obj.transform:SetParent(layer.transform,false)
 
         this.base.ctor(self,obj)
 

@@ -405,10 +405,19 @@ namespace XLua.CSObjectWrap
             translator.DelayWrapLoader(typeof(ResourceManager), ResourceManagerWrap.__Register);
         
         
+            translator.DelayWrapLoader(typeof(TimerSystem), TimerSystemWrap.__Register);
+        
+        
             translator.DelayWrapLoader(typeof(UISlots), UISlotsWrap.__Register);
         
         
             translator.DelayWrapLoader(typeof(ViewEffect), ViewEffectWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(ToLuaUtility), ToLuaUtilityWrap.__Register);
+        
+        
+            translator.DelayWrapLoader(typeof(LuaSystem), LuaSystemWrap.__Register);
         
         
         

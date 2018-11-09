@@ -16,6 +16,7 @@ public static class LuaConfig
         typeof(UnityEngine.Vector2),
         typeof(UnityEngine.Vector3),
         typeof(System.Action<UnityEngine.Object>),
+        typeof(System.Action<XLua.LuaTable>),
         typeof(UnityEngine.Events.UnityAction),
         typeof(UnityEngine.Events.UnityAction<bool>),
         typeof(UnityEngine.Events.UnityAction<string>),
@@ -165,8 +166,11 @@ public static class LuaConfig
         //self clase
         typeof(EventTriggerSub),
         typeof(ResourceManager),
+        typeof(TimerSystem),
         typeof(UISlots),
         typeof(ViewEffect),
+        typeof(ToLuaUtility),
+        typeof(LuaSystem),
     };
 
     //黑名单

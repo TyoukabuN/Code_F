@@ -59,6 +59,45 @@ public class LuaSystem : MonoSingleton<LuaSystem>
         return GetLuaEnv().NewTable();
     }
 
+
+    private Dictionary<Action<LuaTable>,LuaTable> updates = new Dictionary<Action<LuaTable>, LuaTable>();
+    private List<Action<LuaTable>> removeList = new List<Action<LuaTable>>();
+    public static void EnUpdate(Action<LuaTable> func,LuaTable hInstance)
+    {
+        if (!Instance.updates.ContainsKey(func)) {
+            Instance.updates.Add(func, hInstance);
+        }
+    }
+
+    public static void DeUpdate(Action<LuaTable> func, LuaTable hInstance)
+    {
+        if (!Instance.updates.ContainsKey(func))
+        {
+            return;
+        }
+
+        Instance.removeList.Add(func);
+    }
+    private void Update()
+    {
+        foreach (var func in Instance.removeList)
+        {
+            Instance.updates.Remove(func);
+        }
+
+        Instance.removeList.Clear();
+
+        if (Instance.updates.Count==0) {
+            return;
+        }
+
+        var keys = Instance.updates.Keys;
+        foreach (var pair in Instance.updates)
+        {
+            pair.Key.Invoke(pair.Value);
+        }
+    }
+
     private void OnDestroy()
     {
         //if (Instance.luaEnv != null)

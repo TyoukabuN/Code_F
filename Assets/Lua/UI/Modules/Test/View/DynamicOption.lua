@@ -28,3 +28,6 @@ function this:SetClick(func)
     return self
 end
 
+function this:GetButton()
+    return self._button
+end

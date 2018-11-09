@@ -16,12 +16,14 @@ PanelName = {
     Test = "TestPanel",
     Test2 = "TestPanel2",
     Loading = "LoadingPanel",
+    Tween = "TweenTestPanel"
 }
 
 PanelPath = {
     TestPanel = "UI/Panel/TestPanel.prefab",
     TestPanel2 = "UI/Panel/TestPanel2.prefab",
     LoadingPanel = "UI/Panel/LoadingPanel.prefab",
+    TweenTestPanel = "UI/Panel/TweenTestPanel.prefab",
 }
 
 --container
@@ -86,23 +88,25 @@ UISystem.Init = function()
     if(not root)then
         root = addLayerObj("Root")
     end
+    layers["Root"]= root
 
     for i,name in ipairs(UILayerSort)do
         local layer = root.transform:Find(name)
         if(not layer)then
             layer = addLayerObj(name,root.transform)
         end
+        layers[name] = layer.transform
     end
 
     UISystem.UIRoot = root
 end
 
 UISystem.GetLayer = function(name)
-    return layer[name]
+    return layers[name]
 end
 
 UISystem.GetRoot = function()
-    return UIRoot.transform
+    return UISystem.UIRoot.transform
 end
 
 --输出队列
@@ -175,7 +179,7 @@ end
 
 --将异步加载失败的面板从队列中去除
 UISystem.ClearNoneHandleOne = function(panelName)
-    local clear = functon(target,panelName)
+    local clear = function(target,panelName)
         local config,index = table.ifind(target,function(arg) return arg.panelName==panelName and arg.hInstance==nil end)
         if(not config)then
             return
@@ -224,6 +228,7 @@ end
 
 
 UISystem.GetPanel =function(panelName)
+    printc(panelName)
     local panelConfig,index = table.ifind(panel_queue,function(arg) return arg.panelName == panelName end)
     return panelConfig,index
 end

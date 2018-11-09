@@ -25,6 +25,16 @@ printc = function(...)
             print(string.format(format_log,content))
         end
     end
+
+    print(debug.traceback())
+end
+
+getrootmetatable = function(table)
+    local meta = getmetatable(table)
+    if(not meta)then
+        return table
+    end
+    return getrootmetatable(meta)
 end
 
 -- SetParent = function(trans,parentTrans)

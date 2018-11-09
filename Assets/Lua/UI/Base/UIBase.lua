@@ -45,18 +45,22 @@ function this:OpenPanel(panelType,closeOther)
 end
 
 --2018年7月26日12:06:11 zjw
-function UIBase:SetAnchoredPosition(x,y)
+function this:SetAnchoredPosition(x,y)
 	self._transform.anchoredPosition = Vector2(x,y)
 	return self
 end
 
-function UIBase:Destroy()
+function this:GetAnchoredPosition()
+	return self._transform.anchoredPosition
+end
+
+function this:Destroy()
 	if(self._gameObject)then
 		GameObject.Destroy(self._gameObject)
 	end
 end
 
-function UIBase:Close()
+function this:Close()
 	if(self._gameObject)then
 		self._gameObject:SetActive(false)
 	end
@@ -66,7 +70,7 @@ end
 	--@horizontalType:水平的位置类型 --1 left d2 center 3 rigth
 	--@verticalType：垂直的位置类型	--1 buttom 2 center 3 top
 ]]
-function UIBase:SetAnchor(horizontalType,verticalType,alsoPivot)
+function this:SetAnchor(horizontalType,verticalType,alsoPivot)
 	if(alsoPivot==nil)then
 		alsoPivot = true
 	end
@@ -82,38 +86,38 @@ function UIBase:SetAnchor(horizontalType,verticalType,alsoPivot)
 	end
 end
 
-function UIBase:SetPivot(x,y)
+function this:SetPivot(x,y)
 	self._transform.pivot = Vector2(x,y)
 end
 
-function UIBase:SetSizeDelta(x,y)
+function this:SetSizeDelta(x,y)
 	x = x or self._transform.sizeDelta.x
 	y = y or self._transform.sizeDelta.y
 	self._transform.sizeDelta = Vector2(x,y)
 	return self
 end
 
-function UIBase:GetSizeDelta()
+function this:GetSizeDelta()
 	return self._transform.sizeDelta
 end
 
-function UIBase:GetComponent(stype)
+function this:GetComponent(stype)
 	return self._transform:GetComponent(stype)
 end
 
-function UIBase:SetSiblingIndex(idx)
+function this:SetSiblingIndex(idx)
 	self._transform:SetSiblingIndex(idx)
 end
 
-function UIBase:SetAsLastSibling()
+function this:SetAsLastSibling()
 	self._transform:SetAsLastSibling()
 end
 
-function UIBase:SetAsFirstSibling()
+function this:SetAsFirstSibling()
 	self._transform:SetAsFirstSibling()
 end
 
-function UIBase:Destroy()
+function this:Destroy()
     if(self.onDestroy)then
         self:onDestroy()
     end
@@ -123,76 +127,76 @@ function UIBase:Destroy()
 end
 
 --------------------------------生成组件------------------------------------------
-function UIBase:GetObject(index)
+function this:GetObject(index)
 	if self._UISlots then
 		return self._UISlots:GetObject(index)
 	end
 end
 
-function UIBase:GetButton(index)
+function this:GetButton(index)
 	local go = self:GetObject(index)
 	if go then
 		return UIButton.New(go)
 	end
 end
 
-function UIBase:GetText(index)
+function this:GetText(index)
 	local go = self:GetObject(index)
 	if go then
 		return UIText.New(go)
 	end
 end
 
-function UIBase:GetSprite(index)
+function this:GetSprite(index)
 	local go = self:GetObject(index)
 	if go then
 		return UISprite.New(go)
 	end
 end
 
-function UIBase:GetToggle(index)
+function this:GetToggle(index)
 	local go = self:GetObject(index)
 	if go then
 		return UIToggle.New(go)
 	end
 end
 
-function UIBase:GetScrollBar(index)
+function this:GetScrollBar(index)
 	local go = self:GetObject(index)
 	if go then
 		return go:GetComponent("Scrollbar")
 	end
 end
 
-function UIBase:GetCanvasGroup(index)
+function this:GetCanvasGroup(index)
 	local go = self:GetObject(index)
 	if go then
 		return go:GetComponent("CanvasGroup")
 	end
 end
 
-function UIBase:GetGrid(index)
+function this:GetGrid(index)
 	local go = self:GetObject(index)
 	if go then
 		return UIGrid.New(go)
 	end
 end
 
-function UIBase:GetSlider(index)
+function this:GetSlider(index)
 	local go = self:GetObject(index)
 	if go then
 		return go:GetComponent("Slider")
 	end
 end
 
-function UIBase:GetInputField(index)
+function this:GetInputField(index)
 	local go = self:GetObject(index)
 	if go then
 		return go:GetComponent("InputField")
 	end
 end
 
-function UIBase:GetBox(index)
+function this:GetBox(index)
 	local go = self:GetObject(index)
 	if go then
 		return UIBox.New(go)

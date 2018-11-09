@@ -20,17 +20,17 @@ public class ResourceManager : MonoSingleton<ResourceManager>
     private Dictionary<string, Object> prefabMap = new Dictionary<string, Object>();
 
     //同步加载
-    public static GameObject Load(string path, Type type)
+    public static Object Load(string path, Type type)
     {
         if (type==null) {
             type = typeof(GameObject);
         }
-        GameObject gobj = null;
+
         Object prefab = null; 
         if (!Instance.prefabMap.TryGetValue(path,out prefab))
         {
 #if UNITY_EDITOR && !A_TEST
-            prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(path, type);
+            prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(GetPath(path), type);
 #else
             prefab = BundleManager.GetAsset(path, type);
 #endif
@@ -39,20 +39,13 @@ public class ResourceManager : MonoSingleton<ResourceManager>
                 Instance.prefabMap[path] = prefab;
             }
         }
+
         if (prefab==null)
         {
             Debug.LogError(string.Format(ERROR_PATH,GetPath(path)));
         }
-        try
-        {
-            gobj = GameObject.Instantiate(prefab as GameObject);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError(string.Format(ERROR_INSTANTICATE, e.ToString() , path));
-        }
         
-        return gobj;
+        return prefab;
     }
 
     //异步加载

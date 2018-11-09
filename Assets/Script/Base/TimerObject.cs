@@ -11,20 +11,22 @@ public class TimerObject : MonoBehaviour
     public Action<object> onTimerWithArgCallback { get; private set; }
     public float time { get; private set; }
     public float repeatRate { get; private set; }
+    public float loopTime { get; private set; }
     public object arg { get; private set; }
 
-    public void StartTimer(Action onTimerCallback, float time, float repeatRate = 0)
+    public void StartTimer(Action onTimerCallback, float time, float loopTime = 0)
     {
         this.onTimerWithArgCallback = null;
         this.onTimerCallback = onTimerCallback;
         this.time = time;
         this.repeatRate = repeatRate;
+        this.loopTime = loopTime;
 
-        if (repeatRate > 0)
+        if (loopTime == -1 || loopTime > 0)
         {
-            InvokeRepeating(FUNCTION_NAME, time, repeatRate);
+            InvokeRepeating(FUNCTION_NAME, time, time);
         }
-        else
+        else if (loopTime == 0)
         {
             Invoke(FUNCTION_NAME, time);
         }
@@ -56,7 +58,7 @@ public class TimerObject : MonoBehaviour
         if (onTimerCallback != null)
         {
             onTimerCallback.Invoke();
-            if (repeatRate <= 0)
+            if (loopTime == 0)
             {
                 TimerSystem.Stop(onTimerCallback);
             }
@@ -64,7 +66,7 @@ public class TimerObject : MonoBehaviour
         else
         {
             onTimerWithArgCallback(arg);
-            if (repeatRate <= 0)
+            if (loopTime == 0)
             {
                 TimerSystem.Stop(onTimerCallback);
             }

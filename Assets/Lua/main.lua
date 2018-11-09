@@ -16,6 +16,7 @@ EventTriggerSub = CS.EventTriggerSub
 GameObject = UnityEngine.GameObject
 Vector2 = UnityEngine.Vector2
 Vector3 = UnityEngine.Vector3
+Time = UnityEngine.Time
 Quaternion = UnityEngine.Quaternion
 Debug = UnityEngine.Debug
 DG = CS.DG
@@ -30,6 +31,13 @@ ScaleMode = CanvasScaler.ScaleMode
 ScreenMatchMode = CanvasScaler.ScreenMatchMode
 Canvas = UnityEngine.Canvas
 LayerMask = UnityEngine.UnityEngine
+TimerSystem = CS.TimerSystem
+
+LuaSystem = CS.LuaSystem
+EnUpdate = LuaSystem.EnUpdate
+DeUpdate = LuaSystem.DeUpdate
+
+
 
 require "requireInit"
 

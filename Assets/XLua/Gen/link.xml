@@ -188,8 +188,11 @@
 	<assembly fullname="Assembly-CSharp">
 	    <type fullname="EventTriggerSub" preserve="all"/>
 		<type fullname="ResourceManager" preserve="all"/>
+		<type fullname="TimerSystem" preserve="all"/>
 		<type fullname="UISlots" preserve="all"/>
 		<type fullname="ViewEffect" preserve="all"/>
+		<type fullname="ToLuaUtility" preserve="all"/>
+		<type fullname="LuaSystem" preserve="all"/>
 		
 	</assembly>
 
