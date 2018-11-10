@@ -9,14 +9,45 @@ end
 
 function this:AfterInit()
     this.base.AfterInit(self)
-    self._optionPool:Get():SetContent("算法动画 - 函数曲线"):GetButton():SetClickCB(function()  end)
-    self._optionPool:Get():SetContent("重置"):GetButton():SetClickCB(function() self:ResetCircle() end)
-    self._optionPool:Get():SetContent("线性（基于帧）"):GetButton():SetClickCB(function() self:L1() end)
-    self._optionPool:Get():SetContent("线性（基于时间）"):GetButton():SetClickCB(function() self:L2() end)
-    self._optionPool:Get():SetContent("加速运动"):GetButton():SetClickCB(function() self:L3() end)
-    self._optionPool:Get():SetContent("函数曲线 Sin"):GetButton():SetClickCB(function() self:L4() end)
-    self._optionPool:Get():SetContent("2^-10x + cos(x*20)"):GetButton():SetClickCB(function() self:L5() end)
-    self._optionPool:Get():SetContent("-x+1 + cos(x*20)"):GetButton():SetClickCB(function() self:L6() end)
+    -- self._optionPool:Get():SetContent("算法动画 - 函数曲线"):GetButton():SetClickCB(function()  end)
+    -- self._optionPool:Get():SetContent("重置"):GetButton():SetClickCB(function() self:ResetCircle() end)
+    -- self._optionPool:Get():SetContent("线性（基于帧）"):GetButton():SetClickCB(function() self:L1() end)
+    -- self._optionPool:Get():SetContent("线性（基于时间）"):GetButton():SetClickCB(function() self:L2() end)
+    -- self._optionPool:Get():SetContent("加速运动"):GetButton():SetClickCB(function() self:L3() end)
+    -- self._optionPool:Get():SetContent("函数曲线 Sin"):GetButton():SetClickCB(function() self:L4() end)
+    -- self._optionPool:Get():SetContent("2^-10x + cos(x*20)"):GetButton():SetClickCB(function() self:L5() end)
+    -- self._optionPool:Get():SetContent("-x+1 + cos(x*20)"):GetButton():SetClickCB(function() self:L6() end)
+
+    self._optionPool:Get():SetContent("缓动算法"):GetButton():SetClickCB(function()      if(self.tweener)then
+        self.tweener:Kill(false)
+        self.tweener = nil
+    end
+end)
+
+    -- self._optionPool:Get():SetContent("Linear"):GetButton():SetClickCB(function() self:TweenerTest(TweenType.Linear)  end)
+    -- self._optionPool:Get():SetContent("InQuad"):GetButton():SetClickCB(function() self:TweenerTest(TweenType.InQuad)  end)
+    -- self._optionPool:Get():SetContent("OutQuad"):GetButton():SetClickCB(function() self:TweenerTest(TweenType.OutQuad)  end)
+    -- self._optionPool:Get():SetContent("InOutQuad"):GetButton():SetClickCB(function() self:TweenerTest(TweenType.InOutQuad)  end)
+
+    for key,value in pairs(TweenName)do
+        self._optionPool:Get():SetContent(value):GetButton():SetClickCB(function() self:TweenerTest(key)  end)
+    end
+end
+
+function this:TweenerTest(type)
+    if(self.tweener)then
+        self.tweener:Kill(false)
+        self.tweener = nil
+    end
+
+    self.tweener = Tween.Do(function() return self.circle:GetAnchoredPosition().x end,
+                    function(val) return self.circle:SetAnchoredPosition(val) end,
+                    50,
+                    700,
+                    3,
+                    type)
+
+    self.tweener:Start()
 end
 
 --X:50 - 700   Y:980
@@ -143,25 +174,4 @@ function this:SetX(val)
 
     self.circle:SetAnchoredPosition(val,980)
 end
-
---比例映射
-map = function(val,val1_1,val1_2,val2_1,val2_2)
-    local x = math.abs(val-val1_1)/math.abs(val1_2-val1_1) * math.abs(val2_2-val2_1)
-    x = x + val2_1
-    return x
-end
-
---区间限制
-clamp = function(value,min,max)
-    if(min and value<min)then
-        value = min
-    end
-
-    if(max and value>max)then
-        value = max
-    end
-
-    return value
-end
-
 

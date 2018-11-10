@@ -46,6 +46,8 @@ end
 
 --2018年7月26日12:06:11 zjw
 function this:SetAnchoredPosition(x,y)
+	x = x or self:GetAnchoredPosition().x
+	y = y or self:GetAnchoredPosition().y
 	self._transform.anchoredPosition = Vector2(x,y)
 	return self
 end

@@ -29,6 +29,7 @@ printc = function(...)
     print(debug.traceback())
 end
 
+--获取根母表
 getrootmetatable = function(table)
     local meta = getmetatable(table)
     if(not meta)then
@@ -36,6 +37,29 @@ getrootmetatable = function(table)
     end
     return getrootmetatable(meta)
 end
+
+--比例映射
+map = function(val,val1_1,val1_2,val2_1,val2_2)
+    local x = math.abs(val-val1_1)/math.abs(val1_2-val1_1) * math.abs(val2_2-val2_1)
+    x = x + val2_1
+    return x
+end
+
+--区间限制
+clamp = function(value,min,max)
+    if(min and value<min)then
+        value = min
+    end
+
+    if(max and value>max)then
+        value = max
+    end
+
+    return value
+end
+
+
+
 
 -- SetParent = function(trans,parentTrans)
 --     trans:SetParent(parentTrans,false)
