@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+
+</head>
+
+<body>
+    <script>
+        function func1() {
+            var text = document.getElementById("text-target");
+            if (text.innerHTML.toString() == "2") {
+                text.innerHTML = "1";
+                console.log(1);
+                return;
+            }
+            if (text.innerHTML.toString() == "1") {
+                text.innerHTML = "2";
+                console.log(2);
+                return;
+            }
+        }
+    </script>
+
+    <script>
+        function func2() {
+            console.log("func2")
+            var body = document.getElementById("main-trunk")
+            var text = document.createElement('p');
+            text.id = "text-" + (body.childElementCount + 1)
+            text.innerHTML = "create by func2";
+            body.appendChild(text)
+        }
+
+        function func4() {
+            console.log("func2")
+            var body = document.getElementById("main-trunk")
+            var text = document.getElementById("text-" + body.childElementCount)
+            if (text != null) {
+                body.removeChild(text)
+            }
+        }
+    </script>
+
+    <script>
+        function func3() {
+            document.write("123")
+        }
+    </script>
+
+    <div id="main-trunk">
+        <p id="text-target">1</p>
+        <input type="button" onclick="func1()" value="invoke func1">
+        <input type="button" onclick="func2()" value="create">
+        <input type="button" onclick="func4()" value="remove">
+        <input type="button" onclick="func3()" value="write">
+    </div>
+</body>
+
+</html>

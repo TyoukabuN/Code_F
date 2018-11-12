@@ -22,7 +22,7 @@
             "name": "Launch index.html",
             "type": "chrome",
             "request": "launch",
-            "file": "${workspaceFolder}/Test.html"
+            "file": "${workspaceFolder}/Test2.html"
         },
     ]
 }
