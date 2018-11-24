@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.EventSystems;
 #if UNITY_EDITOR
     using UnityEditor;
@@ -14,6 +16,32 @@ public class Main : MonoBehaviour
     void Awake()
     {
         LuaSystem.Init();
+        TimeSpan timeSpa1n = DateTime.Today.ToUniversalTime() - new DateTime(1970, 1, 1);
+        //错误日志
+        Application.logMessageReceived += (string condition, string stackTrace, LogType type) =>
+        {
+            if (type.Equals(LogType.Exception) || type.Equals(LogType.Error)) {
+
+                TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1,0,0,0);
+                
+                string timeStamp = ((int)timeSpan.TotalSeconds).ToString();
+
+                string hostName = System.Net.Dns.GetHostName();
+                string userName = System.Environment.UserName;
+                string machineName = System.Environment.MachineName;
+
+                ToLuaUtility.HttpPostRequest("http://192.168.8.213/errlog.php",
+                    (UnityWebRequest req) => { Debug.Log(req.downloadHandler.text); }, "", "submit", 
+                    "logType", type.ToString(), 
+                    "condition", condition, 
+                    "stackTrace", stackTrace,
+                    "timeStamp", timeStamp,
+                    "hostName", hostName,
+                    "userName", userName,
+                    "machineName", machineName
+                    );
+            }
+        };
     }
 
     void OnGUI()
@@ -48,6 +76,9 @@ public class Main : MonoBehaviour
         {
             string filePath = "HoTFixTest";
             LuaSystem.DoString(LuaLoader(filePath));
+
+            //ToLuaUtility.HttpPostRequest("http://192.168.8.213/errlog.php",
+            //        (UnityWebRequest req) => { Debug.Log(req.downloadHandler.text); }, "", "submit", "logType", ((int)LogType.Error).ToString(), "condition", "condition", "stackTrace", "stackTrace");
         }
     }
 

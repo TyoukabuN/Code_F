@@ -37,6 +37,8 @@ LuaSystem = CS.LuaSystem
 EnUpdate = LuaSystem.EnUpdate
 DeUpdate = LuaSystem.DeUpdate
 
+ToLuaUtility = CS.ToLuaUtility
+
 
 
 require "requireInit"

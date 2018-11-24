@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 using XLua;
 
@@ -17,6 +18,7 @@ public static class LuaConfig
         typeof(UnityEngine.Vector3),
         typeof(System.Action<UnityEngine.Object>),
         typeof(System.Action<XLua.LuaTable>),
+        typeof(System.Action<UnityWebRequest>),
         typeof(UnityEngine.Events.UnityAction),
         typeof(UnityEngine.Events.UnityAction<bool>),
         typeof(UnityEngine.Events.UnityAction<string>),
@@ -163,7 +165,7 @@ public static class LuaConfig
         typeof(EventTriggerType),
         typeof(LayerMask),
 
-        //self clase
+        //self class
         typeof(EventTriggerSub),
         typeof(ResourceManager),
         typeof(TimerSystem),

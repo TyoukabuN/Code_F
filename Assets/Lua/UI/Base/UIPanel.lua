@@ -13,7 +13,7 @@ function this:ctor(panelName,isAsync)
         return
     end
 
-    go = go or self:LoadPanel(panelName)
+    self:LoadPanel(panelName)
 end
 
 function this:Init(...)

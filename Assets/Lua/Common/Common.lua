@@ -40,7 +40,7 @@ end
 
 --比例映射
 map = function(val,val1_1,val1_2,val2_1,val2_2)
-    local x = math.abs(val-val1_1)/math.abs(val1_2-val1_1) * math.abs(val2_2-val2_1)
+    local x = (val-val1_1)/math.abs(val1_2-val1_1) * math.abs(val2_2-val2_1)
     x = x + val2_1
     return x
 end

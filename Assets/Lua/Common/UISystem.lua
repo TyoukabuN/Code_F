@@ -124,6 +124,7 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
     if(not closeOther)then
         closeOther = false
     end
+
     local panelConfig,index = UISystem.GetPanel(panelName)
     local hInstance
     local isCommonPanel = IsCommonPanel(panelName)
@@ -147,6 +148,7 @@ UISystem.OpenPanel = function(panelName,closeOther,parent_hInstance,isAsync)
 
         AddToQueue(panelConfig)
     end
+
     if(closeOther and not isCommonPanel)then
         for i = 1,#panel_queue-1 do
             panel_queue[i]:AddCloser(panelConfig)

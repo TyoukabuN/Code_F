@@ -23,9 +23,15 @@ TweenType = {
     InCirc = 17,
     OutCirc = 18,
     InOutCirc = 19,
-    InElastic = 17,
-    OutElastic = 18,
-    InOutElastic = 19,
+    InElastic = 20,
+    OutElastic = 21,
+    InOutElastic = 22,
+    InBack = 23,
+    OutBack = 24,
+    InOutBack = 25,
+    InBounce = 26,
+    OutBounce = 27,
+    InOutBounce = 28,
 }
 
 TweenName = {
@@ -54,6 +60,12 @@ TweenName = {
     [TweenType.InElastic] = "InElastic",
     [TweenType.OutElastic] = "OutElastic",
     [TweenType.InOutElastic] = "InOutElastic",
+    [TweenType.InBack] = "InBack",
+    [TweenType.OutBack] = "OutBack",
+    [TweenType.InOutBack] = "InOutBack",
+    [TweenType.InBounce] = "InBounce",
+    [TweenType.OutBounce] = "OutBounce",
+    [TweenType.InOutBounce] = "InOutBounce",
 }
 
 Tween.GetTweenFunc = function(tweenType)
@@ -70,6 +82,23 @@ Tween.GetTweenFunc = function(tweenType)
     local  c4 =(2 * PI)/ 3
     local  c5 =(2 * PI)/ 4.5
 
+    local bounceOut =function(x)
+
+        local n1 = 7.5625
+
+        local d1 = 2.75
+
+        if(x < 1/d1)then
+            return n1*x*x
+        elseif(x < 2/d1)then
+            return n1*(x-(1.5/d1))*x + 0.75
+        elseif(x < 2.5/d1)then
+            return n1*(x-(2.25/d1))*x + 0.9375
+        else
+            return n1*(x-(2.625/d1))*x + 0.984375
+        end
+
+    end
 
     if(tweenType == TweenType.Linear)then
         return function(x) return x end
@@ -208,6 +237,42 @@ Tween.GetTweenFunc = function(tweenType)
                 return (2^(-20*x+10))*math.sin((20*x-11.125)*c5)/2+1
             end
     end
+
+
+    if(tweenType == TweenType.InBack)then
+        return  function(x) return c3 * x^3 - c1 * x^2 end
+    end
+
+    if(tweenType == TweenType.OutBack)then
+        return function(x) return 1 - c3 * -(x-1)^3 - c1 * -(x-1)^2 end
+    end
+
+    if(tweenType == TweenType.InOutBack)then
+        return function(x)
+                if(x<0.5)then
+                    return -(2^(20*x-10))*math.sin((20*x-11.125)*c5)/2
+                end
+                return (2^(-20*x+10))*math.sin((20*x-11.125)*c5)/2+1
+            end
+    end
+
+
+    if(tweenType == TweenType.InBounce)then
+        return  function(x) return 1 - bounceOut(1 - x) end
+    end
+
+    if(tweenType == TweenType.OutBounce)then
+        return function(x) return bounceOut(x) end
+    end
+
+    if(tweenType == TweenType.InOutBounce)then
+        return function(x)
+                if(x<0.5)then
+                    return (1 - bounceOut(1 - 2 * x))/ 2
+                end
+                return (1 + bounceOut(2 * x - 1))/ 2
+            end
+    end
 end
 
 Tween.Do = function(getter,setter,beginVal,endVal,duration,tweenType)
@@ -241,10 +306,7 @@ function Tweener:Tick()
 
     self.counter = self.counter + Time.deltaTime
 
-
-    printc(clamp(self.counter/self.duration,0,1))
     self.curVal = map(self.func(clamp(self.counter/self.duration,0,1)),0,1,self.beginVal,self.endVal)
-        -- self.curVal = self.func(clamp(self.counter/self.duration,0,1)) * (self.endVal - self.beginVal)
 
     if(self.setter)then
         self.setter(self.curVal)

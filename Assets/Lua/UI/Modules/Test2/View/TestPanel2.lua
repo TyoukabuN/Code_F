@@ -31,17 +31,20 @@ function this:Init(...)
 end
 
 function this:AfterInit()
-    self._optionPool:Get():SetContent("测试面板_2")--:SetClick(self.OnClick)
-    self._optionPool:Get():SetContent("打开1"):SetClick(function()
-        UISystem.OpenPanel(PanelName.Test,true,self)
-    end)
-    self._optionPool:Get():SetContent("打开2"):SetClick(function()
-        UISystem.OpenPanel(PanelName.Test2,true,self)
-    end)
-    self._optionPool:Get():SetContent("输出当前面板队列"):SetClick(function() UISystem.ToString() end)
-    self._optionPool:Get():SetContent("关闭"):SetClick(self.OnClick)
+    self._optionPool:Get():SetContent("GET"):GetButton():SetClickCB(function() self:OnGet() end)
+    self._optionPool:Get():SetContent("POST"):GetButton():SetClic4kCB(function() self:OnPost() end)
 end
 
-function this:OnClick()
-    UISystem.ClosePanel(PanelName.Test2)
+function this:OnGet()
+    local onReturn = function(req) printc(req.downloadHandler.text) end
+    ToLuaUtility.HttpGetRequest("http://192.168.8.213/get.php",onReturn,"","submit","r", "1", "g", "1", "b", "1")
 end
+
+function this:OnPost()
+    local onReturn = function(req) printc(req.downloadHandler.text) end
+    ToLuaUtility.HttpPostRequest("http://192.168.8.213/post.php",onReturn,"","submit","r", "100", "g", "100", "b", "100")
+end
+
+-- function this:OnClick()
+--     UISystem.ClosePanel(PanelName.Test2)
+-- end

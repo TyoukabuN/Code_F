@@ -31,8 +31,10 @@ namespace XLua.CSObjectWrap
 			Utils.EndObjectRegister(type, L, translator, null, null,
 			    null, null, null);
 
-		    Utils.BeginClassRegister(type, L, __CreateInstance, 2, 0, 0);
+		    Utils.BeginClassRegister(type, L, __CreateInstance, 4, 0, 0);
 			Utils.RegisterFunc(L, Utils.CLS_IDX, "GetWorldCorners", _m_GetWorldCorners_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "HttpGetRequest", _m_HttpGetRequest_xlua_st_);
+            Utils.RegisterFunc(L, Utils.CLS_IDX, "HttpPostRequest", _m_HttpPostRequest_xlua_st_);
             
 			
             
@@ -91,6 +93,66 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 1;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_HttpGetRequest_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    string _url = LuaAPI.lua_tostring(L, 1);
+                    System.Action<UnityEngine.Networking.UnityWebRequest> _callback = translator.GetDelegate<System.Action<UnityEngine.Networking.UnityWebRequest>>(L, 2);
+                    string _data = LuaAPI.lua_tostring(L, 3);
+                    string _command = LuaAPI.lua_tostring(L, 4);
+                    string[] _args = translator.GetParams<string>(L, 5);
+                    
+                    ToLuaUtility.HttpGetRequest( _url, _callback, _data, _command, _args );
+                    
+                    
+                    
+                    return 0;
+                }
+                
+            } catch(System.Exception gen_e) {
+                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
+            }
+            
+        }
+        
+        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
+        static int _m_HttpPostRequest_xlua_st_(RealStatePtr L)
+        {
+		    try {
+            
+                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
+            
+            
+            
+                
+                {
+                    string _url = LuaAPI.lua_tostring(L, 1);
+                    System.Action<UnityEngine.Networking.UnityWebRequest> _callback = translator.GetDelegate<System.Action<UnityEngine.Networking.UnityWebRequest>>(L, 2);
+                    string _data = LuaAPI.lua_tostring(L, 3);
+                    string _command = LuaAPI.lua_tostring(L, 4);
+                    string[] _args = translator.GetParams<string>(L, 5);
+                    
+                    ToLuaUtility.HttpPostRequest( _url, _callback, _data, _command, _args );
+                    
+                    
+                    
+                    return 0;
                 }
                 
             } catch(System.Exception gen_e) {

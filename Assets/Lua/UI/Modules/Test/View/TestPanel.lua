@@ -56,27 +56,9 @@ function this:AfterInit()
     -- button:AddTriggerListener(EventTriggerType.Submit,function(eventData) printc("Submit") end)
     -- button:AddTriggerListener(EventTriggerType.Cancel,function(eventData) printc("Cancel") end)
 
-    -- self._optionPool:Get():SetContent("Add"):GetButton():SetClickCB(function() self:OnAdd() end)
-    -- self._optionPool:Get():SetContent("Remove"):GetButton():SetClickCB(function() self:OnRemove() end)
-    self.count = 0
-end
-
-
-
-function this:OnAdd()
-    printc(self.count)
-    self.count = self.count + 1
-    if(self.count>100)then
-        self.count = 100
-    end
-end
-
-function this:OnRemove()
-    printc(self.count)
-    self.count = self.count - 1
-    if(self.count<1)then
-        self.count = 1
-    end
+    -- self._optionPool:Get():SetContent("GET"):GetButton():SetClickCB(function() self:OnGet() end)
+    -- self._optionPool:Get():SetContent("POST"):GetButton():SetClickCB(function() self:OnPost() end)
+    self._optionPool:Get():SetContent("WebTest"):GetButton():SetClickCB(function() UISystem.OpenPanel(PanelName.Test2,true) end)
 end
 
 function this:OnClick()

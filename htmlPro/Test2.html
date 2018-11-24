@@ -24,22 +24,40 @@
 
     <script>
         function func2() {
-            console.log("func2")
             var body = document.getElementById("main-trunk")
             var text = document.createElement('p');
             text.id = "text-" + (body.childElementCount + 1)
             text.innerHTML = "create by func2";
             body.appendChild(text)
         }
+        $(document).ready(
+            function () {
+                $("p").click(function () {
+                    this.hide();
+                })
+            }
+        )
 
         function func4() {
-            console.log("func2")
             var body = document.getElementById("main-trunk")
             var text = document.getElementById("text-" + body.childElementCount)
             if (text != null) {
                 body.removeChild(text)
             }
         }
+    </script>
+
+    <!-- jQuery library -->
+    <script src="jquery.js"></script>
+    <script src="ownjQuery.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("p").click(function () {
+                $(this).fadeOut();
+            });
+        }
+        );
     </script>
 
     <script>
@@ -49,7 +67,9 @@
     </script>
 
     <div id="main-trunk">
-        <p id="text-target">1</p>
+        <p id="text-target">1231231</p>
+        <p id="text-target">1231231</p>
+        <p id="text-target">1231231</p>
         <input type="button" onclick="func1()" value="invoke func1">
         <input type="button" onclick="func2()" value="create">
         <input type="button" onclick="func4()" value="remove">

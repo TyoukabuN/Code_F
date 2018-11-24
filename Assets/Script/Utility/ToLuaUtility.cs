@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using System.Net;
+using System;
 
 public class ToLuaUtility {
 
@@ -15,5 +18,117 @@ public class ToLuaUtility {
         Vector3[] arr = new Vector3[4];
         trans.GetWorldCorners(arr);
         return arr;
+    }
+
+    public static void HttpGetRequest(string url,Action<UnityWebRequest> callback, string data, string command,params string[] args)
+    {
+        if (!string.IsNullOrEmpty(command)) {
+            url = string.Format("{0}/{1}", url, command);
+        }
+
+        if (args!=null && args.Length>0) {
+            string arg = string.Empty;
+            for (int i = 0; i < args.Length; i += 2)
+            {
+                if (i+1>=args.Length)
+                {
+                    break;
+                }
+                string key = WWW.EscapeURL(args[i]);
+                string value = WWW.EscapeURL(args[i + 1]);
+                arg += string.Format("{0}={1}&", key, value);
+            }
+            arg = arg.Remove(arg.Length - 1);
+            url = string.Format("{0}?{1}",url, arg);
+        }
+        LuaSystem.Instance.StartCoroutine(HttpCoroutine(url, UnityWebRequest.kHttpVerbGET, data, callback));
+    }
+
+    public static void HttpPostRequest(string url, Action<UnityWebRequest> callback, string data, string command, params string[] args)
+    {
+        //if (!string.IsNullOrEmpty(command))
+        //{
+        //    url = string.Format("{0}/{1}", url, command);
+        //}
+        WWWForm form = new WWWForm();
+        string arg = string.Empty;
+        if (args != null && args.Length > 0)
+        {
+            for (int i = 0; i < args.Length; i += 2)
+            {
+                if (i + 1 >= args.Length)
+                {
+                    break;
+                }
+                string key = WWW.EscapeURL(args[i]);
+                string value = WWW.EscapeURL(args[i + 1]);
+                //arg += string.Format("{0}={1}&", key, value);
+                form.AddField(key, value);
+            }
+            //arg = arg.Remove(arg.Length - 1);
+            //arg = string.Format("/{0}?{1}", command, arg);
+        }
+        LuaSystem.Instance.StartCoroutine(HttpCoroutinePost(url, UnityWebRequest.kHttpVerbPOST, form, callback));
+    }
+
+    private static IEnumerator HttpCoroutinePost(string url, string method, WWWForm form, Action<UnityWebRequest> callback)
+    {
+        UnityWebRequest request = UnityWebRequest.Post(url, form);
+
+        //if (onHttpRequest != null)
+        //{
+        //    onHttpRequest.Invoke(request);
+        //}
+
+        yield return request.SendWebRequest();
+
+        //if (onHttpReturn != null)
+        //{
+        //    onHttpReturn.Invoke(request);
+        //}
+
+        if (callback != null)
+        {
+            callback.Invoke(request);
+        }
+
+        request.Dispose();
+    }
+
+
+
+    private static IEnumerator HttpCoroutine(string url, string method, string data, Action<UnityWebRequest> callback) {
+        UnityWebRequest request = null;
+        if (method == UnityWebRequest.kHttpVerbPUT)
+        {
+            request = UnityWebRequest.Put(url, data);
+        }
+        else if (method == UnityWebRequest.kHttpVerbPOST)
+        {
+            request = UnityWebRequest.Post(url, data);
+        }
+        else
+        {
+            request = UnityWebRequest.Get(url);
+        }
+
+        //if (onHttpRequest != null)
+        //{
+        //    onHttpRequest.Invoke(request);
+        //}
+
+        yield return request.SendWebRequest();
+
+        //if (onHttpReturn != null)
+        //{
+        //    onHttpReturn.Invoke(request);
+        //}
+
+        if (callback != null)
+        {
+            callback.Invoke(request);
+        }
+
+        request.Dispose();
     }
 }
