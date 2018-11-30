@@ -39,13 +39,13 @@ DeUpdate = LuaSystem.DeUpdate
 
 ToLuaUtility = CS.ToLuaUtility
 
-
-
 require "requireInit"
 
 local function Init()
     UISystem.Init()
+    TaskSystem.Init()
 end
 
 Init()
+
 

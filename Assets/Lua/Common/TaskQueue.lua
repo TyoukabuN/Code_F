@@ -11,8 +11,9 @@ function this:Start()
     if(#self.list==0)then
         return
     end
-    self.runnsing  = true
-    EnUpdate(self.Tick,self)
+    self.running  = true
+    return self
+    -- EnUpdate(self.Tick,self)
 end
 
 function this:Add(task)
@@ -29,6 +30,7 @@ function this:Tick()
 
     if(self.list[1]:Tick())then
         table.insert(self.dones,table.remove(self.list,1))
+        printc("队列中某个任务完成了","队列中剩余任务数:",#self.list,TaskSystem.RunningTaskCount())
         return true
     end
 
@@ -41,7 +43,7 @@ end
 
 function this:Stop()
     self:Pause()
-    DeUpdate(self.Tick,self)
+    -- DeUpdate(self.Tick,self)
 end
 
 function this:Dispose()
@@ -49,3 +51,8 @@ function this:Dispose()
     table.iaction(self.list,function(arg) arg:Dispose() end)
     self.list = {}
 end
+
+function this:isDone()
+    return #self.list==0
+end
+
