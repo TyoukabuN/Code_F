@@ -42,21 +42,21 @@ function this:Tick()
 
     self.counter0 = self.counter0 + Time.deltaTime
 
-    if(self.delay and self.counter<self.delay)then
+    if(self.delay and math.floor(self.counter)<self.delay)then
         self.counter = self.counter + Time.deltaTime
         return false
     end
 
     self.counter = 0
 
-    local isDone = true
-    if(self.condition)then
-        isDone = self.condition(self.counter0,self.updateCount)
-    end
-
     if(self.onUpdate)then
         self.updateCount = self.updateCount + 1
         pcall(function() self.onUpdate(self.counter0,self.updateCount) end)
+    end
+
+    local isDone = true
+    if(self.condition)then
+        isDone = self.condition(self.counter0,self.updateCount)
     end
 
     if(isDone)then

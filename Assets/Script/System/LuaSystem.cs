@@ -22,6 +22,7 @@ public class LuaSystem : MonoSingleton<LuaSystem>
 
             Instance.luaEnv.DoString("require 'Main'", "Main", table_main);
         }
+        Instance.luaEnv.AddBuildin("rapidjson", XLua.LuaDLL.Lua.LoadRapidJson);
     }
 
     public static object[] DoString(string chunk, string chunkName = "chunk", LuaTable env = null)

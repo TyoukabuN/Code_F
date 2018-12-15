@@ -56,11 +56,10 @@ local generator_mt = {
     }
 }
 
-local function cs_generator(func, ...)
-    local params = {...}
+local function cs_generator(func)
     local generator = setmetatable({
         w_func = function()
-            func(unpack(params))
+            func()
             return move_end
         end
     }, generator_mt)

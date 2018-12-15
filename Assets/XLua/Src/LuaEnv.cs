@@ -57,7 +57,7 @@ namespace XLua
         }
 #endif
 
-        const int LIB_VERSION_EXPECT = 105;
+        const int LIB_VERSION_EXPECT = 104;
 
         public LuaEnv()
         {
@@ -454,7 +454,6 @@ namespace XLua
             local rawget = rawget
             local setmetatable = setmetatable
             local import_type = xlua.import_type
-            local import_generic_type = xlua.import_generic_type
             local load_assembly = xlua.load_assembly
 
             function metatable:__index(key) 
@@ -478,15 +477,7 @@ namespace XLua
 
             -- A non-type has been called; e.g. foo = System.Foo()
             function metatable:__call(...)
-                local n = select('#', ...)
-                local fqn = rawget(self,'.fqn')
-                if n > 0 then
-                    local gt = import_generic_type(fqn, ...)
-                    if gt then
-                        return rawget(CS, gt)
-                    end
-                end
-                error('No such type: ' .. fqn, 2)
+                error('No such type: ' .. rawget(self,'.fqn'), 2)
             end
 
             CS = CS or {}

@@ -27,8 +27,12 @@ TaskSystem.Stop = function()
 end
 
 
-TaskSystem.Add = function(taskobject)
-    table.insert(list,taskobject)
+TaskSystem.Add = function(condition,onDone,delay,onUpdate)
+    TaskSystem.AddObject(TaskObject.New(condition,onDone,delay,onUpdate))
+end
+
+TaskSystem.AddObject = function(taskobject)
+    table.insert(list,taskobject:Start())
 end
 
 TaskSystem.Tick = function()

@@ -99,10 +99,7 @@ namespace XLua
         IgnoreProperty = 4,
         IgnoreNotPublic = 8,
         Inline = 16,
-        IntKey = 32,
-        AdaptByDelegate = 64,
-        IgnoreCompilerGenerated = 128,
-        NoBaseProxy = 256,
+        IntKey = 32
     }
 
     public class HotfixAttribute : Attribute

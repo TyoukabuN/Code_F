@@ -11,12 +11,19 @@ function this:Start()
     if(#self.list==0)then
         return
     end
+
+    table.iaction(self.list,function(arg) arg:Start() end)
+
     self.running  = true
     return self
     -- EnUpdate(self.Tick,self)
 end
 
 function this:Add(task)
+    self:AddObject(TaskObject.New(condition,onDone,delay,onUpdate):Start())
+end
+
+function this:AddObject(task)
     table.insert(self.list,task)
     if(not self.running and #self.list == 1)then
         self:Start()

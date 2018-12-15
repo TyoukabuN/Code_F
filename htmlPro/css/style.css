@@ -2,186 +2,259 @@
  time：2018年10月18日10:59:30
  author：zjw
  */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 12px 12px 12px 12px ;
-  padding: 0 ;
-  border: 0;
-  font-size: 80%;
-  font: inherit;
-  vertical-align: baseline;
-}
+ html,
+ body,
+ div,
+ span,
+ applet,
+ object,
+ iframe,
+ h1,
+ h2,
+ h3,
+ h4,
+ h5,
+ h6,
+ p,
+ blockquote,
+ pre,
+ a,
+ abbr,
+ acronym,
+ address,
+ big,
+ cite,
+ code,
+ del,
+ dfn,
+ em,
+ img,
+ ins,
+ kbd,
+ q,
+ s,
+ samp,
+ small,
+ strike,
+ strong,
+ sub,
+ sup,
+ tt,
+ var,
+ b,
+ u,
+ i,
+ center,
+ dl,
+ dt,
+ dd,
+ ol,
+ ul,
+ li,
+ fieldset,
+ form,
+ label,
+ legend,
+ caption,
+ tbody,
+ tfoot,
+ thead,
+ article,
+ aside,
+ canvas,
+ details,
+ embed,
+ figure,
+ figcaption,
+ footer,
+ header,
+ hgroup,
+ menu,
+ nav,
+ output,
+ ruby,
+ section,
+ summary,
+ time,
+ mark,
+ audio,
+ video {
+     margin: 12px 12px 12px 12px;
+     padding: 0;
+     border: 0;
+     font-size: 80%;
+     font: inherit;
+     vertical-align: baseline;
+ }
 
-body
-{
-    background-image: url("image/101.jpg");
-    background-attachment: scroll;
-    background-size: contain;
-    background-color: rgb(255,255,255);
-}
+ body {
+     background-image: url("image/101.jpg");
+     background-attachment: scroll;
+     background-size: contain;
+     background-color: rgb(255, 255, 255);
+ }
 
-        .title ,
-        .subtitle,
-        h2,
-        h3 {
-            color: rgb(36, 243, 115);
-            text-align: center;
-            font-size: 45px;
-            /* font-family: 微软雅黑; */
-            font-family: fantasy;
-        }
+ .title,
+ .subtitle,
+ h2,
+ h3 {
+     color: rgb(36, 243, 115);
+     text-align: center;
+     font-size: 45px;
+     /* font-family: 微软雅黑; */
+     font-family: fantasy;
+ }
 
-        .title {
-            font-size: 75px;
-            font-family: fantasy;
-            /* text-shadow: rgb(36, 243, 215) 1px 0; */
-        }
+ .title {
+     font-size: 75px;
+     font-family: fantasy;
+     /* text-shadow: rgb(36, 243, 215) 1px 0; */
+ }
 
-        h3 {
-            font-size: 25px;
-        }
+ h3 {
+     font-size: 25px;
+ }
 
-        p {
-            color: rgb(0, 0, 0);
-            text-align: center;
-            /* margin: auto; */
-            margin: 10px 10px 10px 10px;
-            margin-left : auto;
-            margin-right : auto;
-            padding: 5px 5px 5px 5px;
-            font-family: fantasy;
-            background-color: rgba(252, 27, 65, 0.9);
-             /* background-color: rgba(252, 77, 106, 0.9); */
-        }
+ p {
+     color: rgb(0, 0, 0);
+     text-align: center;
+     /* margin: auto; */
+     margin: 10px 10px 10px 10px;
+     margin-left: auto;
+     margin-right: auto;
+     padding: 5px 5px 5px 5px;
+     font-family: fantasy;
+     background-color: rgba(252, 27, 65, 0.9);
+     /* background-color: rgba(252, 77, 106, 0.9); */
+ }
 
-        .center,
-        div {
-            text-align: center;
-            margin: auto;
-            border: 0;
-            width: 70%;
-            padding: 5px 0px 5px 0px;
-            /* border-bottom: 1px solid rgb(255, 255, 255); */
-            background-color: rgba(221, 255, 252, 0.445);
-            /* width: 100%; */
-            outline-style: groove;
-            outline-color: rgb(0, 255, 221);
-            outline-width: 2px;
-        }
+ .center,
+ div {
+     text-align: center;
+     margin: auto;
+     border: 0;
+     width: 70%;
+     padding: 5px 0px 5px 0px;
+     /* border-bottom: 1px solid rgb(255, 255, 255); */
+     background-color: rgba(221, 255, 252, 0.445);
+     /* width: 100%; */
+     outline-style: groove;
+     outline-color: rgb(0, 255, 221);
+     outline-width: 2px;
+ }
 
-        .link,
-        .linknotline {
-            color: rgb(2, 175, 206);
-        }
+ .link,
+ .linknotline {
+     color: rgb(2, 175, 206);
+ }
 
-        .linknotline {
-            text-decoration: none;
-        }
+ .linknotline {
+     text-decoration: none;
+ }
 
-        .line {
-            color: rgb(255, 255, 255)
-        }
+ .line {
+     color: rgb(255, 255, 255)
+ }
 
-        .headicon {
-            width: 60px;
-            height: 60px;
-            background-size: contain;
-            background-image: url("image/headicon.jpg");
-            background-repeat: no-repeat;
-            background-position: center;
-            font: inherit;
-            vertical-align: baseline;
-            margin: auto;
-        }
+ .headicon {
+     width: 60px;
+     height: 60px;
+     background-size: contain;
+     background-image: url("image/headicon.jpg");
+     background-repeat: no-repeat;
+     background-position: center;
+     font: inherit;
+     vertical-align: baseline;
+     margin: auto;
+ }
 
-        table.style {
-            margin-left: auto;
-            margin-right: auto;
-            border-collapse: collapse;
-            border: 1px solid #aaa
-        }
 
-        p#selector1 {
-            font-style: initial;
-            color: aquamarine;
-        }
 
-        p#selector2{
-            font-style: initial;
-            color: rgb(255, 246, 127);
-        }
+ p#selector1 {
+     font-style: initial;
+     color: aquamarine;
+ }
 
-        p test{
-            text-align: left;
-            text-indent: 10px;
-        }
+ p#selector2 {
+     font-style: initial;
+     color: rgb(255, 246, 127);
+ }
 
-        p test2{
-            text-align: left;
-            text-indent: 100px;
-            color:  rgb(255, 224, 46);
-        }
+ p test {
+     text-align: left;
+     text-indent: 10px;
+ }
 
-        p test3{
-            text-align: justify;
-            color: rgb(255, 255, 255)
-        }
+ p test2 {
+     text-align: left;
+     text-indent: 100px;
+     color: rgb(255, 224, 46);
+ }
 
-        p felement{
-            margin: 5px ;
-            padding: 5px ;
-            width: 40px;
-            height: 20px;
-            border: 20px solid rgb(255, 224, 46);
-            background-color : rgb(243, 217, 217)
-        }
+ p test3 {
+     text-align: justify;
+     color: rgb(255, 255, 255)
+ }
 
-        p border{
-            border-style: solid;
-            border-width:20px,5px,15px,5px;
-            border-color: rgb(255, 201, 25)
-            /* border-top-width: 15px; */
-            /* border-right-width: 5px; */
-            /* border-bottom-width: 15px; */
-            /* border-left-width: 5px; */
-        }
+ p felement {
+     margin: 5px;
+     padding: 5px;
+     width: 40px;
+     height: 20px;
+     border: 20px solid rgb(255, 224, 46);
+     background-color: rgb(243, 217, 217)
+ }
 
-        img[alt]
-        {
-            width: 100px;
-            border: 5px solid rgb(247, 225, 34);
-        }
+ p border {
+     border-style: solid;
+     border-width: 20px, 5px, 15px, 5px;
+     border-color: rgb(255, 201, 25)
+         /* border-top-width: 15px; */
+         /* border-right-width: 5px; */
+         /* border-bottom-width: 15px; */
+         /* border-left-width: 5px; */
+ }
 
-        ul{
-            margin: auto;
-            background-color: crimson
-        }
+ img[alt] {
+     width: 100px;
+     border: 5px solid rgb(247, 225, 34);
+ }
 
-        li {
-            background-color: hotpink;
-       }
+ ul {
+     margin: auto;
+     background-color: crimson
+ }
 
-       li[inline]{
-           display: inline;
-       }
+ li {
+     background-color: hotpink;
+ }
 
-       li[block]
-       {
-           display:block;
-       }
+ li[inline] {
+     display: inline;
+ }
 
-       li:hover{
-           background-color: greenyellow;
-       }
+ li[block] {
+     display: block;
+ }
 
+ li:hover {
+     background-color: greenyellow;
+ }
+
+ table.style {
+     margin-left: auto;
+     margin-right: auto;
+     border-collapse: collapse;
+     border: 1px solid rgba(0, 0, 0, 0);
+ }
+
+ * th,
+ * td {
+     border-block-start-color: aliceblue;
+     border-block-end-color: blue;
+     background-position-x: 2px;
+     border-collapse: collapse;
+     border: 10px;
+     padding: 10px;
+     background-color: aquamarine;
+ }

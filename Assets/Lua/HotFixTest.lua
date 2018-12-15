@@ -1,9 +1,9 @@
--- UISystem.OpenPanel(PanelName.Test,true)
+UISystem.OpenPanel(PanelName.Tween,true)
 
 -- local onReturn = function(req) printc(req.downloadHandler.text) end
 -- ToLuaUtility.HttpPostRequest("http://192.168.8.213/request.php",onReturn,"","submit","r", "100", "g", "100", "b", "100")
 
--- Debug.logError("errlog post test")
+-- Debug.LogError("errlog post test")
 
 -- local json = require("rapidjson")
 
@@ -18,4 +18,4 @@
 -- end
 -- ToLuaUtility.HttpPostRequest("http://192.168.8.213/test.php",onReturn,"","submit")
 
-TaskObject.New(nil,nil,1,function(counter) print(counter) end):Start()
+-- TaskSystem.Add(nil,nil,1,function(counter) print(counter) end)
