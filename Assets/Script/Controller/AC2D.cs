@@ -47,7 +47,7 @@ public class AC2D : MonoBehaviour {
     }
     public void Tick(SpriteRenderer sr,float h, float v)
     {
-        counter += Time.fixedDeltaTime;
+        counter += Time.deltaTime;
 
         if (counter >= FrameRate)
         {

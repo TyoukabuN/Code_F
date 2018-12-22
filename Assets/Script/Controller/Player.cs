@@ -13,17 +13,19 @@ public class Player : Controller {
     private const float ADDTION_DASH = 2.5F;
     private const int DIR_LEFT = -1;
     private const int DIR_RIGHT = 1;
-    private SpriteShadow sshadow;
+    private SpriteShadowCreater sshadow;
 
     private void SetShadow(bool enabled)
     {
         if (sshadow)
-        { sshadow.Switch = enabled; }
+        {
+            sshadow.Switch = enabled;
+        }
     }
     protected new void Awake()
     {
         base.Awake();
-        sshadow = GetComponent<SpriteShadow>();
+        sshadow = GetComponent<SpriteShadowCreater>();
         SetShadow(false);
         //移动方法
         Func<float,bool> move = (addtion) =>
@@ -32,7 +34,7 @@ public class Player : Controller {
             bool someDir = true;
             if (h != 0)
             {
-                transform.Translate(addtion * Vector3.right * h * moveSpeed * Time.fixedDeltaTime, Space.World);
+                transform.Translate(addtion * Vector3.right * h * moveSpeed * Time.deltaTime, Space.World);
                 someDir = (h>0 && lastDir>0)||(h < 0 && lastDir < 0);
                 //print(someDir);
                 lastDir = h;
@@ -43,7 +45,7 @@ public class Player : Controller {
 
         Action<int, float> translate = (int dir, float addtion) =>
         {
-            transform.Translate(addtion * Vector3.right * dir * moveSpeed * Time.fixedDeltaTime, Space.World);
+            transform.Translate(addtion * Vector3.right * dir * moveSpeed * Time.deltaTime, Space.World);
         };
 
         statusController = new StatusController();
@@ -52,7 +54,7 @@ public class Player : Controller {
         Idle.onUpdate = () => {
             float h = Input.GetAxisRaw("Horizontal");
 
-            if (Input.GetKey(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 statusController.Enter("Jump");
                 return;
@@ -72,7 +74,7 @@ public class Player : Controller {
         //跑
         Status Run = new Status();
         Run.onUpdate = () => {
-            if (Input.GetKey(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
             {
                 statusController.Enter("Jump");
                 return;
@@ -95,6 +97,19 @@ public class Player : Controller {
         };
         //跳跃
         Status Jump = new Status();
+        Jump.SetAutoExit(0.24f, () =>
+        {
+            groundFilter.SetNormalAngle(minNormalAngle, maxNormalAngle);
+            Collider2D[] contactPoints_g = new Collider2D[8];
+            if (rigid2d.GetContacts(groundFilter, contactPoints_g) > 0)
+            {
+                rigid2d.gravityScale = 1;
+                statusController.Enter("Idle");
+                return;
+            }
+
+            statusController.Enter("Drop");
+        });
         Jump.onUpdate = () =>
         {
             move.Invoke(ADDTION_RUN);
@@ -103,7 +118,7 @@ public class Player : Controller {
             {
                 rigid2d.gravityScale = 0;
                 rigid2d.velocity = Vector2.zero;
-                transform.Translate(Vector3.up * jumpForce * Time.fixedDeltaTime, Space.World);
+                transform.Translate(Vector3.up * jumpForce * Time.deltaTime, Space.World);
                 A2d.Play(sr, "Jump");
                 return;
             }
@@ -137,24 +152,41 @@ public class Player : Controller {
         };
         //冲刺
         Status Dash = new Status();
-        Dash.SetAutoExit(0.25f);
+        Dash.SetAutoExit(0.25f, () =>
+        {
+            statusController.Enter("Idle");
+        });
         Dash.onExit = () =>
         {
             SetShadow(false);
-            statusController.Enter("Idle");
         };
         Dash.onUpdate = () =>
         {
             SetShadow(true);
             var cdir = move.Invoke(ADDTION_NONE);
-            //translate(lastDir > 0 ? DIR_RIGHT : DIR_LEFT, ADDTION_DASH);
+            translate(lastDir > 0 ? DIR_RIGHT : DIR_LEFT, ADDTION_DASH);
             if (cdir)
             {
                 statusController.Enter("Idle");
                 return;
             }
-
-            //A2d.Play(sr, "Dash");
+            if (Input.GetKey(KeyCode.K))
+            {
+                statusController.Enter("Jump");
+                return;
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                statusController.Enter("Dash");
+                return;
+            }
+            if (Input.GetKeyUp(KeyCode.L))
+            {
+                statusController.Enter("Idle");
+                return;
+            }
+            A2d.Play(sr, "Dash");
+            return;
         };
 
         statusController.Add("Drop", Drop);
@@ -170,55 +202,9 @@ public class Player : Controller {
 	}
 
 	protected void Update () {
-	}
-
-    protected new void FixedUpdate()
-    {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
-        //if (movement)
-        //{
-        //    transform.Translate(Vector3.right * h * moveSpeed * Time.fixedDeltaTime, Space.World);
-        //}
-
-        //if (Input.GetKey(KeyCode.K))
-        //{
-        //    rigid2d.gravityScale = 0;
-        //    rigid2d.velocity = Vector2.zero;
-        //    transform.Translate(Vector3.up * jumpForce * Time.fixedDeltaTime, Space.World);
-        //}
-        //else
-        //{
-        //    rigid2d.gravityScale = 1;
-        //}
-
-        //topFilter.SetNormalAngle(minNormalAngle_Top, maxNormalAngle_Top);
-        //Collider2D[] contactPoints_t = new Collider2D[8];
-
-        //groundFilter.SetNormalAngle(minNormalAngle, maxNormalAngle);
-        //Collider2D[] contactPoints_g = new Collider2D[8];
-        //if (rigid2d.GetContacts(groundFilter, contactPoints_g) > 0)
-        //{
-        //    if (h != 0)
-        //    {
-        //        A2d.Play(sr, "Run");
-        //    }
-        //    else if (h == 0)
-        //    {
-        //        A2d.Play(sr, "Idle");
-        //    }
-        //}
-        //else
-        //{
-        //    if (rigid2d.velocity.y < 0)
-        //    {
-        //        A2d.Play(sr, "Drop");
-        //    }
-        //    else if (Input.GetKey(KeyCode.K))
-        //    {
-        //        A2d.Play(sr, "Jump");
-        //    }
-        //}
+       
         statusController.Update();
         A2d.Tick(sr, h, v);
     }

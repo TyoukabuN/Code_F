@@ -7,6 +7,7 @@ public class Status {
     public Action onEnter;
     public Action onUpdate;
     public Action onExit;
+    public Action onAutoExit;
     public Func<string, bool> onCondition;
     public Action onDestroy;
     public bool AutoExit = false;
@@ -60,9 +61,10 @@ public class Status {
         onDestroy.Invoke();
     }
 
-    public void SetAutoExit(float exitTime)
+    public void SetAutoExit(float exitTime,Action onAutoExit)
     {
         AutoExit = true;
+        this.onAutoExit = onAutoExit;
         ExitTime = exitTime;
     }
 }

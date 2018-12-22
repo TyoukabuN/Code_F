@@ -63,10 +63,10 @@ public class StatusController {
     {
         if (curStatus!=null)
         {
-            counter += Time.fixedDeltaTime;
+            counter += Time.deltaTime;
             curStatus.OnUpdate();
             if (curStatus.AutoExit==true && counter>=curStatus.ExitTime) {
-                curStatus.OnExit();
+                curStatus.onAutoExit.Invoke();
             }
         }
     }

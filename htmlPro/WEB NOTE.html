@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)file:///F:/Code_F/trunk/htmlPro/index2.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>
+        WEB NOTE
+    </title>
+    <!-- <base target="_blank" /> -->
+    <link rel="shortcut icon" href="file:///F:/Code_F/trunk/htmlPro/image/favicon.ico" type="image/vnd.microsoft.icon">
+    <link rel="stylesheet" href="file:///F:/Code_F/trunk/htmlPro/index2_files/style.css" type="text/css">
+    <!-- <link rel="icon" href="image/favicon.ico" type="image/x-icon"> -->
+    <!-- <meta http-equiv="Refresh" content="5;url=https://www.bilibili.com" /> -->
+</head>
+
+<body>
+    <a href="file:///F:/Code_F/trunk/htmlPro/index.html#csspart" class="linknotline">to css</a>
+    <a id="top"></a>
+
+    <div id="htmlpart">
+        <h1 id="html" class="title"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
+        <h1 id="html" class="title"><dfn title="WEB NOTE">WEB NOTE</dfn></h1>
+    </div>
+
+    <div id="editorrecommend">
+
+        <h2>HTML编辑器</h2>
+        <p>
+            使用 Notepad 或 TextEdit 来编写 HTML <br>
+            可以使用专业的 HTML 编辑器来编辑 HTML：<br>
+            Adobe Dreamweaver<br>
+            Microsoft Expression Web<br>
+            CoffeeCup HTML Editor<br>
+            不过，我们同时推荐使用文本编辑器来学习 HTML，比如 Notepad (PC) 或 TextEdit (Mac)。<br>
+            我们相信，使用一款简单的文本编辑器是学习 HTML 的好方法。
+        </p>
+    </div>
+
+    <div id="table">
+        <h2>table表格</h2>
+        <p>
+            </p><table border="1" class="style">
+                <tbody><tr>
+                    <th>key</th>
+                    <th>value</th>
+                </tr>
+                <tr>
+                    <td>键1
+                    </td>
+                    <td>值1</td>
+                </tr>
+                <tr>
+                    <td>键2</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody></table>
+        <p></p>
+    </div>
+
+    <div id="list">
+        <h2>列表</h2>
+        <h3>vertical</h3>
+        <ul>
+            <li inline="">列表元素1</li>
+            <li inline="">列表元素2</li>
+            <li inline="">列表元素3</li>
+        </ul>
+        <h3>horizontal list</h3>
+        <ul>
+            <li block="">element 1</li>
+            <li block="">element 2</li>
+            <li block="">element 3</li>
+        </ul>
+        <p>123</p>
+    </div>
+
+    <div id="script">
+        <h2>HTML脚本</h2>
+        <p>
+            <script>
+                document.write("脚本代码输出")
+            </script>脚本代码输出脚本代码输出
+        </p>
+    </div>
+
+    <div id="input">
+        <h2>表单</h2>
+        <h3> input</h3>
+        <form>
+            账号：<input type="text" name="account" value=""><br>
+            密码：<input type="password" name="passwork" value=""><br>
+            自动登录：<input type="checkbox" name="auto" value="1">
+            记住密码：<input type="checkbox" name="checkbox" value="1"><br>
+            电信<input type="radio" name="radio" value="telecom">
+            网通<input type="radio" name="radio" value="netcom"><br>
+            <input type="submit" name="button" value="login"><br>
+        </form>
+        <h3>selert</h3>
+        <form>
+            <select>
+                <option value="
+                option1">option1</option>
+                <option value="option2" selected="">option2</option>
+                <option value="option3">option3</option>
+            </select>
+        </form>
+
+        <h3>textarea</h3>
+        <form>
+            <textarea name="onetextarea" rows="10" cols="50">                这个是一个文本区域(默认值))
+            </textarea>
+        </form>
+
+        <h3>button</h3>
+        <form>
+            <button type="button" onclick="alert(&#39;一个按钮&#39;)">
+                buttton
+            </button>
+            <button type="menu">
+                menu
+            </button>
+            <button type="reset">
+                reset
+            </button>
+        </form>
+
+        <h3>datalist</h3>
+        <p>
+            </p><blockquote>
+                "&lt;datalist&gt; 元素为 &lt;input&gt; 元素规定预定义选项列表。<br>
+                用户会在他们输入数据时看到预定义选项的下拉列表。<br>
+                &lt;input&gt; 元素的 list 属性必须引用 &lt;datalist&gt; 元素的 id 属性。"<br>
+            </blockquote>
+        <p></p>
+        <form>
+            <input list="arealist">
+            <datalist id="arealist">
+                <option value="广北"></option>
+                <option value="广州"></option>
+                <option value="开平"></option>
+                <option value="鹤山"></option>
+            </datalist><br>
+        </form>
+    </div>
+
+    <div>
+        <h2>HTML 中有用的字符实体</h2>
+
+        <p class="note"><span>注释：</span>实体名称对大小写敏感！</p>
+
+        <table class="dataintable">
+            <tbody>
+                <tr>
+                    <th style="width:20%">显示结果</th>
+                    <th style="width:20%">描述</th>
+                    <th style="width:30%">实体名称</th>
+                    <th style="width:30%">实体编号</th>
+                </tr>
+
+                <!-- &amp;的意思是&的字符实体 -->
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>空格</td>
+                    <td>&amp;nbsp;</td>
+                    <td>&amp;#160;</td>
+                </tr>
+
+                <tr>
+                    <td>&lt;</td>
+                    <td>小于号</td>
+                    <td>&amp;lt;</td>
+                    <td>&amp;#60;</td>
+                </tr>
+
+                <tr>
+                    <td>&gt;</td>
+                    <td>大于号</td>
+                    <td>&amp;gt;</td>
+                    <td>&amp;#62;</td>
+                </tr>
+
+                <tr>
+                    <td>&amp;</td>
+                    <td>和号</td>
+                    <td>&amp;amp;</td>
+                    <td>&amp;#38;</td>
+                </tr>
+
+                <tr>
+                    <td>"</td>
+                    <td>引号</td>
+                    <td>&amp;quot;</td>
+                    <td>&amp;#34;</td>
+                </tr>
+
+                <tr>
+                    <td>'</td>
+                    <td>撇号&nbsp;</td>
+                    <td>&amp;apos; (IE不支持)</td>
+                    <td>&amp;#39;</td>
+                </tr>
+
+                <tr>
+                    <td>￠</td>
+                    <td>分（cent）</td>
+                    <td>&amp;cent;</td>
+                    <td>&amp;#162;</td>
+                </tr>
+
+                <tr>
+                    <td>£</td>
+                    <td>镑（pound）</td>
+                    <td>&amp;pound;</td>
+                    <td>&amp;#163;</td>
+                </tr>
+
+                <tr>
+                    <td>¥</td>
+                    <td>元（yen）</td>
+                    <td>&amp;yen;</td>
+                    <td>&amp;#165;</td>
+                </tr>
+
+                <tr>
+                    <td>€</td>
+                    <td>欧元（euro）</td>
+                    <td>&amp;euro;</td>
+                    <td>&amp;#8364;</td>
+                </tr>
+
+                <tr>
+                    <td>§</td>
+                    <td>小节</td>
+                    <td>&amp;sect;</td>
+                    <td>&amp;#167;</td>
+                </tr>
+
+                <tr>
+                    <td>©</td>
+                    <td>版权（copyright）</td>
+                    <td>&amp;copy;</td>
+                    <td>&amp;#169;</td>
+                </tr>
+
+                <tr>
+                    <td>®</td>
+                    <td>注册商标</td>
+                    <td>&amp;reg;</td>
+                    <td>&amp;#174;</td>
+                </tr>
+
+                <tr>
+                    <td>™</td>
+                    <td>商标</td>
+                    <td>&amp;trade;</td>
+                    <td>&amp;#8482;</td>
+                </tr>
+
+                <tr>
+                    <td>×</td>
+                    <td>乘号</td>
+                    <td>&amp;times;</td>
+                    <td>&amp;#215;</td>
+                </tr>
+
+                <tr>
+                    <td>÷</td>
+                    <td>除号</td>
+                    <td>&amp;divide;</td>
+                    <td>&amp;#247;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>如需完整的实体符号参考，请访问我们的 <a href="file:///F:/tags/html_ref_entities.html" title="HTML ISO-8859-1 参考手册">HTML 实体符号参考手册</a>。</p>
+    </div>
+
+    <a id="csspart"></a>
+    <div>
+        <h1 class="title"><dfn title="CSS">CSS</dfn></h1>
+    </div>
+
+    <div id="派生选择器">
+        <h2>派生选择器</h2>
+        <p><strong>我是粗体字，不是斜体字，因为我不在列表当中，所以这个规则对我不起作用</strong></p>
+
+        <ol>
+            <li><strong>我是斜体字。这是因为 strong 元素位于 li 元素内。</strong></li>
+            <li>我是正常的字体。</li>
+        </ol>
+        <p id="selector1">
+            id选择器1
+        </p>
+        <p id="selector2">
+            id选择器2
+        </p>
+    </div>
+
+    <div id="文本">
+        <h2>CSS文本</h2>
+        <test>文本缩进10px</test><br>
+        <test2>文本缩进20px</test2><br>
+        <test3>水平对齐</test3><br>
+    </div>
+
+    <div>
+        <h2>Frame Element</h2>
+        <p>
+            <felement>
+                frame element
+            </felement>
+            <border>
+                border_outside
+            </border>
+            </p><p>
+    </p></div>
+
+    <div id="test">
+        <h2>Test</h2>
+        <img src="file:///F:/Code_F/trunk/htmlPro/index2_files/headicon.jpg" alt="own headicon">
+    </div>
+
+    <div id="js test">
+        <h2>js_test</h2>
+        <table>
+            <tbody><tr>
+                <th>标题1</th>
+                <th>标题2</th>
+            </tr>
+            <tr>
+                <td>值1</td>
+                <td>值2</td>
+            </tr>
+        </tbody></table>
+    </div>
+
+    <div id="bottom">
+        <p>
+            <a href="https://www.bilibili.com/" class="link">B站链接</a>
+            <a href="http://www.w3school.com.cn/html/index.asp" class="link">W3school</a>
+            <a href="file:///F:/Code_F/trunk/htmlPro/index.html#top" class="linknotline">返回顶部</a>
+            <a href="javascript:window.scrollTo( 0, 0 );">返回顶部js</a>
+        </p><br>
+        <div>
+            <a href="http://huaban.com/c4jckhsqyfb/">
+                <h3 class="headicon"> </h3>
+            </a>
+        </div>
+    </div>
+
+
+
+</body></html>

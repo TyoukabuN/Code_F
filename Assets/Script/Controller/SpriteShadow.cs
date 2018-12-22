@@ -5,38 +5,29 @@ using UnityEngine;
 public class SpriteShadow : MonoBehaviour {
 
     public SpriteRenderer sr;
-    public bool Switch = true;
-    private float counter = 0.0f;
-    public float interval = 0.1f;
-    // Use this for initialization
-    void Awake()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        
-    }
-    void Start () {
-		
-	}
+    public float lifeTime;
+    private float counter = 0;
+    private bool _switch = false;
+    
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-        if (sr ==null || !Switch)
+	private void Update () {
+        if (!_switch)
         {
             return;
         }
-
-        counter += Time.fixedDeltaTime;
-
-        if (counter>interval)
-        {
-            counter = 0;
-            var obj = new GameObject("s");
-            var spriterenderer = obj.AddComponent<SpriteRenderer>();
-            spriterenderer.sprite = sr.sprite;
-            spriterenderer.flipX = sr.flipX;
-            spriterenderer.color = new Color(1, 0.47f, 0.4f);
-            obj.transform.position = transform.position;
-            GameObject.Destroy(obj, 0.3f);
+        counter += Time.deltaTime;
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 1 - (counter / lifeTime));
+        if (counter>=lifeTime) {
+            Destroy(this.gameObject);
         }
 	}
+
+
+    public void SetData(SpriteRenderer sr, float lifeTime)
+    {
+        this.sr = sr;
+        this.lifeTime = lifeTime;
+        this._switch = true;
+    }
 }

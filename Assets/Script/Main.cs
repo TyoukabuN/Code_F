@@ -15,33 +15,35 @@ public class Main : MonoBehaviour
 {
     void Awake()
     {
-        //LuaSystem.Init();
-        //TimeSpan timeSpa1n = DateTime.Today.ToUniversalTime() - new DateTime(1970, 1, 1);
-        //错误日志l
-        //Application.logMessageReceived += (string condition, string stackTrace, LogType type) =>
-        //{
-        //    if (type.Equals(LogType.Exception) || type.Equals(LogType.Error)) {
+        LuaSystem.Init();
+        TimeSpan timeSpa1n = DateTime.Today.ToUniversalTime() - new DateTime(1970, 1, 1);
 
-        //        TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1,0,0,0);
-                
-        //        string timeStamp = ((int)timeSpan.TotalSeconds).ToString();
+        Application.logMessageReceived += (string condition, string stackTrace, LogType type) =>
+        {
+            if (type.Equals(LogType.Exception) || type.Equals(LogType.Error))
+            {
 
-        //        string hostName = System.Net.Dns.GetHostName();
-        //        string userName = System.Environment.UserName;
-        //        string machineName = System.Environment.MachineName;
+                TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
 
-        //        ToLuaUtility.HttpPostRequest("http://192.168.8.213/errlog.php",
-        //            (UnityWebRequest req) => { Debug.Log(req.downloadHandler.text); }, "", "submit", 
-        //            "logType", type.ToString(), 
-        //            "condition", condition, 
-        //            "stackTrace", stackTrace,
-        //            "timeStamp", timeStamp,
-        //            "hostName", hostName,
-        //            "userName", userName,
-        //            "machineName", machineName
-        //            );
-        //    }
-        //};
+                string timeStamp = ((int)timeSpan.TotalSeconds).ToString();
+
+                string hostName = System.Net.Dns.GetHostName();
+                string userName = System.Environment.UserName;
+                string machineName = System.Environment.MachineName;
+
+                ToLuaUtility.HttpPostRequest("http://192.168.8.216/errlog.php",
+                    (UnityWebRequest req) => { Debug.Log(req.downloadHandler.text); }, "", "submit",
+                    "logType", type.ToString(),
+                    "condition", condition,
+                    "stackTrace", stackTrace,
+                    "timeStamp", timeStamp,
+                    "hostName", hostName,
+                    "userName", userName,
+                    "machineName", machineName
+                    );
+            }
+        };
+        Debug.LogError("ErrorTest");
     }
 
     void OnGUI()
@@ -96,5 +98,15 @@ public class Main : MonoBehaviour
         var logEntries = System.Type.GetType("UnityEditorInternal.LogEntries,UnityEditor.dll");
         var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
         clearMethod.Invoke(null, null);
+    }
+
+    public void TestEntrance()
+    {
+        string filePath = "HoTFixTest";
+        LuaSystem.DoString(LuaLoader(filePath));
+    }
+    public void ErrorTest()
+    {
+        Debug.LogError("ErrorTest");
     }
 }
