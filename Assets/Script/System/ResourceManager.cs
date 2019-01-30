@@ -44,7 +44,7 @@ public class ResourceManager : MonoSingleton<ResourceManager>
         {
             Debug.LogError(string.Format(ERROR_PATH,GetPath(path)));
         }
-        
+
         return prefab;
     }
 

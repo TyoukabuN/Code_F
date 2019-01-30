@@ -58,6 +58,12 @@ clamp = function(value,min,max)
     return value
 end
 
+--范围内
+inRange = function(value,val1,val2)
+    local tab = {val1,val2}
+    table.sort(tab,function(v1,v2) return v1<=v2 end)
+    return value >= tab[1] and value <=tab[2]
+end
 
 
 

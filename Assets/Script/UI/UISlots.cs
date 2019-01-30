@@ -12,4 +12,5 @@ public class UISlots : MonoBehaviour {
             return Objects[index];
         return null;
     }
+
 }

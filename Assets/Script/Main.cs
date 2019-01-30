@@ -43,7 +43,6 @@ public class Main : MonoBehaviour
                     );
             }
         };
-        Debug.LogError("ErrorTest");
     }
 
     void OnGUI()
