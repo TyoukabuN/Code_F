@@ -44,13 +44,8 @@ function this:Tick()
     return #self.list==0
 end
 
-function this:Pause()
-    self.running = false
-end
-
 function this:Stop()
-    self:Pause()
-    -- DeUpdate(self.Tick,self)
+    self.running = false
 end
 
 function this:Dispose()

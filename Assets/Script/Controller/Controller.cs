@@ -21,12 +21,16 @@ public class Controller : MonoBehaviour {
 
     protected ContactFilter2D groundFilter;
     protected ContactFilter2D topFilter;
+    protected ContactFilter2D wallFilter;
 
     public float minNormalAngle =60;
     public float maxNormalAngle = 120;
 
     public float minNormalAngle_Top = 240;
     public float maxNormalAngle_Top = 300;
+
+    public float minNormalAngle_Wall = 80;
+    public float maxNormalAngle_Wall = 200;
 
     // Use this for initialization
     protected void Awake() {
@@ -42,6 +46,8 @@ public class Controller : MonoBehaviour {
 
         topFilter = new ContactFilter2D();
         topFilter.SetNormalAngle(minNormalAngle_Top, maxNormalAngle_Top);
+
+        wallFilter = new ContactFilter2D();
     }
 	void Start () {
     }

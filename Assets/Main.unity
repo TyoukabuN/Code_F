@@ -1210,6 +1210,8 @@ MonoBehaviour:
   maxNormalAngle: 60
   minNormalAngle_Top: 60
   maxNormalAngle_Top: 120
+  minNormalAngle_Wall: 80
+  maxNormalAngle_Wall: 200
 --- !u!4 &606847058
 Transform:
   m_ObjectHideFlags: 0
@@ -2064,7 +2066,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1102413798
 Transform:
   m_ObjectHideFlags: 0
@@ -2226,6 +2228,8 @@ MonoBehaviour:
   maxNormalAngle: 60
   minNormalAngle_Top: 60
   maxNormalAngle_Top: 120
+  minNormalAngle_Wall: 80
+  maxNormalAngle_Wall: 200
 --- !u!1 &1214363382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2576,6 +2580,7 @@ GameObject:
   - component: {fileID: 1420640605}
   - component: {fileID: 1420640604}
   - component: {fileID: 1420640603}
+  - component: {fileID: 1420640607}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -2606,7 +2611,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
@@ -2650,6 +2655,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 2.26, y: 0, z: 0}
+--- !u!114 &1420640607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1420640602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad79fe832db4684f89535a66cb00952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EffectMaterial: {fileID: 2100000, guid: 0ce53b77d156db042b338c2bd0320818, type: 2}
+  BlurMaterial: {fileID: 2100000, guid: b616170307dff234a88a74b34096fc44, type: 2}
+  Minus: 0
+  LoopTime: 0
 --- !u!1 &1435415640
 GameObject:
   m_ObjectHideFlags: 0
@@ -3192,6 +3212,9 @@ MonoBehaviour:
   maxNormalAngle: 120
   minNormalAngle_Top: 240
   maxNormalAngle_Top: 300
+  minNormalAngle_Wall: 80
+  maxNormalAngle_Wall: 200
+  collider: {fileID: 0}
 --- !u!4 &1756029183
 Transform:
   m_ObjectHideFlags: 0
@@ -3474,7 +3497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2092348217
 MonoBehaviour:
   m_ObjectHideFlags: 0

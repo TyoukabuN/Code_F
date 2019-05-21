@@ -10,13 +10,15 @@ end
 
 TaskSystem.Init = function()
     if(init)then
+        if(not running)then
+            TaskSystem.Start()
+        end
         return
     end
     init = true
     list = {}
     TaskSystem.Start()
 end
-
 TaskSystem.Start = function()
     DeUpdate(TaskSystem.Tick)
     EnUpdate(TaskSystem.Tick)
@@ -36,12 +38,13 @@ TaskSystem.AddObject = function(taskobject)
 end
 
 TaskSystem.Tick = function()
-    if(IsEmpty())then return end
-
+    --无任务停止
+    if(IsEmpty())then TaskSystem.Stop() return end
+    --轮询
     for index,tobject in ipairs(list)do
         tobject:Tick()
     end
-
+    --清理
     TaskSystem.Clear(function(arg) return arg:isDone() end)
 end
 

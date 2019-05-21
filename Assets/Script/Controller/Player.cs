@@ -14,6 +14,7 @@ public class Player : Controller {
     private const int DIR_LEFT = -1;
     private const int DIR_RIGHT = 1;
     private SpriteShadowCreater sshadow;
+    public Collider2D collider;
 
     private void SetShadow(bool enabled)
     {
@@ -26,6 +27,7 @@ public class Player : Controller {
     {
         base.Awake();
         sshadow = GetComponent<SpriteShadowCreater>();
+        collider = GetComponent<Collider2D>();
         SetShadow(false);
         //移动方法
         Func<float,bool> move = (addtion) =>
